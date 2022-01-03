@@ -1,0 +1,1 @@
+- Suchfunktion für stratagems
