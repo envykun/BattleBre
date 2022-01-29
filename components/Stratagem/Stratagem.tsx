@@ -1,35 +1,46 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Colors from "../../constants/Colors";
+import { LinearGradient } from "expo-linear-gradient";
+import Layout from "../../constants/Layout";
+import useColorScheme from "../../hooks/useColorScheme";
+import { StratagemData } from "../../utils/DataTypes";
 
-interface Props {
-  title: string;
-  subTitle: string;
-  optional?: string;
-  description: string;
-  cp: string;
-}
-
-const Stratagem = ({ title, subTitle, optional, description, cp }: Props) => {
+const Stratagem = ({ title, subTitle, optional, description, descriptionEnd, list, cp, cp2 }: StratagemData) => {
+  const colorScheme = useColorScheme();
   return (
     <View style={styles.container}>
-      <View style={styles.inner}>
-        <View>
-          <Text style={styles.title}>{title}</Text>
-        </View>
+      <View style={[styles.titleBar, { backgroundColor: Colors[colorScheme].primary }]}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>
+          {cp}CP{cp2 && <Text>/{cp2}CP</Text>}
+        </Text>
+        <View style={styles.triangle} />
+      </View>
+      <View style={[styles.inner, { borderBottomColor: Colors[colorScheme].primary }]}>
         <View>
           <Text style={styles.subTitle}>{subTitle}</Text>
         </View>
-        {optional && (
+        {optional ? (
           <View>
             <Text style={styles.optional}>{optional}</Text>
           </View>
-        )}
-        <View style={{ marginTop: 4 }}>
+        ) : null}
+        <View style={{ marginTop: 4, paddingVertical: 4 }}>
           <Text style={styles.description}>{description}</Text>
+
+          {list?.length > 0 ? (
+            <View style={{ paddingVertical: 6 }}>
+              {list.map((li: string, index: number) => (
+                <View key={index} style={{ flexDirection: "row", paddingLeft: 8 }}>
+                  <Text>{"\u2022"}</Text>
+                  <Text style={{ flex: 1, paddingLeft: 4 }}>{li}</Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+          {descriptionEnd ? <Text style={styles.description}>{descriptionEnd}</Text> : null}
         </View>
-      </View>
-      <View style={styles.cp}>
-        <Text>{cp}CP</Text>
       </View>
     </View>
   );
@@ -40,31 +51,39 @@ export default Stratagem;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingHorizontal: 20,
     position: "relative",
   },
-  cp: {
-    position: "absolute",
-    backgroundColor: "white",
-    borderWidth: 1,
-    padding: 4,
-    borderRadius: 6,
-    top: 16,
-    left: 6,
-  },
-  inner: {
-    backgroundColor: "grey",
-    borderWidth: 2,
-    padding: 12,
-    //     clipPath:
-    //       "polygon(20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%, 0 20%)",
+  titleBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
   },
   title: {
-    textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
+    color: Colors.dark.text,
+    textTransform: "uppercase",
+  },
+  inner: {
+    padding: 4,
+    borderBottomWidth: 2,
   },
   description: {},
-  subTitle: { textAlign: "center", fontStyle: "italic" },
-  optional: { textAlign: "center", fontStyle: "italic" },
+  subTitle: { fontStyle: "italic", fontWeight: "bold", paddingVertical: 4 },
+  optional: { fontStyle: "italic", color: "grey" },
+  triangle: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderRightWidth: 12,
+    borderTopWidth: 10,
+    borderRightColor: "transparent",
+    borderTopColor: "white",
+    transform: [{ rotate: "180deg" }],
+  },
 });

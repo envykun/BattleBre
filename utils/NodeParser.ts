@@ -1,73 +1,44 @@
 // import { Create40kRoster } from "./roster40k";
 // import { Renderer40k } from "./renderer40k";
-var jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = new JSDOM("").window;
-global.document = document;
+import { validationOptions, X2jOptions, XMLParser } from "fast-xml-parser";
+const fs = require("fs");
+const JSZip = require("jszip");
+// const xml2js = require("xml2js");
+// const DOMParser1 = require("xmldom").DOMParser;
 
-var $ = require("jquery")(window);
-
-import fs from "fs";
-import JSZip from "jszip";
-import xml2js from "xml2js";
-const DOMParser = require("xmldom").DOMParser;
+const options: Partial<X2jOptions> = {
+  attributeNamePrefix: "@_",
+  ignoreAttributes: false,
+};
 
 function parseXML(xmldata: string) {
-  let parser = new DOMParser();
-  let doc = parser.parseFromString(xmldata, "text/xml");
+  let parser = new XMLParser(options);
+  let doc = parser.parse(xmldata);
+
+  const json = JSON.stringify(doc);
+
+  console.log(json);
+
+  fs.writeFileSync("newJson.json", json);
+
+  // let parser = new DOMParser1();
+  // let doc = parser.parseFromString(xmldata, "text/xml");
 
   // fs.writeFileSync("newFile.xml", xmldata);
 
-  xml2js.parseString(xmldata, (err, result) => {
-    if (err) {
-      throw err;
-    }
+  // xml2js.parseString(xmldata, (err: any, result: any) => {
+  //   if (err) {
+  //     throw err;
+  //   }
 
-    // `result` is a JavaScript object
-    // convert it to a JSON string
-    const json = JSON.stringify(result, null, 4);
+  //   // `result` is a JavaScript object
+  //   // convert it to a JSON string
+  //   const json = JSON.stringify(result, null, 4);
 
-    // log JSON string
-    console.log(json);
-    fs.writeFileSync("newJson.json", json);
-  });
-
-  if (doc) {
-    // Determine roster type (game system).
-    let info = doc.getElementsByClassName("roster");
-    if (info) {
-      // const gameType = info.getAttributeNode("gameSystemName")?.nodeValue;
-      // if (!gameType) return;
-
-      const rosterTitle = $("#roster-title")[0];
-      const rosterList = $("#roster-lists")[0];
-      const forceUnits = $("#force-units")[0];
-
-      // if (gameType == "Warhammer 40,000 8th Edition") {
-      //   let roster = Create40kRoster(doc);
-      //   if (roster) {
-      //     if (roster._forces.length > 0) {
-      //       const renderer: Renderer40k = new Renderer40k(roster);
-      //       renderer.render(rosterTitle, rosterList, forceUnits);
-      //     }
-      //   }
-      // } else if (gameType == "Warhammer 40,000 9th Edition") {
-      //   let roster = Create40kRoster(doc);
-      //   if (roster) {
-      //     if (roster._forces.length > 0) {
-      //       const renderer: Renderer40k = new Renderer40k(roster);
-      //       renderer.render(rosterTitle, rosterList, forceUnits);
-      //     }
-      //   }
-      // } else {
-      //   $("#errorText").html(
-      //     "PrettyScribe does not support game type '" + gameType + "'."
-      //   );
-      //   $("#errorDialog").modal();
-      // }
-    }
-  }
+  //   // log JSON string
+  //   console.log(json);
+  //   fs.writeFileSync("newJson.json", json);
+  // });
 }
 
 const unzip = async (file: string): Promise<string> => {

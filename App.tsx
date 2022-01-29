@@ -1,7 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { Platform } from "react-native";
+import { useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
+import Colors from "./constants/Colors";
+import { DataContext, DataContextType } from "./hooks/DataContext";
 
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
@@ -11,16 +12,17 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  const STATUSBAR_HEIGHT =
-    Platform.OS === "ios" ? 20 : Constants.statusBarHeight;
+  const [context, setContext] = useState({ fileName: "", rosterCost: { points: "0", cp: "0", faction: "" }, unitData: [] });
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider style={{ paddingTop: STATUSBAR_HEIGHT }}>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+      <SafeAreaProvider>
+        <DataContext.Provider value={{ context, setContext }}>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar backgroundColor={Colors[colorScheme].primary} />
+        </DataContext.Provider>
       </SafeAreaProvider>
     );
   }

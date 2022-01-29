@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<roster id="141f-0cf6-5322-721e" name="Drukhari - 1k First List" battleScribeVersion="2.03" gameSystemId="28ec-711c-d87f-3aeb" gameSystemName="Warhammer 40,000 9th Edition" gameSystemRevision="202" xmlns="http://www.battlescribe.net/schema/rosterSchema">
+  <costs>
+    <cost name=" PL" typeId="e356-c769-5920-6e14" value="63.0"/>
+    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="5.0"/>
+    <cost name="pts" typeId="points" value="1089.0"/>
+  </costs>
+</roster>
