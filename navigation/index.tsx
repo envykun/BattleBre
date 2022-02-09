@@ -5,12 +5,14 @@
  */
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import { ColorSchemeName, Pressable, Image, Text, View } from "react-native";
 
 import Colors from "../constants/Colors";
+import { Images } from "../constants/Images";
 import useColorScheme from "../hooks/useColorScheme";
 import HomeScreen from "../screens/HomeScreen";
 import ModalScreen from "../screens/ModalScreen";
@@ -47,11 +49,37 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="WH40k-ArmyListHelper" component={HomeScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} options={({ route }) => ({ title: route.params?.unit.name || "" })} />
+        <Stack.Screen
+          name="Modal"
+          component={ModalScreen}
+          options={({ route }) => ({
+            headerTitle: () => (
+              <Text numberOfLines={1} style={{ fontSize: 18 }}>
+                {route.params?.unit.name || ""}
+              </Text>
+            ),
+            headerRight: () => (
+              <View
+                style={{
+                  width: useHeaderHeight() / 2,
+                  height: useHeaderHeight() / 2,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={Images[route.params?.unit.type]}
+                  resizeMode="center"
+                  style={{ width: "110%", height: "110%", tintColor: "black" }}
+                />
+              </View>
+            ),
+          })}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );

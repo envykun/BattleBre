@@ -9,15 +9,16 @@ interface OverviewRuleItemAccordionProps {
   title: string;
   description: string;
   unit?: string | Array<string>;
+  detachmentRule: boolean;
 }
 
-const OverviewRuleItemAccordion = ({ title, description, unit }: OverviewRuleItemAccordionProps) => {
+const OverviewRuleItemAccordion = ({ title, description, unit, detachmentRule }: OverviewRuleItemAccordionProps) => {
   const colorScheme = useColorScheme();
   const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <View style={[styles.container, { borderColor: Colors[colorScheme].primary, backgroundColor: Colors[colorScheme].secondary }]}>
       <ListItem.Accordion
-        containerStyle={{ backgroundColor: Colors[colorScheme].secondary }}
+        containerStyle={{ backgroundColor: Colors[colorScheme].secondary, borderRadius: 4 }}
         isExpanded={expanded}
         onPress={() => setExpanded(!expanded)}
         content={
@@ -35,10 +36,16 @@ const OverviewRuleItemAccordion = ({ title, description, unit }: OverviewRuleIte
       <View style={styles.units}>
         {unit ? (
           Array.isArray(unit) ? (
-            <Text style={styles.unitText}>{unit.sort().join(", ")}</Text>
+            unit.every((i: any) => i === undefined) ? (
+              <Text style={styles.unitText}>Detachment Rule</Text>
+            ) : (
+              <Text style={styles.unitText}>{unit.sort().join(", ")}</Text>
+            )
           ) : (
             <Text style={styles.unitText}>{unit}</Text>
           )
+        ) : detachmentRule ? (
+          <Text style={styles.unitText}>Detachment Rule</Text>
         ) : (
           <Text style={styles.unitText}>Force Rule</Text>
         )}
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     paddingBottom: Layout.spacing(2),
-    borderRadius: 2,
+    borderRadius: 4,
   },
   units: {
     paddingTop: Layout.spacing(2),

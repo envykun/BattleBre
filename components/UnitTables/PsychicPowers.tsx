@@ -12,7 +12,7 @@ interface Props {
 const PsychicPowers = ({ data }: Props) => {
   const colorScheme = useColorScheme();
   const renderPsy = (psy: PsychicPower, index: number): ReactElement => (
-    <View key={index} style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 2 }}>
+    <View key={index} style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
       <View style={[styles.unitTitle, { backgroundColor: Colors[colorScheme].primary }]}>
         <Text style={styles.unitTitleText}>{psy.name}</Text>
       </View>
@@ -47,7 +47,7 @@ const PsychicPowers = ({ data }: Props) => {
       <View style={styles.title}>
         <Text style={styles.titleText}>PSYKER</Text>
       </View>
-      <View style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 2 }}>
+      <View style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
         <View style={[styles.unitTitle, { backgroundColor: Colors[colorScheme].primary }]}>
           <Text style={styles.unitTitleText}>{data?.name}</Text>
         </View>

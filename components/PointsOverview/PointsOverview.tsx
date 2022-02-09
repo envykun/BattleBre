@@ -95,11 +95,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    borderBottomLeftRadius: 4,
   },
   unitTypeIcon: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
   },
   triangle: {
     position: "absolute",

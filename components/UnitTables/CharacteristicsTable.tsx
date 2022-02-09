@@ -84,17 +84,19 @@ export default CharacteristicsTable;
 
 const styles = StyleSheet.create({
   container: {
-    height: Layout.spacing(5) * 3,
+    minHeight: Layout.spacing(5) * 3,
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: 4,
   },
   tableHead: {
     flex: 1,
     flexDirection: "row",
+    height: Layout.spacing(5),
   },
   tableRow: {
     flex: 1,
     flexDirection: "row",
+    height: Layout.spacing(5),
   },
   tableCell: {
     flex: 1,
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingLeft: Layout.spacing(2),
+    minHeight: Layout.spacing(5),
   },
   unitTitleText: {
     color: Colors.dark.text,

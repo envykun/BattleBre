@@ -1,13 +1,37 @@
-import { validationOptions, X2jOptions, XMLParser } from "fast-xml-parser";
-import { Ability, Characteristics, Psychic, PsychicPower, RosterCosts, Rule, Unit, Weapon } from "./DataTypes";
+import { X2jOptions, XMLParser } from "fast-xml-parser";
+import JSZip from "jszip";
+import { DataExtractorType } from "../hooks/DataContext";
+import { Ability, Characteristics, DetachmentRule, Psychic, PsychicPower, RosterCosts, Rule, Unit, Weapon } from "./DataTypes";
 
-function getForce(data: string): any {
+async function checkIfValid(data: string): Promise<boolean> {
   const xml2JSON = parseXML(data);
 
+  return new Promise((resolve) => {
+    if (Object.keys(xml2JSON).length === 0 && xml2JSON.constructor === Object) {
+      console.log("THIS IS THE DATA", xml2JSON);
+      throw new Error("Parsing file not possible.");
+    }
+    resolve(true);
+  });
+}
+
+const unzip = async (file: string): Promise<string> => {
+  if (file.charAt(0) !== "P") {
+    return file;
+  } else {
+    const jszip = new JSZip();
+    const zip = await jszip.loadAsync(file);
+    return zip.file(/[^/]+\.ros/)[0].async("string"); // Get roster files that are in the root
+  }
+};
+
+function getForce(data: string, isZip: boolean): DataExtractorType {
+  const xml2JSON = parseXML(data);
   const detachments = getDetachments(xml2JSON);
-  const forceRules = getForceRules(detachments);
-  const unitData = getSelections(detachments);
-  const rosterCost = parseRosterCosts(xml2JSON);
+
+  const forceRules: Array<Rule> = getForceRules(detachments);
+  const unitData: Array<Unit> = getSelections(detachments);
+  const rosterCost: RosterCosts = parseRosterCosts(xml2JSON);
 
   // unzip(data)
   //   .then((xml) => parseXML(xml))
@@ -26,198 +50,76 @@ function parseXML(xmldata: string) {
   let parser = new XMLParser(options);
   let doc = parser.parse(xmldata);
 
-  if (doc) {
-    return doc;
-    let rosterName = doc.roster["@_name"];
-    let rosterPL = doc.roster.costs.cost[0]["@_value"];
-    let rosterCP = doc.roster.costs.cost[1]["@_value"];
-    let rosterPTS = doc.roster.costs.cost[2]["@_value"];
-
-    let detachments: Array<Object> = doc.roster.forces.force;
-    console.log(detachments.length);
-  }
+  return doc;
 }
 
 function getDetachments(data: any) {
   return data.roster.forces.force;
 }
 
-function getForceRules(detachment: any) {
+function getForceRules(detachment: any): Array<Rule> {
   let rules;
   if (Array.isArray(detachment)) {
-    rules = [...new Map(detachment.map((detach: any) => [detach.rules.rule["@_id"], detach.rules.rule])).values()];
+    const filteredDetachment = detachment.filter((detach: any) => "rules" in detach);
+    rules = [...new Map(filteredDetachment.map((detach: any) => [detach.rules.rule["@_id"], detach.rules.rule])).values()];
   } else {
-    if (!("rules" in detachment)) return;
+    if (!("rules" in detachment)) return [];
     rules = Array.isArray(detachment.rules.rule) ? detachment.rules.rule : new Array(detachment.rules.rule);
   }
   rules = rules.map((ruleData: any) => {
-    const rule: Rule = { id: ruleData["@_id"], title: ruleData["@_name"], description: ruleData["description"] };
+    const rule: Rule = { id: ruleData["@_id"], title: ruleData["@_name"], description: ruleData["description"], detachmentRule: false };
     return rule;
   });
   return rules;
 }
 
-function getSelections(forces: any) {
+function getForceSelections(force: any): any {
+  const forceSelection = findAllByKey(force, "selection")
+    .filter((selection: any) =>
+      selection["@_type"] === "upgrade" && "categories" in selection && Array.isArray(selection.categories.category)
+        ? selection.categories.category.some((category: any) => category["@_name"] === "Configuration")
+        : selection.categories.category["@_name"] === "Configuration"
+    )
+    .flatMap((selection: any) => findAllByKey(selection, "selection").filter((select: any) => "profiles" in select))
+    .map((a: any) => {
+      const profile = a.profiles.profile;
+      const description = profile.characteristics.characteristic["#text"];
+      const ability: Rule = {
+        id: profile["@_id"],
+        description: description,
+        title: profile["@_name"],
+        detachmentRule: true,
+      };
+      const rule: DetachmentRule = { title: a["@_name"], abilities: ability };
+      return rule;
+    });
+  return forceSelection;
+}
+
+function getSelections(forces: any): Array<Unit> {
   let selections;
   let allUnits: string | any[] = [];
   if (Array.isArray(forces)) {
     const allUnitsArray = forces.map((force, index) => {
+      const detachmentRules: Array<DetachmentRule> = getForceSelections(force);
       selections = force.selections.selection;
-      return parseUnits(selections, `${index + 1}. ${force["@_name"]}`);
-      // return getUnits(selections, `${index + 1}. ${force["@_name"]}`);
+      if (detachmentRules.length > 0) {
+        return parseUnits(selections, `${index + 1}. ${force["@_name"]}: ${detachmentRules[0].title}`, detachmentRules[0].abilities);
+      } else {
+        return parseUnits(selections, `${index + 1}. ${force["@_name"]}`);
+      }
     });
     allUnits = allUnits.concat.apply(allUnits, allUnitsArray);
   } else {
+    const detachmentRules: Array<DetachmentRule> = getForceSelections(forces);
     selections = forces.selections.selection;
-    // allUnits = getUnits(selections, forces["@_name"]);
-    allUnits = parseUnits(selections, forces["@_name"]);
+    if (detachmentRules.length > 0) {
+      allUnits = parseUnits(selections, forces["@_name"], detachmentRules[0].abilities);
+    } else {
+      allUnits = parseUnits(selections, forces["@_name"]);
+    }
   }
   return allUnits;
-}
-
-function getUnits(selections: any, detachmentName: any) {
-  const modelOnly = selections.filter(
-    (selection: any) => selection["@_type"] === "model" || (selection["@_type"] === "upgrade" && "profiles" in selection)
-  );
-  const units = modelOnly.map((unit: any): Unit => {
-    const unitProfiles = unit.profiles.profile;
-    const unitProfile = unitProfiles.filter((profile: any) => profile["@_typeName"] === "Unit");
-    const unitAbilities = unitProfiles.filter((profile: any) => profile["@_typeName"] === "Abilities");
-    const unitPsyker = unitProfiles.filter((profile: any) => profile["@_typeName"] === "Psyker");
-
-    const unitCharacteristics = unitProfile.map((profile: any) => {
-      const char = profile.characteristics.characteristic;
-      return {
-        name: profile["@_name"],
-        m: char.find((obj: any) => {
-          return obj["@_name"] === "M";
-        })["#text"],
-        ws: char.find((obj: any) => {
-          return obj["@_name"] === "WS";
-        })["#text"],
-        bs: char.find((obj: any) => {
-          return obj["@_name"] === "BS";
-        })["#text"],
-        s: char.find((obj: any) => {
-          return obj["@_name"] === "S";
-        })["#text"],
-        t: char.find((obj: any) => {
-          return obj["@_name"] === "T";
-        })["#text"],
-        w: char.find((obj: any) => {
-          return obj["@_name"] === "W";
-        })["#text"],
-        a: char.find((obj: any) => {
-          return obj["@_name"] === "A";
-        })["#text"],
-        ld: char.find((obj: any) => {
-          return obj["@_name"] === "Ld";
-        })["#text"],
-        sv: char.find((obj: any) => {
-          return obj["@_name"] === "Save";
-        })["#text"],
-      };
-    });
-
-    const allAbilities: Array<Ability> = unitAbilities.map((abilityData: any) => {
-      const ability: Ability = { name: abilityData["@_name"], text: abilityData.characteristics.characteristic["#text"] };
-      return ability;
-    });
-
-    // const isPsyker = unitPsyker
-
-    const unitUpgrades = getAbilitiesFromUpgrades(unit);
-    const unitPsychicPowers = getPsychicPowersFromUpgrades(unit);
-    const unitWeapons = getWeapons(unit);
-
-    return {
-      id: unit["@_name"] + Math.random(),
-      name: unit["@_name"],
-      type: getUnitType(unit),
-      keywords: [],
-      detachment: detachmentName,
-      characteristics: unitCharacteristics,
-      weapons: unitWeapons,
-      abilities: allAbilities.concat(unitUpgrades),
-      psychic: getPsyker(unitPsyker, unitPsychicPowers),
-    };
-  });
-
-  const subUnits = getSubUnits(selections, detachmentName);
-
-  return units.concat(subUnits);
-}
-
-function getSubUnits(selections: any, detachmentName: any) {
-  const subModels = selections.filter((selection: any) => selection["@_type"] === "unit");
-  const subUnits = subModels.map((selection: any) => {
-    const unitName = selection["@_name"];
-    let modelTypes = selection.selections.selection
-      .filter((selection: any) => selection["@_type"] === "model")
-      .filter((selection: any) => "profiles" in selection);
-    const unitTypes = "profiles" in selection && selection.profiles.profile["@_typeName"] === "Unit" && selection;
-
-    if (unitTypes) {
-      modelTypes = modelTypes.concat(unitTypes);
-    }
-
-    const unitCharacteristics = modelTypes.map((unit: any) => {
-      let unitProfile = unit.profiles.profile;
-
-      let char;
-      if (Array.isArray(unitProfile)) {
-        unitProfile = unitProfile.find((unit) => unit["@_typeName"] === "Unit");
-        char = unitProfile.characteristics.characteristic;
-      } else {
-        char = unitProfile.characteristics.characteristic;
-      }
-
-      return {
-        name: unitProfile["@_name"],
-        m: char.find((obj: any) => {
-          return obj["@_name"] === "M";
-        })["#text"],
-        ws: char.find((obj: any) => {
-          return obj["@_name"] === "WS";
-        })["#text"],
-        bs: char.find((obj: any) => {
-          return obj["@_name"] === "BS";
-        })["#text"],
-        s: char.find((obj: any) => {
-          return obj["@_name"] === "S";
-        })["#text"],
-        t: char.find((obj: any) => {
-          return obj["@_name"] === "T";
-        })["#text"],
-        w: char.find((obj: any) => {
-          return obj["@_name"] === "W";
-        })["#text"],
-        a: char.find((obj: any) => {
-          return obj["@_name"] === "A";
-        })["#text"],
-        ld: char.find((obj: any) => {
-          return obj["@_name"] === "Ld";
-        })["#text"],
-        sv: char.find((obj: any) => {
-          return obj["@_name"] === "Save";
-        })["#text"],
-      };
-    });
-    // const unitUpgrades = getUpgrades(selection);
-    const unitWeapons = getWeapons(selection);
-
-    return {
-      id: unitName + Math.random(),
-      name: unitName,
-      type: getUnitType(selection),
-      keywords: [],
-      detachment: detachmentName,
-      characteristics: unitCharacteristics,
-      weapons: unitWeapons,
-      abilities: [],
-    };
-  });
-  return subUnits;
 }
 
 function getUnitType(unit: any): string {
@@ -230,134 +132,22 @@ function getUnitType(unit: any): string {
   return unitType;
 }
 
-function getAbilitiesFromUpgrades(unit: any) {
-  const upgradesData = unit.selections.selection;
-  let upgrades: Array<Ability> = [];
-  if (Array.isArray(upgradesData)) {
-    const upgradesList = upgradesData.filter(
-      (upgrade: any) => "profiles" in upgrade && upgrade.profiles.profile["@_typeName"] === "Abilities"
-    );
-    upgrades = upgradesList.map((upgrade: any): Ability => {
-      const ability = upgrade.profiles.profile;
-      return { name: ability["@_name"], text: ability.characteristics.characteristic["#text"] };
-    });
-  }
-  // console.log(`----${unit["@_name"]}----`, upgradesData);
-  return upgrades;
-}
-
-function getWeapons(unit: any): Array<Weapon> {
-  const upgradesData = unit.selections.selection;
-  let weaponsClassic: Array<Weapon> = [];
-  let weaponsWeird: Array<Weapon | Array<Weapon>> = [];
-  let weapons: Array<Weapon> = [];
-  console.log(`--Unit--${unit["@_name"]}----`);
-
-  if (Array.isArray(upgradesData)) {
-    const weaponsDataClassic = upgradesData.filter(
-      (upgrade: any) => "profiles" in upgrade && upgrade.profiles.profile["@_typeName"] === "Weapon"
-    );
-
-    const weaponsDataWeird = upgradesData.filter(
-      (upgrade: any) =>
-        "selections" in upgrade &&
-        (Array.isArray(upgrade.selections.selection)
-          ? upgrade.selections.selection.filter((select: any) => select.profiles.profile["@_typeName"] === "Weapon")
-          : upgrade.selections.selection.profiles.profile["@_typeName"] === "Weapon")
-    );
-
-    weaponsClassic = weaponsDataClassic.map((weaponData: any) => {
-      const characteristics = weaponData.profiles.profile.characteristics.characteristic;
-      const weapon: Weapon = {
-        name: weaponData["@_name"],
-        range: characteristics.find((item: any) => item["@_name"] === "Range")["#text"],
-        type: characteristics.find((item: any) => item["@_name"] === "Type")["#text"],
-        s: characteristics.find((item: any) => item["@_name"] === "S")["#text"],
-        ap: characteristics.find((item: any) => item["@_name"] === "AP")["#text"],
-        d: characteristics.find((item: any) => item["@_name"] === "D")["#text"],
-        ability: characteristics.find((item: any) => item["@_name"] === "Abilities")["#text"],
-      };
-      return weapon;
-    });
-
-    weaponsWeird = weaponsDataWeird.map((weird: any) => {
-      const weaponData = weird.selections.selection;
-      if (Array.isArray(weaponData)) {
-        const nestedWeapon = weaponData
-          .filter((weapon: any) => weapon.profiles.profile["@_typeName"] === "Weapon")
-          .map((nested: any) => {
-            const characteristics = nested.profiles.profile.characteristics.characteristic;
-            const weapon: Weapon = {
-              name: nested["@_name"],
-              range: characteristics.find((item: any) => item["@_name"] === "Range")["#text"],
-              type: characteristics.find((item: any) => item["@_name"] === "Type")["#text"],
-              s: characteristics.find((item: any) => item["@_name"] === "S")["#text"],
-              ap: characteristics.find((item: any) => item["@_name"] === "AP")["#text"],
-              d: characteristics.find((item: any) => item["@_name"] === "D")["#text"],
-              ability: characteristics.find((item: any) => item["@_name"] === "Abilities")["#text"],
-            };
-            return weapon;
-          });
-        return nestedWeapon;
-      } else {
-        const characteristics = weaponData.profiles.profile.characteristics.characteristic;
-        const weapon: Weapon = {
-          name: weaponData["@_name"],
-          range: characteristics.find((item: any) => item["@_name"] === "Range")["#text"],
-          type: characteristics.find((item: any) => item["@_name"] === "Type")["#text"],
-          s: characteristics.find((item: any) => item["@_name"] === "S")["#text"],
-          ap: characteristics.find((item: any) => item["@_name"] === "AP")["#text"],
-          d: characteristics.find((item: any) => item["@_name"] === "D")["#text"],
-          ability: characteristics.find((item: any) => item["@_name"] === "Abilities")["#text"],
-        };
-        return weapon;
-      }
-    });
-  }
-  weaponsWeird = weaponsWeird.flat(Infinity);
-
-  const weaponsUnique = [...new Map(weaponsWeird.map((weapon: any) => [weapon.name, weapon])).values()];
-  weapons = weaponsClassic.concat(weaponsUnique);
-  return weapons;
-}
-
-function getPsychicPowersFromUpgrades(unit: any) {
-  let psyPowers: Array<PsychicPower> = [];
-  if (!("selections" in unit)) return psyPowers;
-  const upgradesData = unit.selections.selection;
-  if (Array.isArray(upgradesData)) {
-    const upgradesList = upgradesData.filter(
-      (upgrade: any) => "profiles" in upgrade && upgrade.profiles.profile["@_typeName"] === "Psychic Power"
-    );
-    psyPowers = upgradesList.map((upgrade: any): PsychicPower => {
-      const power = upgrade.profiles.profile;
-      const powerC = power.characteristics.characteristic;
-      return {
-        name: power["@_name"],
-        warp: powerC.find((obj: any) => obj["@_name"] === "Warp Charge")["#text"],
-        range: powerC.find((obj: any) => obj["@_name"] === "Range")["#text"],
-        details: powerC.find((obj: any) => obj["@_name"] === "Details")["#text"],
-      };
-    });
-  }
-  return psyPowers;
-}
-
-// -------- NEW FUNCTIONS ------------
-function parseUnits(force: any, detachmentName: any): Array<Unit> {
+function parseUnits(force: any, detachmentName: any, detachmentRules?: any): Array<Unit> {
   const typeModelData: Array<unknown> = force.filter((selection: any) => selection["@_type"] === "model");
   const typeUnitData: Array<unknown> = force.filter((selection: any) => selection["@_type"] === "unit");
   const typeUpgradeData: Array<unknown> = force.filter((selection: any) => selection["@_type"] === "upgrade" && "profiles" in selection);
 
-  const allModels: Array<Unit> = typeModelData.map((model: any) => createUnitFromData(model, detachmentName, "model"));
-  const allUnits: Array<Unit> = typeUnitData.map((unit: any) => createUnitFromData(unit, detachmentName, "unit"));
-  const allUpgradeUnits: Array<Unit> = typeUpgradeData.map((unit: any) => createUnitFromData(unit, detachmentName, "upgrade"));
+  const allModels: Array<Unit> = typeModelData.map((model: any) => createUnitFromData(model, detachmentName, "model", detachmentRules));
+  const allUnits: Array<Unit> = typeUnitData.map((unit: any) => createUnitFromData(unit, detachmentName, "unit", detachmentRules));
+  const allUpgradeUnits: Array<Unit> = typeUpgradeData.map((unit: any) =>
+    createUnitFromData(unit, detachmentName, "upgrade", detachmentRules)
+  );
 
   const allUnitsData: Array<Unit> = allModels.concat(allUnits, allUpgradeUnits);
   return allUnitsData;
 }
 
-function createUnitFromData(model: any, detachmentName: string, type: "model" | "unit" | "upgrade"): Unit {
+function createUnitFromData(model: any, detachmentName: string, type: "model" | "unit" | "upgrade", detachmentRules: any): Unit {
   const unitPsyker = parsePsyker(model);
   const unitPsychicPowers = parsePsychicPowers(model, type);
 
@@ -371,7 +161,8 @@ function createUnitFromData(model: any, detachmentName: string, type: "model" | 
     weapons: parseWeapons(model),
     abilities: parseAbilities(model),
     psychic: getPsyker(unitPsyker, unitPsychicPowers),
-    rules: parseUnitRules(model),
+    rules: detachmentRules ? parseUnitRules(model).concat(detachmentRules) : parseUnitRules(model),
+    costs: parseUnitCosts(model),
   };
   return unit;
 }
@@ -552,7 +343,13 @@ function parseUnitRules(unit: any): Array<Rule> {
     rulesData = new Array(rulesData);
   }
   rules = rulesData.map((ruleData: any) => {
-    const rule: Rule = { id: ruleData["@_id"], title: ruleData["@_name"], description: ruleData["description"], unit: unit["@_name"] };
+    const rule: Rule = {
+      id: ruleData["@_id"],
+      title: ruleData["@_name"],
+      description: ruleData["description"],
+      unit: unit["@_name"],
+      detachmentRule: false,
+    };
     return rule;
   });
   return rules;
@@ -671,14 +468,23 @@ function parseRosterCosts(data: any): RosterCosts {
   };
 }
 
-// const unzip = async (file: string): Promise<string> => {
-//   if (file.charAt(0) !== "P") {
-//     return file;
-//   } else {
-//     const jszip = new JSZip();
-//     const zip = await jszip.loadAsync(file);
-//     return zip.file(/[^/]+\.ros/)[0].async("string"); // Get roster files that are in the root
-//   }
-// };
+function parseUnitCosts(unit: any): string {
+  let costs: string = "NaN";
+  const allCosts = findAllByKey(unit, "costs")
+    .flatMap((cost: any) => cost.cost)
+    .filter((cost: any) => cost["@_typeId"] === "points")
+    .map((cost: any) => cost["@_value"]);
+  costs = Array.isArray(allCosts) ? allCosts.reduce((partial, value) => Number(partial) + Number(value)).toString() : allCosts;
+  costs = costs.includes(".0") ? costs.replace(".0", "pts") : costs + "pts";
+  return costs;
+}
 
-export { getForce };
+function findAllByKey(obj: any, keyToFind: any): any {
+  return Object.entries(obj).reduce(
+    (acc, [key, value]): any =>
+      key === keyToFind ? acc.concat(value) : typeof value === "object" ? acc.concat(findAllByKey(value, keyToFind)) : acc,
+    [] as any
+  );
+}
+
+export { getForce, checkIfValid };

@@ -26,6 +26,8 @@
     "expo-font": "~10.0.4",
     "expo-linear-gradient": "~11.0.0",
     "expo-linking": "~3.0.0",
+    "expo-media-library": "~14.0.0",
+    "expo-permissions": "~13.1.0",
     "expo-splash-screen": "~0.14.0",
     "expo-status-bar": "~1.2.0",
     "expo-web-browser": "~10.1.0",
@@ -41,9 +43,8 @@
     "react-native-screens": "~3.10.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.1",
-    "typescript": "~4.3.5",
-    "expo-permissions": "~13.1.0",
-    "expo-media-library": "~14.0.0"
+    "react-native-zip-archive": "^6.0.6",
+    "typescript": "~4.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

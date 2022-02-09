@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: Layout.spacing(3),
     paddingBottom: Layout.spacing(2),
-    borderRadius: 2,
+    borderRadius: 4,
   },
   tableHead: {
     height: Layout.spacing(5),

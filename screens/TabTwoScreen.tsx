@@ -1,11 +1,10 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
-import { PureComponent, useEffect, useState } from "react";
-import { FlatList, ListRenderItem, Platform, ScrollView, SectionList, StyleSheet } from "react-native";
+import React, { PureComponent, useContext, useEffect, useState } from "react";
+import { Animated, FlatList, ImageBackground, ListRenderItem, Platform, ScrollView, SectionList, StyleSheet } from "react-native";
 import { Chip, FAB, SearchBar, ListItem } from "react-native-elements";
 import { Picker } from "@react-native-community/picker";
-
 import Stratagem from "../components/Stratagem/Stratagem";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
@@ -13,13 +12,13 @@ import useColorScheme from "../hooks/useColorScheme";
 import { ItemValue } from "@react-native-community/picker/typings/Picker";
 import Layout from "../constants/Layout";
 import { ENEMYPHASE, PHASES, PLAYERPHASE, StratagemData } from "../utils/DataTypes";
-
-import StratsFromJson from "../data/AdeptusCustodes.json";
+import { DataContext } from "../hooks/DataContext";
 
 const Tab = createMaterialTopTabNavigator();
 
 const All = () => {
-  const allStratagems: Array<StratagemData> = StratsFromJson.data.sort((a, b) => (a.title < b.title ? -1 : 1));
+  const { context } = useContext(DataContext);
+  const allStratagems: Array<StratagemData> | undefined = context.stratagems?.data.sort((a, b) => (a.title < b.title ? -1 : 1));
 
   const colorScheme = useColorScheme();
 
@@ -27,15 +26,15 @@ const All = () => {
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [filteredStratagems, setFilteredStratagems] = useState(allStratagems);
 
-  const updateSearch = (search: string) => {
+  const updateSearch = (search: string): any => {
     setSearch(search);
   };
 
   useEffect(() => {
     if (search.length > 0) {
-      const filtered = allStratagems.filter(
+      const filtered = allStratagems?.filter(
         (strat) =>
-          strat.title.toLowerCase().includes(search.toLowerCase()) || strat.description.toLowerCase().includes(search.toLowerCase())
+          strat?.title.toLowerCase().includes(search.toLowerCase()) || strat?.description.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredStratagems(filtered);
     } else {
@@ -64,43 +63,54 @@ const All = () => {
 
   return (
     <View style={styles.container}>
-      {showSearch && (
-        <SearchBar
-          lightTheme
-          onChangeText={(text) => updateSearch(text)}
-          onClear={() => setSearch("")}
-          placeholder="Search..."
-          value={search}
-          round
-          containerStyle={{ backgroundColor: Colors[colorScheme].primary }}
-          inputContainerStyle={{ backgroundColor: "white" }}
-          inputStyle={{ color: "black" }}
+      <ImageBackground
+        resizeMode="cover"
+        style={{ width: "100%", height: "100%" }}
+        source={require("../assets/images/background.jpg")}
+        imageStyle={{ opacity: 0.2 }}
+      >
+        {showSearch && (
+          <SearchBar
+            lightTheme
+            onChangeText={(text: any) => updateSearch(text)}
+            onClear={() => setSearch("")}
+            placeholder="Search..."
+            value={search}
+            round
+            containerStyle={{ backgroundColor: Colors[colorScheme].primary }}
+            inputContainerStyle={{ backgroundColor: "white" }}
+            inputStyle={{ color: "black" }}
+          />
+        )}
+
+        <FlatList
+          data={filteredStratagems}
+          renderItem={renderStratagems}
+          initialNumToRender={7}
+          ListFooterComponentStyle={{ marginBottom: 12 }}
+          ListFooterComponent={<View />}
         />
-      )}
-      <FlatList
-        data={filteredStratagems}
-        renderItem={renderStratagems}
-        initialNumToRender={7}
-        ListFooterComponentStyle={{ marginBottom: 12 }}
-        ListFooterComponent={<View />}
-      />
-      <FAB
-        icon={{ name: showSearch ? "close" : "search", color: "white" }}
-        style={{ position: "absolute", right: 10, bottom: 16 }}
-        onPress={() => setShowSearch(!showSearch)}
-        size="small"
-        color={Colors[colorScheme].primary}
-      />
+        <FAB
+          icon={{ name: showSearch ? "close" : "search", color: "white" }}
+          style={{ position: "absolute", right: 10, bottom: 16 }}
+          onPress={() => setShowSearch(!showSearch)}
+          size="small"
+          color={Colors[colorScheme].primary}
+        />
+      </ImageBackground>
     </View>
   );
 };
 
 const ByPhase = () => {
-  const allStratagems: Array<StratagemData> = StratsFromJson.data.sort((a, b) => (a.title < b.title ? -1 : 1));
-  const allPhases: any = StratsFromJson.phases;
+  const { context } = useContext(DataContext);
+  const allStratagems: Array<StratagemData> | undefined = context.stratagems?.data.sort((a, b) => (a.title < b.title ? -1 : 1));
+  const allPhases: any = context.stratagems?.phases;
 
   const sectionList = Object.keys(allPhases).map((key: string) => {
-    const data = allPhases[key].map((phase: string) => allStratagems.find((strat: StratagemData) => phase === strat.id));
+    const data = allPhases[key]
+      .map((phase: string) => allStratagems?.find((strat: StratagemData) => phase === strat.id))
+      .filter((arr: any) => arr !== undefined);
     return { title: key, data: data };
   });
 
@@ -108,6 +118,13 @@ const ByPhase = () => {
 
   const [activeChip, setActiveChip] = useState<ItemValue>();
   const [phase, setPhase] = useState(sectionList);
+  const headerHeight: number = 50 + Layout.spacing(4) + 1;
+  const scrollY = new Animated.Value(0);
+  const diffClamp = Animated.diffClamp(scrollY, 0, headerHeight);
+  const translateY = diffClamp.interpolate({
+    inputRange: [0, headerHeight],
+    outputRange: [0, -headerHeight],
+  });
 
   useEffect(() => {
     if (!activeChip) {
@@ -141,32 +158,43 @@ const ByPhase = () => {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.chipContainer, { backgroundColor: Colors[colorScheme].primary }]}>
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker}
-            mode="dropdown"
-            selectedValue={activeChip}
-            onValueChange={(itemValue: ItemValue) => setActiveChip(itemValue)}
-          >
-            {Object.values(PHASES).map((item, index) => {
-              return <Picker.Item key={index} label={item} value={item} color="black" />;
-            })}
-            {Object.values(PLAYERPHASE).map((item, index) => {
-              return <Picker.Item key={index} label={item} value={item} color="green" />;
-            })}
-            {Object.values(ENEMYPHASE).map((item, index) => {
-              return <Picker.Item key={index} label={item} value={item} color="red" />;
-            })}
-          </Picker>
+      <Animated.View style={{ transform: [{ translateY: translateY }], elevation: 4 }}>
+        <View style={[styles.chipContainer, { backgroundColor: Colors[colorScheme].primary }]}>
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker}
+              mode="dropdown"
+              selectedValue={activeChip}
+              onValueChange={(itemValue: ItemValue) => setActiveChip(itemValue)}
+            >
+              {Object.values(PHASES).map((item, index) => {
+                return <Picker.Item key={index} label={item} value={item} color="black" />;
+              })}
+              {Object.values(PLAYERPHASE).map((item, index) => {
+                return <Picker.Item key={index} label={item} value={item} color="green" />;
+              })}
+              {Object.values(ENEMYPHASE).map((item, index) => {
+                return <Picker.Item key={index} label={item} value={item} color="red" />;
+              })}
+            </Picker>
+          </View>
         </View>
-      </View>
-      <SectionList
-        sections={phase}
-        renderItem={renderStratagems}
-        renderSectionHeader={({ section: { title } }) => <Text style={styles.title}>{title}</Text>}
-        renderSectionFooter={() => <View style={{ marginBottom: Layout.spacing(4) }} />}
-      />
+      </Animated.View>
+      <ImageBackground
+        resizeMode="cover"
+        style={{ width: "100%", height: "100%" }}
+        source={require("../assets/images/background.jpg")}
+        imageStyle={{ opacity: 0.2 }}
+      >
+        <SectionList
+          sections={phase}
+          renderItem={renderStratagems}
+          renderSectionHeader={({ section: { title } }) => <Text style={styles.title}>{title}</Text>}
+          renderSectionFooter={() => <View style={{ marginBottom: Layout.spacing(4) }} />}
+          onScroll={(e) => scrollY.setValue(e.nativeEvent.contentOffset.y)}
+          ListHeaderComponent={() => <View style={{ height: headerHeight }} />}
+        />
+      </ImageBackground>
     </View>
   );
 };
@@ -194,6 +222,7 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 1,
   },
   title: {
     fontSize: 20,
@@ -210,8 +239,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   chipContainer: {
-    marginVertical: 1,
+    height: 50 + Layout.spacing(4),
     elevation: 3,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
   },
   pickerContainer: {
     marginHorizontal: Layout.spacing(3),
@@ -226,6 +259,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: "center",
     marginTop: -2,
+    zIndex: 1002,
   },
   stratagemList: {
     paddingHorizontal: Layout.spacing(3),

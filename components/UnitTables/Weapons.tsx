@@ -12,7 +12,7 @@ interface Props {
 const Weapons = ({ data }: Props) => {
   const colorScheme = useColorScheme();
   const renderWeapons = (weapon: Weapon, index: number): ReactElement => (
-    <View key={index} style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 2 }}>
+    <View key={index} style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
       <View style={[styles.unitTitle, { backgroundColor: Colors[colorScheme].primary }]}>
         <Text style={styles.unitTitleText}>{weapon.name}</Text>
         <Text style={styles.unitTitleCount}>{weapon.count}x</Text>

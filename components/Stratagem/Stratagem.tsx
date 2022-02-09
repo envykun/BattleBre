@@ -11,8 +11,10 @@ const Stratagem = ({ title, subTitle, optional, description, descriptionEnd, lis
   return (
     <View style={styles.container}>
       <View style={[styles.titleBar, { backgroundColor: Colors[colorScheme].primary }]}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.title}>
+        <Text numberOfLines={1} style={styles.title}>
+          {title}
+        </Text>
+        <Text style={styles.title2}>
           {cp}CP{cp2 && <Text>/{cp2}CP</Text>}
         </Text>
         <View style={styles.triangle} />
@@ -56,14 +58,24 @@ const styles = StyleSheet.create({
   titleBar: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 2,
+    minHeight: 32,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     color: Colors.dark.text,
     textTransform: "uppercase",
+    flex: 1,
+  },
+  title2: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: Colors.dark.text,
+    textTransform: "uppercase",
+    marginLeft: 8,
   },
   inner: {
     padding: 4,

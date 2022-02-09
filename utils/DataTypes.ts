@@ -9,6 +9,7 @@ export interface Unit {
   abilities: Array<Ability>;
   rules?: Array<Rule>;
   psychic?: Psychic;
+  costs: string;
 }
 
 export interface Characteristics {
@@ -39,11 +40,17 @@ export interface Ability {
   text: string;
 }
 
+export interface DetachmentRule {
+  title: string;
+  abilities: Rule;
+}
+
 export interface Rule {
   id: string;
   title: string;
   description: string;
   unit?: string;
+  detachmentRule: boolean;
 }
 
 export interface Psychic {
@@ -87,6 +94,7 @@ export enum PHASES {
   BEFORE_BATTLE = "BEFORE BATTLE",
   DURING_DEPLOYMENT = "DURING DEPLOYMENT",
   START_OF_BR = "START OF BATTLEROUND",
+  END = "END OF TURN",
 }
 
 export enum PLAYERPHASE {

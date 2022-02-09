@@ -8,13 +8,15 @@ interface Props {
   index: string;
   title: string;
   subTitle?: string;
+  costs: string;
+  firstItem?: boolean;
   onPress: () => void;
 }
 
-const ListItemUnit = ({ index, title, subTitle, onPress }: Props) => {
+const ListItemUnit = ({ index, title, subTitle, costs, firstItem, onPress }: Props) => {
   const colorScheme = useColorScheme();
   return (
-    <ListItem key={index} onPress={onPress} bottomDivider style={styles.container}>
+    <ListItem key={index} onPress={onPress} bottomDivider topDivider={firstItem} style={styles.container}>
       <Avatar
         size={48}
         rounded
@@ -25,6 +27,7 @@ const ListItemUnit = ({ index, title, subTitle, onPress }: Props) => {
         <ListItem.Title style={{ fontSize: 18 }}>{title}</ListItem.Title>
         {subTitle && <ListItem.Subtitle>{subTitle}</ListItem.Subtitle>}
       </ListItem.Content>
+      <ListItem.Title>{costs}</ListItem.Title>
       <ListItem.Chevron />
     </ListItem>
   );

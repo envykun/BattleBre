@@ -14,7 +14,7 @@ const Keywords = ({ data }: Props) => {
     const factionKeywords = data.filter((keyword: string) => keyword.includes("Faction:")).sort();
     const keywords = data.filter((keyword: string) => !keyword.includes("Faction:")).sort();
     return (
-      <View style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 2 }}>
+      <View style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
         <View style={[styles.tableHead, { backgroundColor: Colors[colorScheme].secondary }]}>
           <Text>FACTION KEYWORDS</Text>
         </View>
@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     height: Layout.spacing(5),
     justifyContent: "center",
     paddingLeft: 12,
+    borderTopLeftRadius: 2,
+    borderTopRightRadius: 2,
   },
   triangle: {
     position: "absolute",

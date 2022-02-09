@@ -18,13 +18,14 @@ export default function ModalScreen({ route }: any) {
 
   const unit: Unit = route.params.unit;
   const characteristics: Array<Characteristics> = unit.characteristics;
-  const abilities: Array<Ability> = unit.abilities;
-  const weapons: Array<Weapon> = unit.weapons;
+  const abilities: Array<Ability> = unit.abilities || [];
+  const weapons: Array<Weapon> = unit.weapons || [];
   const isPsyker: boolean = unit.psychic !== undefined;
   const psychic: Psychic | undefined = unit.psychic;
   const keywords: Array<string> = unit.keywords;
   const unitRules: Array<Rule> = unit.rules || [];
-  const forceRules: Array<Rule> = context.forceRules;
+  const forceRules: Array<Rule> = context.forceRules || [];
+  const points: string = unit.costs.replace("pts", "");
 
   const colorScheme = useColorScheme();
 
@@ -32,20 +33,22 @@ export default function ModalScreen({ route }: any) {
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <View style={{ justifyContent: "center", flexDirection: "row" }}>
-            <Text style={styles.title}>{unit.name}</Text>
+          <View style={{ justifyContent: "center", flex: 1 }}>
+            <Text numberOfLines={1} style={styles.title}>
+              {unit.name}
+            </Text>
             <Text style={styles.subTitle}>({unit.type})</Text>
           </View>
           <View style={styles.unitType}>
             <View style={[styles.unitTypeIcon, { backgroundColor: Colors[colorScheme].primary }]}>
-              <Image source={Images[unit.type]} resizeMode="center" style={{ width: "110%", height: "110%", tintColor: "white" }} />
+              <Text style={{ color: Colors.dark.text }}>PTS</Text>
               <View
                 style={[styles.triangle, { backgroundColor: Colors[colorScheme].primary, borderTopColor: Colors[colorScheme].secondary }]}
               />
             </View>
             <View style={[styles.unitTypeText, { backgroundColor: Colors[colorScheme].secondary }]}>
               <View style={[styles.triangle2, { backgroundColor: Colors[colorScheme].secondary }]} />
-              <Text style={{ fontWeight: "bold", color: Colors.dark.text }}></Text>
+              <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{points}</Text>
             </View>
           </View>
         </View>
@@ -88,42 +91,40 @@ const styles = StyleSheet.create({
     height: Layout.spacing(6),
     flexDirection: "row",
     marginTop: Layout.spacing(4),
+    marginBottom: Layout.spacing(4),
     justifyContent: "space-between",
+    flex: 1,
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
     textTransform: "uppercase",
-    textAlignVertical: "center",
   },
   subTitle: {
     fontSize: 14,
     color: "grey",
     textTransform: "uppercase",
-    textAlignVertical: "center",
-    marginLeft: Layout.spacing(2),
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
   table: {
     marginTop: 12,
   },
   unitType: {
     height: Layout.spacing(5) * 2,
-    width: Layout.spacing(5),
+    width: Layout.spacing(5) + 10,
+    marginLeft: Layout.spacing(2),
   },
   unitTypeText: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    borderBottomLeftRadius: 4,
   },
   unitTypeIcon: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
   },
   triangle: {
     position: "absolute",

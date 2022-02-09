@@ -46,6 +46,7 @@ const unzip = async (file: string): Promise<string> => {
     return file;
   } else {
     const jszip = new JSZip();
+    console.log("????----????", file);
     const zip = await jszip.loadAsync(file);
     return zip.file(/[^/]+\.ros/)[0].async("string"); // Get roster files that are in the root
   }
