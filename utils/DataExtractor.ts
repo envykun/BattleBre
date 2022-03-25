@@ -44,12 +44,16 @@ function getForce(data: string, isZip: boolean): DataExtractorType {
 const options: Partial<X2jOptions> = {
   attributeNamePrefix: "@_",
   ignoreAttributes: false,
+  numberParseOptions: {
+    leadingZeros: false,
+    hex: false,
+    skipLike: /\+[0-9]+/,
+  },
 };
 
 function parseXML(xmldata: string) {
   let parser = new XMLParser(options);
   let doc = parser.parse(xmldata);
-
   return doc;
 }
 
