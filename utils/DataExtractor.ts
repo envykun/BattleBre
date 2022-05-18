@@ -128,7 +128,7 @@ function getSelections(forces: any): Array<Unit> {
 
 function getUnitType(unit: any): string {
   const categories = unit.categories.category;
-  const primary = categories.find((category: any) => category["@_primary"] === "true");
+  const primary = Array.isArray(categories) ? categories.find((category: any) => category["@_primary"] === "true") : categories;
   let unitType: string = "NaN";
   if (primary) {
     unitType = primary["@_name"];
@@ -453,7 +453,9 @@ function parsePsychicPowers(unit: any, type: "model" | "unit" | "upgrade"): Arra
 
 function parseKeywords(unit: any): Array<string> {
   const categories = unit.categories.category;
-  const keywords = categories.filter((category: any) => category["@_primary"] === "false").map((category: any) => category["@_name"]);
+  const keywords = Array.isArray(categories)
+    ? categories.filter((category: any) => category["@_primary"] === "false").map((category: any) => category["@_name"])
+    : [];
   return keywords;
 }
 
