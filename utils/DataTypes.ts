@@ -10,6 +10,12 @@ export interface Unit {
   rules?: Array<Rule>;
   psychic?: Psychic;
   costs: string;
+  model?: Array<Model>;
+}
+
+export interface Model {
+  characteristics: Array<Characteristics>;
+  weapons: Array<Weapon>;
 }
 
 export interface Characteristics {
@@ -23,6 +29,8 @@ export interface Characteristics {
   a: string;
   ld: string;
   sv: string;
+  weapons: Array<string>;
+  count?: string;
 }
 
 export interface Weapon {
@@ -34,7 +42,9 @@ export interface Weapon {
   d: string;
   ability: string;
   count: string;
+  models?: Array<string>;
 }
+
 export interface Ability {
   name: string;
   text: string;

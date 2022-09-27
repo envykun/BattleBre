@@ -15,7 +15,6 @@ import { Ability, Characteristics, Psychic, Rule, Unit, Weapon } from "../utils/
 
 export default function ModalScreen({ route }: any) {
   const { context } = useContext(DataContext);
-
   const unit: Unit = route.params.unit;
   const characteristics: Array<Characteristics> = unit.characteristics;
   const abilities: Array<Ability> = unit.abilities || [];

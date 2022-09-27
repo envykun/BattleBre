@@ -91,6 +91,10 @@ const Colors = {
     primary: tintColorLight,
     secondary: "#D1E9F5",
   },
+  default: {
+    error: "#a10000",
+    success: "#099609",
+  },
 };
 
 export default Colors;

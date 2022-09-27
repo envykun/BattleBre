@@ -15,6 +15,7 @@ const CharacteristicsTable = ({ data }: Props) => {
     <View style={[styles.container, { borderColor: Colors[colorScheme].primary }]}>
       <View style={[styles.unitTitle, { backgroundColor: Colors[colorScheme].primary }]}>
         <Text style={styles.unitTitleText}>{data.name}</Text>
+        <Text style={styles.unitTitleText}>{data.count}x</Text>
       </View>
       <View style={[styles.tableHead, { backgroundColor: Colors[colorScheme].secondary }]}>
         <View style={styles.tableCell}>
@@ -74,6 +75,11 @@ const CharacteristicsTable = ({ data }: Props) => {
           <Text>{data.sv}</Text>
         </View>
       </View>
+      <View style={styles.tableRow2}>
+        <View style={styles.abilities}>
+          <Text style={{ fontStyle: "italic", color: "grey", fontSize: 12 }}>{data.weapons.join(", ")}</Text>
+        </View>
+      </View>
       <View style={styles.triangle} />
       <View style={[styles.borderCorner, { borderRightColor: Colors[colorScheme].primary }]} />
     </View>
@@ -97,6 +103,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     height: Layout.spacing(5),
+    borderBottomWidth: 1,
+  },
+  tableRow2: {
+    flexDirection: "row",
+    minHeight: Layout.spacing(5),
+  },
+  abilities: {
+    justifyContent: "center",
+    paddingLeft: 8,
+    marginRight: 12,
+    paddingVertical: 4,
   },
   tableCell: {
     flex: 1,
@@ -108,9 +125,11 @@ const styles = StyleSheet.create({
   },
   unitTitle: {
     flex: 1,
-    justifyContent: "center",
-    paddingLeft: Layout.spacing(2),
-    minHeight: Layout.spacing(5),
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: Layout.spacing(2),
+    height: Layout.spacing(5),
+    flexDirection: "row",
   },
   unitTitleText: {
     color: Colors.dark.text,
