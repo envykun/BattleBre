@@ -98,22 +98,29 @@ function getForceRules(detachment: Array<BS_Force>): Array<Rule> {
   return [...new Map(rules.map((r) => [r.id, r])).values()];
 } // DONE
 
-function parseRosterCosts(data: any): RosterCosts {
-  const rosterData = data.roster.costs.cost;
+function parseRosterCosts(data: XmlData): RosterCosts {
+  const rosterData = normalizeToArray<BS_Cost>(data.roster.costs.cost);
   const forces = getDetachments(data);
   const factionName = Array.isArray(forces) ? forces[0]["@_catalogueName"] : forces["@_catalogueName"];
-  const hasCabal = rosterData.find((r: any) => r["@_name"] === "Cabal Points")
-    ? rosterData.find((r: any) => r["@_name"] === "Cabal Points")["@_value"]
-    : undefined;
+  const hasCabal = rosterData
+    .find((r) => r["@_name"] === CostType.CABAL)
+    ?.["@_value"].toString()
+    .slice(0, -2);
   return {
     faction: factionName,
-    // points: "TODO",
-    points: rosterData.find((r: any) => r["@_name"] === "pts")["@_value"],
-    // cp: "TODO",
-    cp: rosterData.find((r: any) => r["@_name"] === "CP")["@_value"],
+    points:
+      rosterData
+        .find((r) => r["@_name"] === CostType.PTS)
+        ?.["@_value"].toString()
+        .slice(0, -2) ?? "0",
+    cp:
+      rosterData
+        .find((r) => r["@_name"] === CostType.CP)
+        ?.["@_value"].toString()
+        .slice(0, -2) ?? "0",
     cabal: hasCabal,
   };
-} // TODO
+} // DONE
 
 function getForceSelections(force: BS_Force): Array<DetachmentRule> {
   const forceSelections: Array<DetachmentRule> = findAllByKey<BS_Force, BS_Selection>(force, "selection")
@@ -191,7 +198,6 @@ function createUnitFromData(unit: BS_Selection, detachmentName: string, type: Se
     psychic: getPsyker(unitPsyker, unitPsychicPowers),
     rules: detachmentRules ? parseUnitRules(unit).concat(detachmentRules) : parseUnitRules(unit),
     costs: parseUnitCosts(unit),
-    // model: parseModels(unit),
   };
   return newUnit;
 }
@@ -221,22 +227,30 @@ function characteristicFromModel(model: BS_Selection, weapons: Array<string>): A
   });
 } // DONE
 
-function parseModels(unit: BS_Selection): Array<Model> {
+function parseModels(unit: BS_Selection, characteristic?: Array<Characteristics>): Array<Model> {
   const unitSelections = normalizeToArray<BS_Selection>(unit.selections?.selection);
+  const unitProfiles = normalizeToArray<BS_Profile>(unit.profiles?.profile);
   if (unit["@_type"] === SelectionType.MODEL || unit["@_type"] === SelectionType.UPGRADE) {
+    if (unit["@_type"] === SelectionType.UPGRADE && !unitProfiles.some((profile) => profile["@_typeName"] === ProfileType.UNIT)) return [];
     const weapons = parseWeapons(unitSelections, unit["@_name"]);
+    const characteristics = characteristicFromModel(
+      unit,
+      weapons.map((weapon) => weapon.name)
+    );
     const model: Model = {
-      characteristics: characteristicFromModel(
-        unit,
-        weapons.map((weapon) => weapon.name)
-      ),
+      characteristics:
+        characteristics.length > 0 ? characteristics : characteristic ? [{ ...characteristic[0], count: unit["@_number"] }] : [],
       weapons: weapons,
     };
     return [model];
   }
   if (unit["@_type"] === SelectionType.UNIT) {
-    const models: Array<Model> = unitSelections.flatMap((model) => parseModels(model));
-    return models;
+    if (unitProfiles.some((profile) => profile["@_typeName"] === ProfileType.UNIT)) {
+      const characteristic = characteristicFromModel(unit, []);
+      return unitSelections.flatMap((model) => parseModels(model, characteristic));
+    } else {
+      return unitSelections.flatMap((model) => parseModels(model));
+    }
   }
   return [];
 }
@@ -440,9 +454,9 @@ function parseUnitCosts(unit: BS_Selection): string {
 } // DONE
 
 function findAllByKey<O, T>(obj: O, keyToFind: string): Array<T> {
-  return Object.entries(obj).reduce(
+  return Object.entries(obj as any).reduce(
     (acc, [key, value]): any =>
-      key === keyToFind ? acc.concat(value) : typeof value === "object" ? acc.concat(findAllByKey(value, keyToFind)) : acc,
+      key === keyToFind ? (acc as any).concat(value) : typeof value === "object" ? acc.concat(findAllByKey(value, keyToFind)) : acc,
     [] as Array<T>
   );
 }

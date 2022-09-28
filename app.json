@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "WH40k-ArmyListHelper",
-    "slug": "WH40k-ArmyListHelper",
+    "name": "BattleBre",
+    "slug": "BattleBre",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
-    "primaryColor": "#00ff44",
+    "primaryColor": "#cccccc",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

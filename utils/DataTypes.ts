@@ -10,7 +10,6 @@ export interface Unit {
   rules?: Array<Rule>;
   psychic?: Psychic;
   costs: string;
-  model?: Array<Model>;
 }
 
 export interface Model {
