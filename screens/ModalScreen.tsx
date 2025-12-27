@@ -1,5 +1,7 @@
+import React, { useState } from "react";
 import { useContext } from "react";
-import { Platform, ScrollView, StyleSheet, Image } from "react-native";
+import { Platform, ScrollView, StyleSheet, Image, Button, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Divider } from "react-native-elements";
 import { Text, View } from "../components/Themed";
 import Abilities from "../components/UnitTables/Abilities";
 import CharacteristicsTable from "../components/UnitTables/CharacteristicsTable";
@@ -12,10 +14,10 @@ import Layout from "../constants/Layout";
 import { DataContext } from "../hooks/DataContext";
 import useColorScheme from "../hooks/useColorScheme";
 import { Ability, Characteristics, Psychic, Rule, Unit, Weapon } from "../utils/DataTypes";
+import { useHeaderHeight } from "@react-navigation/elements";
 
-export default function ModalScreen({ route }: any) {
+export default function ModalScreen({ route, navigation }: any) {
   const { context } = useContext(DataContext);
-
   const unit: Unit = route.params.unit;
   const characteristics: Array<Characteristics> = unit.characteristics;
   const abilities: Array<Ability> = unit.abilities || [];
@@ -27,12 +29,45 @@ export default function ModalScreen({ route }: any) {
   const forceRules: Array<Rule> = context.forceRules || [];
   const points: string = unit.costs.replace("pts", "");
 
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+
   const colorScheme = useColorScheme();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => setShowMenu(true)}>
+          <View
+            style={{
+              width: useHeaderHeight() / 2,
+              height: useHeaderHeight() / 2,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={Images[route.params?.unit.type]}
+              resizeMode="center"
+              style={{ width: "110%", height: "110%", tintColor: "black" }}
+            />
+          </View>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
+  const handleScroll = (ref: any) => {
+    setShowMenu(false);
+    this.scrollViewRef.scrollTo({
+      y: ref.y,
+      animated: true,
+    });
+  };
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.header}>
+      <ScrollView contentContainerStyle={styles.container} ref={(ref) => (this.scrollViewRef = ref)} scrollsToTop>
+        <View style={styles.header} onLayout={(event) => (this.backToTop = event.nativeEvent.layout)}>
           <View style={{ justifyContent: "center", flex: 1 }}>
             <Text numberOfLines={1} style={styles.title}>
               {unit.name}
@@ -68,16 +103,58 @@ export default function ModalScreen({ route }: any) {
             <PsychicPowers data={psychic} />
           </View>
         )}
-        <View style={styles.table}>
+        <View style={styles.table} onLayout={(event) => (this.weaponLayout = event.nativeEvent.layout)}>
           <Weapons data={weapons} />
         </View>
-        <View style={styles.table}>
+        <View style={styles.table} onLayout={(event) => (this.abilityLayout = event.nativeEvent.layout)}>
           <Abilities abilities={abilities} unitRules={unitRules} forceRules={forceRules} />
         </View>
-        <View style={styles.table}>
+        <View style={styles.table} onLayout={(event) => (this.keywordLayout = event.nativeEvent.layout)}>
           <Keywords data={keywords} />
         </View>
       </ScrollView>
+      <Modal transparent visible={showMenu} animationType="fade">
+        <TouchableWithoutFeedback onPress={() => setShowMenu(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+        <View style={styles.popupMenu}>
+          <TouchableOpacity onPress={() => handleScroll(this.backToTop)}>
+            <View style={styles.popupMenuLink}>
+              <Text>Back to top</Text>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={() => handleScroll(this.weaponLayout)}>
+            <View style={styles.popupMenuLink}>
+              <Text>Weapons</Text>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={() => handleScroll(this.abilityLayout)}>
+            <View style={styles.popupMenuLink}>
+              <Text>Abilities</Text>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={() => handleScroll(this.rulesLayout)}>
+            <View style={styles.popupMenuLink}>
+              <Text>Rules</Text>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={() => handleScroll(this.forceRulesLayout)}>
+            <View style={styles.popupMenuLink}>
+              <Text>Force Rules</Text>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={() => handleScroll(this.keywordLayout)}>
+            <View style={styles.popupMenuLinkLast}>
+              <Text>Keywords</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -150,5 +227,31 @@ const styles = StyleSheet.create({
     borderRightColor: "transparent",
     borderTopColor: "white",
     transform: [{ rotate: "180deg" }],
+  },
+  popupMenu: {
+    alignSelf: "flex-end",
+    elevation: 3,
+    paddingHorizontal: Layout.spacing(2),
+    borderRadius: 4,
+    marginRight: Layout.spacing(3),
+    marginTop: Layout.spacing(4),
+  },
+  popupMenuLink: {
+    height: 50,
+    paddingHorizontal: Layout.spacing(4),
+    justifyContent: "center",
+  },
+  popupMenuLinkLast: {
+    height: 50,
+    paddingHorizontal: Layout.spacing(4),
+    justifyContent: "center",
+  },
+  modalOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(0,0,0,0.3)",
   },
 });

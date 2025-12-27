@@ -51,9 +51,14 @@ const Weapons = ({ data }: Props) => {
           <Text>{weapon.d}</Text>
         </View>
       </View>
-      <View style={styles.tableRow2}>
+      <View style={[styles.tableRow3, { borderColor: Colors[colorScheme].primary }]}>
         <View style={styles.abilities}>
           <Text>{weapon.ability}</Text>
+        </View>
+      </View>
+      <View style={styles.tableRow2}>
+        <View style={styles.abilities}>
+          <Text style={{ fontStyle: "italic", color: "grey", fontSize: 12 }}>{weapon.models?.join(", ")}</Text>
         </View>
       </View>
       <View style={styles.triangle} />
@@ -91,6 +96,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     height: Layout.spacing(5),
+  },
+  tableRow3: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    minHeight: Layout.spacing(5),
   },
   tableRow2: {
     flexDirection: "row",

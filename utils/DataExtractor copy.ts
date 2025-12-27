@@ -2,7 +2,6 @@ import { X2jOptions, XMLParser } from "fast-xml-parser";
 import JSZip from "jszip";
 import { DataExtractorType } from "../hooks/DataContext";
 import { Ability, Characteristics, DetachmentRule, Psychic, PsychicPower, RosterCosts, Rule, Unit, Weapon } from "./DataTypes";
-import { CostNameRos, CostRos, CostsRos, ForceRos, ForceRuleRos, ForceRulesRos, ForcesRos, XML2JsonRos } from "./RawDataTypes";
 
 async function checkIfValid(data: string): Promise<boolean> {
   const xml2JSON = parseXML(data);
@@ -27,8 +26,8 @@ const unzip = async (file: string): Promise<string> => {
 };
 
 function getForce(data: string, isZip: boolean): DataExtractorType {
-  const xml2JSON: XML2JsonRos = parseXML(data);
-  const detachments: Array<ForceRos> | ForceRos = getDetachments(xml2JSON);
+  const xml2JSON = parseXML(data);
+  const detachments = getDetachments(xml2JSON);
 
   const forceRules: Array<Rule> = getForceRules(detachments);
   const unitData: Array<Unit> = getSelections(detachments);
@@ -58,27 +57,21 @@ function parseXML(xmldata: string) {
   return doc;
 }
 
-function getDetachments(data: XML2JsonRos) {
+function getDetachments(data: any) {
   return data.roster.forces.force;
 }
 
-function getForceRules(detachment: Array<ForceRos> | ForceRos): Array<Rule> {
-  let ruleData: Array<ForceRuleRos> = [];
-  let rules: Array<Rule> = [];
+function getForceRules(detachment: any): Array<Rule> {
+  let rules;
   if (Array.isArray(detachment)) {
-    const filteredDetachment: Array<ForceRos> = detachment.filter((detach: ForceRos) => "rules" in detach && detach.rules);
-    const forceRules: Array<ForceRuleRos> = filteredDetachment.flatMap((d: ForceRos) => {
-      return Array.isArray(d.rules.rule) ? d.rules.rule : new Array(d.rules.rule);
-    });
-    ruleData = [...new Map(forceRules.map((r: ForceRuleRos) => [r["@_id"], r])).values()];
+    const filteredDetachment = detachment.filter((detach: any) => "rules" in detach);
+    rules = [...new Map(filteredDetachment.map((detach: any) => [detach.rules.rule["@_id"], detach.rules.rule])).values()];
   } else {
-    if (!("rules" in detachment && detachment.rules)) {
-      return rules;
-    } else;
-    ruleData = Array.isArray(detachment.rules.rule) ? detachment.rules.rule : new Array(detachment.rules.rule);
+    if (!("rules" in detachment)) return [];
+    rules = Array.isArray(detachment.rules.rule) ? detachment.rules.rule : new Array(detachment.rules.rule);
   }
-  rules = ruleData.map((rd: ForceRuleRos) => {
-    const rule: Rule = { id: rd["@_id"], title: rd["@_name"], description: rd["description"] ?? "", detachmentRule: false };
+  rules = rules.map((ruleData: any) => {
+    const rule: Rule = { id: ruleData["@_id"], title: ruleData["@_name"], description: ruleData["description"], detachmentRule: false };
     return rule;
   });
   return rules;
@@ -175,7 +168,6 @@ function createUnitFromData(model: any, detachmentName: string, type: "model" | 
     rules: detachmentRules ? parseUnitRules(model).concat(detachmentRules) : parseUnitRules(model),
     costs: parseUnitCosts(model),
   };
-  console.log("UNIT", unit);
   return unit;
 }
 
@@ -467,15 +459,17 @@ function parseKeywords(unit: any): Array<string> {
   return keywords;
 }
 
-function parseRosterCosts(data: XML2JsonRos): RosterCosts {
-  const rosterCosts: Array<CostRos> | undefined = data.roster.costs?.cost;
-  const forces: ForcesRos = data.roster.forces;
-  const factionName: string = Array.isArray(forces.force) ? forces.force[0]["@_catalogueName"] : forces.force["@_catalogueName"];
-  const hasCabal: string | undefined = rosterCosts?.find((r: CostRos) => r["@_name"] === CostNameRos.Cabal)?.["@_value"];
+function parseRosterCosts(data: any): RosterCosts {
+  const rosterData = data.roster.costs.cost;
+  const forces = getDetachments(data);
+  const factionName = Array.isArray(forces) ? forces[0]["@_catalogueName"] : forces["@_catalogueName"];
+  const hasCabal = rosterData.find((r: any) => r["@_name"] === "Cabal Points")
+    ? rosterData.find((r: any) => r["@_name"] === "Cabal Points")["@_value"]
+    : undefined;
   return {
     faction: factionName,
-    points: rosterCosts?.find((r: CostRos) => r["@_name"] === "pts")?.["@_value"] ?? "",
-    cp: rosterCosts?.find((r: CostRos) => r["@_name"] === "CP")?.["@_value"] ?? "",
+    points: rosterData.find((r: any) => r["@_name"] === "pts")["@_value"],
+    cp: rosterData.find((r: any) => r["@_name"] === "CP")["@_value"],
     cabal: hasCabal,
   };
 }

@@ -12,6 +12,11 @@ export interface Unit {
   costs: string;
 }
 
+export interface Model {
+  characteristics: Array<Characteristics>;
+  weapons: Array<Weapon>;
+}
+
 export interface Characteristics {
   name: string;
   m: string;
@@ -23,6 +28,8 @@ export interface Characteristics {
   a: string;
   ld: string;
   sv: string;
+  weapons: Array<string>;
+  count?: string;
 }
 
 export interface Weapon {
@@ -34,7 +41,9 @@ export interface Weapon {
   d: string;
   ability: string;
   count: string;
+  models?: Array<string>;
 }
+
 export interface Ability {
   name: string;
   text: string;

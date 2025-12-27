@@ -12,7 +12,11 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  const [context, setContext] = useState({ fileName: "", rosterCost: { points: "0", cp: "0", faction: "" }, unitData: [] });
+  const [context, setContext] = useState({
+    fileName: "",
+    rosterCost: { points: "0", cp: "0", faction: "" },
+    unitData: [],
+  });
 
   if (!isLoadingComplete) {
     return null;

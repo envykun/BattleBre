@@ -7,8 +7,6 @@ const sheetId = "1mO0JGcqwER43QMBod15XDOr2Q9-Y5NF1-7T5RTWVSLA";
 const apiKey = "AIzaSyBihbeMy2CPOq9xwuAAgSFvq0FhQgauOHc";
 
 export async function useFetchStratagemData(bsFaction: string) {
-  console.log("FACTIOn", bsFaction);
-
   const faction = FactionMapping[bsFaction];
   const fullDataApi = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet?ranges=${faction}!A1:A2&ranges=${faction}!B:J&ranges=${faction}!L:AG&key=${apiKey}`;
   const versionApi = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${faction}!A1:A2?key=${apiKey}`;
@@ -30,7 +28,6 @@ export async function useFetchStratagemData(bsFaction: string) {
       const versionData = json.valueRanges[0].values;
       const stratagemData = json.valueRanges[1].values;
       const phasesData = json.valueRanges[2].values;
-      console.log(phasesData);
 
       const version = versionData.slice(1).map((row: Array<string>) => syncIterators(versionData[0], row))[0];
       const newJSON = stratagemData.slice(1).map((row: Array<string>) => syncIterators(stratagemData[0], row));

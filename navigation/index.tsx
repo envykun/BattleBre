@@ -9,7 +9,7 @@ import { useHeaderHeight } from "@react-navigation/elements";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable, Image, Text, View } from "react-native";
+import { ColorSchemeName, Pressable, Image, Text, View, TouchableOpacity } from "react-native";
 
 import Colors from "../constants/Colors";
 import { Images } from "../constants/Images";
@@ -58,26 +58,33 @@ function RootNavigator() {
           component={ModalScreen}
           options={({ route }) => ({
             headerTitle: () => (
-              <Text numberOfLines={1} style={{ fontSize: 18 }}>
+              <Text numberOfLines={1} ellipsizeMode="tail" style={{ fontSize: 18, fontWeight: "bold", textAlign: "center" }}>
                 {route.params?.unit.name || ""}
               </Text>
             ),
-            headerRight: () => (
-              <View
-                style={{
-                  width: useHeaderHeight() / 2,
-                  height: useHeaderHeight() / 2,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  source={Images[route.params?.unit.type]}
-                  resizeMode="center"
-                  style={{ width: "110%", height: "110%", tintColor: "black" }}
-                />
-              </View>
-            ),
+            // headerRight: () => (
+            //   <>
+            //     <TouchableOpacity onPress={() => console.log("Pressed")}>
+            //       <View
+            //         style={{
+            //           width: useHeaderHeight() / 2,
+            //           height: useHeaderHeight() / 2,
+            //           justifyContent: "center",
+            //           alignItems: "center",
+            //         }}
+            //       >
+            //         <Image
+            //           source={Images[route.params?.unit.type]}
+            //           resizeMode="center"
+            //           style={{ width: "110%", height: "110%", tintColor: "black" }}
+            //         />
+            //       </View>
+            //     </TouchableOpacity>
+            //     <View style={{ position: "absolute", bottom: 0, right: 20 }}>
+            //       <Text>Does this work</Text>
+            //     </View>
+            //   </>
+            // ),
           })}
         />
       </Stack.Group>

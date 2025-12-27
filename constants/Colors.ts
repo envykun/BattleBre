@@ -2,7 +2,6 @@ const tintColorLight = "#4A7E94";
 const tintColorDark = "#fff";
 
 export function setCodexColor(army: string): void {
-  console.log("ARMY", army);
   if (army === undefined || !(army in codexColors)) return;
 
   Colors.light.primary = codexColors[army].primary;
@@ -90,6 +89,10 @@ const Colors = {
     tabIconSelected: tintColorDark,
     primary: tintColorLight,
     secondary: "#D1E9F5",
+  },
+  default: {
+    error: "#a10000",
+    success: "#099609",
   },
 };
 

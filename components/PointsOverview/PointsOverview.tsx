@@ -15,6 +15,7 @@ interface Props {
 
 const PointsOverview = ({ rosterName, force, points, cp, cabal }: Props) => {
   const colorScheme = useColorScheme();
+  console.log("NA DU MISSGEBURT", cp);
   return (
     <View style={styles.container}>
       <View>
@@ -31,7 +32,7 @@ const PointsOverview = ({ rosterName, force, points, cp, cabal }: Props) => {
           </View>
           <View style={[styles.unitTypeText, { backgroundColor: Colors[colorScheme].secondary }]}>
             <View style={[styles.triangle2, { backgroundColor: Colors[colorScheme].secondary }]} />
-            <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{cp.slice(0, -2)}</Text>
+            <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{cp}</Text>
           </View>
         </View>
         <View style={styles.unitType}>
@@ -43,7 +44,7 @@ const PointsOverview = ({ rosterName, force, points, cp, cabal }: Props) => {
           </View>
           <View style={[styles.unitTypeText, { backgroundColor: Colors[colorScheme].secondary }]}>
             <View style={[styles.triangle2, { backgroundColor: Colors[colorScheme].secondary }]} />
-            <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{points.slice(0, -2)}</Text>
+            <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{points}</Text>
           </View>
         </View>
         {cabal && (
@@ -56,7 +57,7 @@ const PointsOverview = ({ rosterName, force, points, cp, cabal }: Props) => {
             </View>
             <View style={[styles.unitTypeText, { backgroundColor: Colors[colorScheme].secondary }]}>
               <View style={[styles.triangle2, { backgroundColor: Colors[colorScheme].secondary }]} />
-              <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{cabal.slice(0, -2)}</Text>
+              <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{cabal}</Text>
             </View>
           </View>
         )}
