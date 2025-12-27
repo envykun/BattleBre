@@ -14,21 +14,27 @@ import { Avatar, FAB, Icon, ListItem } from "react-native-elements";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 
-// import { checkIfValid, getForce } from "../utils/DataExtractor";
-import { checkIfValid, getForce } from "../utils/ParseBattleScribeData";
+import { checkIfValid, getForce } from "../utils/DataExtractor";
+// import { checkIfValid, getForce } from "../utils/ParseBattleScribeData";
 import Colors, { setCodexColor } from "../constants/Colors";
-import { DataContext, DataContextValueType, DataExtractorType } from "../hooks/DataContext";
+import {
+  DataContext,
+  DataContextValueType,
+  DataExtractorType,
+} from "../hooks/DataContext";
 import Constants from "expo-constants";
 import { useIsFocused } from "@react-navigation/native";
 import { useFetchStratagemData } from "../hooks/useFetchStratagemData";
-import CircularProgress from "react-native-circular-progress-indicator";
+// import CircularProgress from "react-native-circular-progress-indicator";
 
 interface Props {
   navigation: any;
 }
 
 const HomeScreen = ({ navigation }: Props) => {
-  const [battlescribeData, setBattlescribeData] = useState<string | undefined>();
+  const [battlescribeData, setBattlescribeData] = useState<
+    string | undefined
+  >();
   const [fileName, setFileName] = useState<string | undefined>();
 
   const [loading, setLoading] = useState(true);
@@ -39,7 +45,8 @@ const HomeScreen = ({ navigation }: Props) => {
   const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false);
 
   const { setContext } = useContext(DataContext);
-  const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : Constants.statusBarHeight;
+  const STATUSBAR_HEIGHT =
+    Platform.OS === "ios" ? 20 : Constants.statusBarHeight;
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -62,7 +69,9 @@ const HomeScreen = ({ navigation }: Props) => {
       return;
     }
     setFileName(result.name);
-    await FileSystem.readAsStringAsync(result.uri, { encoding: result.name.includes(".rosz") ? "base64" : "utf8" })
+    await FileSystem.readAsStringAsync(result.uri, {
+      encoding: result.name.includes(".rosz") ? "base64" : "utf8",
+    })
       .then((data) => {
         checkIfValid(data)
           .then(() => {
@@ -93,7 +102,12 @@ const HomeScreen = ({ navigation }: Props) => {
         newData = await getForce(battlescribeData, isZip);
         useFetchStratagemData(newData.rosterCost.faction)
           .then((res) => {
-            newContext = { fileName: fileName?.replace(".rosz", "").replace(".ros", "") || "", stratagems: res, ...newData };
+            newContext = {
+              fileName:
+                fileName?.replace(".rosz", "").replace(".ros", "") || "",
+              stratagems: res,
+              ...newData,
+            };
             setContext(newContext);
             setCodexColor(newContext.rosterCost.faction);
             setLoadingData(false);
@@ -108,7 +122,9 @@ const HomeScreen = ({ navigation }: Props) => {
     } catch (e) {
       setError(true);
       console.log("Error:", e);
-      setErrorMessage("There was an error with the roster file. Please try again.");
+      setErrorMessage(
+        "There was an error with the roster file. Please try again."
+      );
       setLoadingData(false);
     }
   }
@@ -130,20 +146,31 @@ const HomeScreen = ({ navigation }: Props) => {
         imageStyle={{ opacity: 0.2 }}
       >
         <View style={styles.description}>
-          <Text style={styles.descText}>Welcome to the inofficial Warhammer 40.000 Army List Helper.</Text>
           <Text style={styles.descText}>
-            To start select a <Text style={{ fontWeight: "bold" }}>*.ros/*.rosz</Text> file from your device down below.
+            Welcome to the inofficial Warhammer 40.000 Army List Helper.
           </Text>
           <Text style={styles.descText}>
-            These files are your typical battlescribe rosters and are stored on your device in the respective folder.
+            To start select a{" "}
+            <Text style={{ fontWeight: "bold" }}>*.ros/*.rosz</Text> file from
+            your device down below.
+          </Text>
+          <Text style={styles.descText}>
+            These files are your typical battlescribe rosters and are stored on
+            your device in the respective folder.
           </Text>
         </View>
         <View style={styles.separator} />
         <View style={{ height: 300, paddingVertical: 18 }}>
-          <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 16 }}>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
             {loadingData || loadingAnimation ? (
               <View style={styles.loading}>
-                <CircularProgress
+                {/* <CircularProgress
                   value={100}
                   radius={50}
                   valueSuffix={"%"}
@@ -156,26 +183,63 @@ const HomeScreen = ({ navigation }: Props) => {
                     width: 3,
                   }}
                   onAnimationComplete={() => setLoadingAnimation(false)}
-                />
-                <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}>Loading Roster ...</Text>
+                /> */}
+                <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}>
+                  Loading Roster ...
+                </Text>
               </View>
             ) : (
               <View>
                 {!fileName ? (
                   <View>
-                    <Icon type="ant-design" name="unknowfile1" size={82} color={Colors.default.error} />
-                    <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}>No file selected.</Text>
+                    <Icon
+                      type="ant-design"
+                      name="unknowfile1"
+                      size={82}
+                      color={Colors.default.error}
+                    />
+                    <Text
+                      style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}
+                    >
+                      No file selected.
+                    </Text>
                   </View>
                 ) : error ? (
                   <View>
-                    <Icon type="material-community" name="alert-circle-outline" size={82} color={Colors.default.error} />
-                    <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16, paddingHorizontal: 6 }}>{errorMessage}</Text>
+                    <Icon
+                      type="material-community"
+                      name="alert-circle-outline"
+                      size={82}
+                      color={Colors.default.error}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        marginTop: 8,
+                        marginBottom: 16,
+                        paddingHorizontal: 6,
+                      }}
+                    >
+                      {errorMessage}
+                    </Text>
                   </View>
                 ) : (
-                  <TouchableOpacity style={styles.navigationContainer} onPress={handleNavigation}>
+                  <TouchableOpacity
+                    style={styles.navigationContainer}
+                    onPress={handleNavigation}
+                  >
                     <View>
-                      <Icon type="material" name="check-circle-outline" size={82} color={Colors.default.success} />
-                      <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}>{fileName}</Text>
+                      <Icon
+                        type="material"
+                        name="check-circle-outline"
+                        size={82}
+                        color={Colors.default.success}
+                      />
+                      <Text
+                        style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}
+                      >
+                        {fileName}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 )}
@@ -188,7 +252,11 @@ const HomeScreen = ({ navigation }: Props) => {
                   }}
                   color={fileName ? Colors.default.error : Colors.dark.primary}
                   size="large"
-                  iconContainerStyle={{ justifyContent: "center", alignItems: "center", padding: 0 }}
+                  iconContainerStyle={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 0,
+                  }}
                   onPress={fileName ? handleDelete : pickFile}
                 />
               </View>
