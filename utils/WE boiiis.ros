@@ -1,0 +1,996 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<roster id="e70e-27cd-3e1d-45c3" name="WE boiiis" battleScribeVersion="2.03" gameSystemId="28ec-711c-d87f-3aeb" gameSystemName="Warhammer 40,000 9th Edition" gameSystemRevision="212" xmlns="http://www.battlescribe.net/schema/rosterSchema">
+  <costs>
+    <cost name=" PL" typeId="e356-c769-5920-6e14" value="50.0"/>
+    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="5.0"/>
+    <cost name="pts" typeId="points" value="1000.0"/>
+  </costs>
+  <forces>
+    <force id="835c-295c-eb56-41cc" name="Patrol Detachment 0CP" entryId="a0c7-2a71-bae0-215d" catalogueId="0fb8-6813-9c29-a03d" catalogueName="Imperium - Adeptus Custodes" catalogueRevision="105">
+      <selections>
+        <selection id="d4fe-bebc-1d4d-db89" name="Detachment Type / Shield Host" entryId="3eaf-98bc-17ba-9743::b6b6-87f6-1fa5-c1a1" number="1" type="upgrade">
+          <selections>
+            <selection id="ab6d-41d7-66d5-7b44" name="Adeptus Custodes" entryGroupId="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::5de0-3078-c44d-ee26" entryId="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::5241-8aed-9cc5-ed37" number="1" type="upgrade">
+              <rules>
+                <rule id="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::e920-21d4-cc71-2606::febc-27b1-5207-d445" name="Adeptus Custodes" page="52" publicationId="1f0f-230b-a715-7d27" hidden="false">
+                  <description>- ADEPTUS CUSTODES Deatchments gain the Emperor&apos;s Legion, Host of Heroes and Watchers of the Throne abilities.
+                  - ADEPTUS CUSTODES units in ADEPTUS CUSTODES Detachments gain the Shield Host Fighting Style ability.
+                  - Troops units in ADEPTUS CUSTODES Detachments gain the Objective Secured ability (see the Warhammer 40,000 Core Book).
+                  - Each ADEPTUS CUSTODES model counts as one additional model when determining control of an objective marker. This is cumulative with any other rules that makes them count as additional models.
+                  - For the purposes of determining whether all units in an ADEPTUS CUSTODES Detachment have a Faction keyword in common, ANATHEMA PSYKANA units in that Detachment are treated as having the ADEPTUS CUSTODES Faction keyword.</description>
+                </rule>
+                <rule id="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::4b78-66d0-87be-000b::deb1-ea56-3869-97e6" name="Emperor&apos;s Legion" page="52" publicationId="1f0f-230b-a715-7d27" hidden="false">
+                  <description>- You cannot include more ANATHEMA PSYKANA Troops units than you do ADEPTUS CUSTODES Troops units in each ADEPTUS CUSTODES Detachment from your army.
+                  - You cannot include more ANATHEMA PSYKANA HQ units than you do ADEPTUS CUSTODES HQ units in each ADEPTUS CUSTODES Detachment from your army.
+                  - You cannot select an ANATHEMA PSYKANA model as your WARLORD.</description>
+                </rule>
+                <rule id="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::61db-ca05-be20-2ceb::7abf-1ee5-13a8-6b6f" name="Host of Heroes" page="52" publicationId="1f0f-230b-a715-7d27" hidden="false">
+                  <description>You can include a maximum of one of each type of SHIELD-CAPTAIN (i.e. GUARDIAN, ALLARUS and VERTUS) unit in each ADEPTUS CUSTODES Detachment from your army.</description>
+                </rule>
+                <rule id="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::e4a0-032a-a418-b9cd::f589-32fe-3d7b-9691" name="Shield Host Fighting Style" page="52" publicationId="1f0f-230b-a715-7d27" hidden="false">
+                  <description>Each shield host has its own way of waging war, suited to its particular combat traits. All ADEPTUS CUSTODES units with this ability, and all the models in them, gain a shield host fighting style so long as every unit in their Detachment that is assigned to a shield host is assigned to the same shield host. The fighting style gained depends upon which shield host they are assigned to, as shown on the following pages.</description>
+                </rule>
+                <rule id="3eaf-98bc-17ba-9743::61ee-e13e-b7dd-8972::62ee-a68b-7429-cab6::371b-abdf-2c5f-0526" name="Watchers of the Throne" page="52" publicationId="1f0f-230b-a715-7d27" hidden="false">
+                  <description>For the purposes of the Look Out, Sir rule, each ADEPTUS CUSTODES INFANTRY and ADEPTUS CUSTODES BIKER model counts as 2 models for friendly ADEPTUS CUSTODES CHARACTER models of the same &lt;SHIELD HOST&gt;.</description>
+                </rule>
+              </rules>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="caf5-2da7-e06c-22e4" name="Solar Watch" entryGroupId="3eaf-98bc-17ba-9743::15d2-f359-0452-9d8f::c766-fb82-3c81-c8b2" entryId="3eaf-98bc-17ba-9743::15d2-f359-0452-9d8f::d3e6-e1aa-b485-3037" number="1" type="upgrade">
+              <profiles>
+                <profile id="3eaf-98bc-17ba-9743::15d2-f359-0452-9d8f::3354-cdb0-dc18-2dbc::284c-a628-56e7-7eb2" name="Shield Host Fighting Style: Talon Sortie" page="58" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Trait 1: Add 1 to Advance and charge rolls made for units with this trait. If a unit with this trait has the Implacable Vanguard ability, add 7&quot; to the Move characteristic of models in this unit instead of 6&quot;.
+                    Trait 2: Units with this trait are eligible to declare a charge in a turn in which they Fell Back.
+                    Martial Ka&apos;tah: Calistus</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <categories>
+                <category id="c90a-866d-a4c7-ae46" name="Faction: Solar Watch" entryId="99a6-880c-f995-98d4" primary="false"/>
+              </categories>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="cf4c-f910-46e8-5171" name="Configuration" entryId="fcff-0f21-93e6-1ddc" primary="true"/>
+          </categories>
+          <costs>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+            <cost name="pts" typeId="points" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="74e1-8cd6-a613-b309" name="Detachment Command Cost" entryId="ec87-f19e-eee2-1ba8::9d97-2793-9882-d48a" number="1" type="upgrade">
+          <categories>
+            <category id="0444-18b9-b370-d30c" name="Configuration" entryId="fcff-0f21-93e6-1ddc" primary="true"/>
+          </categories>
+          <costs>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+            <cost name="pts" typeId="points" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="1519-20ec-db8c-604e" name="Battle Size" entryId="44e3-c224-ba82-1b55::f29d-8a5d-18b6-a071" number="1" type="upgrade">
+          <selections>
+            <selection id="742f-c890-e7e0-676c" name="2. Incursion (51-100 Total PL / 501-1000 Points) " entryGroupId="44e3-c224-ba82-1b55::2883-57e8-87a6-38e2" entryId="44e3-c224-ba82-1b55::5686-7cd9-6664-635b" number="1" type="upgrade">
+              <costs>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="6.0"/>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="2ffb-a0ef-7f53-0e67" name="Configuration" entryId="fcff-0f21-93e6-1ddc" primary="true"/>
+          </categories>
+          <costs>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+            <cost name="pts" typeId="points" value="0.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="84f7-adf3-1843-1b19" name="Trajann Valoris" entryId="3389-4e1f-bad5-1aab::174b-ddd4-9558-b13d" number="1" type="model">
+          <profiles>
+            <profile id="3389-4e1f-bad5-1aab::b1d2-5e3b-1862-0b47::76d3-6632-03a4-6259" name="Trajann Valoris" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="800f-21d0-4387-c943" typeName="Unit">
+              <characteristics>
+                <characteristic name="M" typeId="0bdf-a96e-9e38-7779">6&quot;</characteristic>
+                <characteristic name="WS" typeId="e7f0-1278-0250-df0c">2+</characteristic>
+                <characteristic name="BS" typeId="381b-eb28-74c3-df5f">2+</characteristic>
+                <characteristic name="S" typeId="2218-aa3c-265f-2939">5</characteristic>
+                <characteristic name="T" typeId="9c9f-9774-a358-3a39">5</characteristic>
+                <characteristic name="W" typeId="f330-5e6e-4110-0978">8</characteristic>
+                <characteristic name="A" typeId="13fc-b29b-31f2-ab9f">6</characteristic>
+                <characteristic name="Ld" typeId="00ca-f8b8-876d-b705">11</characteristic>
+                <characteristic name="Save" typeId="c0df-df94-abd7-e8d3">2+</characteristic>
+              </characteristics>
+            </profile>
+            <profile id="3389-4e1f-bad5-1aab::acd2-003d-6528-3818::0103-9cea-cda4-ec77" name="Captain-General" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">If your army is Battle-forged, this model must be your army&apos;s WARLORD. If more than one model from your army has a rule to this effect, then one of these model&apos;s must be your army&apos;s WARLORD. If this model is your WARLORD and every unit from your army is ADEPTUS CUSTODES (excluding ANATHEMA PSYKANA, AGENT OF THE IMPERIUM and UNALIGNED units), you receive 1 additional Command point and this model gains 2 Warlord Traits instead of 1.</characteristic>
+              </characteristics>
+            </profile>
+            <profile id="3389-4e1f-bad5-1aab::f35d-0fce-2dde-39c9::3039-0812-4494-5b62" name="Legendary Commander (Aura)" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">While a friendly ADEPTUS CUSTODES CORE unit is within 6&quot; of this model, each time a model in that unit makes an attack, re-roll a hit roll and wound roll of 1.</characteristic>
+              </characteristics>
+            </profile>
+            <profile id="3389-4e1f-bad5-1aab::cea4-75b0-eaad-3b43::44f3-f96a-c0f7-a6d8" name="Moment Shackle" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Once per battle, you can do one of the following:
+                - At the end of the Fight phase, if this model is within Engagement Range of any enemy units, it can fight again.
+                - When a saving throw is failed for this model, the Damage characteristic of that attack is changed to 0.
+                - After an enemy unit has fought, if this model is eligible to fight, youc an fight with it next.</characteristic>
+              </characteristics>
+            </profile>
+            <profile id="3389-4e1f-bad5-1aab::366b-fefb-e4a9-d2e9::c92d-d310-598d-f9d6" name="Adamantine Mantle" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Each time this model would lose a wound, roll one D6: on a 5+, that wound is not lost.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <rules>
+            <rule id="3389-4e1f-bad5-1aab::b1c7-b70b-43d5-b896::e07e-8dbf-0b15-7485" name="Objective Secured" page="237" publicationId="28ec-711c-pubN72690" hidden="false">
+              <description>A player controls an objective marker if they have any models with this ability within range of that objective marker, even if there are more enemy models within range of that objective marker. If an enemy model within range of an objective marker also has this ability (or a similar ability), then the objective marker is controlled by the player who has the most models within range of that objective marker as normal.</description>
+            </rule>
+            <rule id="3389-4e1f-bad5-1aab::df3c-f3de-0e3f-b9e6::71e6-fef9-c258-08e9" name="Aegis of the Emperor" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>- Models in this unit have a 4+ invulnerable save.
+              - Each time a model in this unit would lose a wound as a result of a mortal wound, roll a D6: on a 6, that would is not lost.</description>
+            </rule>
+            <rule id="3389-4e1f-bad5-1aab::67cc-f229-4051-4f24::bfa6-9e02-c3a2-c27e" name="Martial K&apos;atah" page="89" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>Unless you&apos;re Henry Cavill, read -&gt;</description>
+            </rule>
+          </rules>
+          <selections>
+            <selection id="f4b8-a9bd-2265-5975" name="Watcher&apos;s Axe" entryId="3389-4e1f-bad5-1aab::6864-9e38-3abc-1a5e" number="1" type="upgrade">
+              <profiles>
+                <profile id="3389-4e1f-bad5-1aab::05b5-73e0-c306-7e2b::592b-a49d-845a-28bb" name="Watcher&apos;s Axe (Melee)" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">x2</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-3</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">3</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410"/>
+                  </characteristics>
+                </profile>
+                <profile id="3389-4e1f-bad5-1aab::6282-048f-5938-c77e::32f0-dbfd-9cc3-ff0c" name="Watcher&apos;s Axe (Shooting)" page="90" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">24&quot;</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Rapid Fire 1</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">5</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-1</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">-</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="74b2-0b27-e8f1-5aee" name="Misericordia" entryId="3389-4e1f-bad5-1aab::06e2-2b7b-7b1a-5339::77ea-4be8-f3d1-1f4d" number="1" type="upgrade">
+              <profiles>
+                <profile id="3389-4e1f-bad5-1aab::06e2-2b7b-7b1a-5339::c876-4de4-c5b9-5514::7107-cb1c-85d8-ea17" name="Misericordia" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">User</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer fights, it makes 1 additional attack with this weapon.</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="9888-9a41-8698-321d" name="Warlord" entryId="3389-4e1f-bad5-1aab::7cf0-8a24-879c-2194::2471-0b95-738c-edd9" number="1" type="upgrade">
+              <selections>
+                <selection id="94b6-75a2-6ebb-7cee" name="2. Champion of the Imperium" entryId="3389-4e1f-bad5-1aab::cdb3-a8a6-c425-f929::5f0f-1042-4246-f770" number="1" type="upgrade">
+                  <profiles>
+                    <profile id="3389-4e1f-bad5-1aab::cdb3-a8a6-c425-f929::3f13-6f97-4b2b-87e0::feeb-3f6f-18e9-8eef" name="Champion of the Imperium" page="66" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                      <characteristics>
+                        <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">- This WARLORD is eligible to perform a Heroic Intervention if it is within 6&quot; horizontally and 5&quot; vertically of any enemy unit.
+                        - Each time this WARLORD makes a Heroic Intervention move, it can move up to 6&quot; instead of 3&quot;. All other rules for Heroic Interventions still apply.
+                        - Each time this WARLORD makes an attack, you can re-roll the hit roll.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+                <selection id="f0e2-c31f-eb67-8028" name="1. Master of Martial Strategy" entryId="3389-4e1f-bad5-1aab::acc3-0fe5-1797-55bf::127c-e3d1-f705-9e73" number="1" type="upgrade">
+                  <profiles>
+                    <profile id="3389-4e1f-bad5-1aab::acc3-0fe5-1797-55bf::625b-9cf1-c19d-e0a0::36e7-373d-0a82-cf7c" name="Master of Martial Strategy" page="66" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                      <characteristics>
+                        <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">While this WARLORD is on the battlefield, each time you spend a Command point to use a Stratagem, you can roll one D6: on a 5+, that command point is refunded.
+                        - Once per battle in the Command phase, if units from your army are using the Martial Ka&apos;tah ability (pg 89), before selecting a ka&apos;tah stance for your army, you can change the order of your martial ka&apos;tahs, i.e. primary, secondary or tertiary. Note that this does not allow you to select ka&apos;tah stances more than once.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+              </selections>
+              <categories>
+                <category id="ff79-66dc-5ff1-94e8" name="Warlord" entryId="ae09-117e-a6fa-316b" primary="false"/>
+                <category id="ad71-3212-5ebb-3e58" name="Solar Watch Warlord" entryId="a663-dc61-5a65-ac59" primary="false"/>
+              </categories>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="0aad-8210-764e-100f" name="HQ" entryId="848a6ff2-0def-4c72-8433-ff7da70e6bc7" primary="true"/>
+            <category id="938b-688b-e291-0103" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="9505-cdaf-5112-6485" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="a50d-c84e-b529-2100" name="Infantry" entryId="3d52-fccf-10c0-3fae" primary="false"/>
+            <category id="66ee-4320-c938-96fc" name="Character" entryId="ef18-746a-369f-43a4" primary="false"/>
+            <category id="065a-e8e5-c5c2-bc5e" name="Trajann Valoris" entryId="b8cf-4801-186f-eb58" primary="false"/>
+            <category id="061a-d6c0-9cab-73c8" name="Faction: &lt;Shield Host&gt;" entryId="98f2-b15c-d922-d1a7" primary="false"/>
+            <category id="1e57-016f-9088-223a" name="Captain-General" entryId="c0a2-ff89-5307-d5ab" primary="false"/>
+            <category id="7aad-11aa-b099-4b36" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="7d75-35e3-df17-f6f5" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="94a0-ae78-fc38-93ad" name="Infantry" entryId="3d52-fccf-10c0-3fae" primary="false"/>
+          </categories>
+          <costs>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="8.0"/>
+            <cost name="pts" typeId="points" value="160.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="1.0"/>
+          </costs>
+        </selection>
+        <selection id="ae7c-420c-7e61-f09b" name="Shield-Captain in Allarus Terminator Armor" entryId="ec8d-63c0-a92c-2d53::65f8-eb96-e1fe-56da" number="1" type="model">
+          <profiles>
+            <profile id="ec8d-63c0-a92c-2d53::b190-fdaa-ddc5-5cc1::1e0b-865d-f0bd-6219" name="Shield Captain in Allarus Terminator Armor" page="91" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="800f-21d0-4387-c943" typeName="Unit">
+              <characteristics>
+                <characteristic name="M" typeId="0bdf-a96e-9e38-7779">6&quot;</characteristic>
+                <characteristic name="WS" typeId="e7f0-1278-0250-df0c">2+</characteristic>
+                <characteristic name="BS" typeId="381b-eb28-74c3-df5f">2+</characteristic>
+                <characteristic name="S" typeId="2218-aa3c-265f-2939">5</characteristic>
+                <characteristic name="T" typeId="9c9f-9774-a358-3a39">5</characteristic>
+                <characteristic name="W" typeId="f330-5e6e-4110-0978">8</characteristic>
+                <characteristic name="A" typeId="13fc-b29b-31f2-ab9f">6</characteristic>
+                <characteristic name="Ld" typeId="00ca-f8b8-876d-b705">11</characteristic>
+                <characteristic name="Save" typeId="c0df-df94-abd7-e8d3">2+</characteristic>
+              </characteristics>
+            </profile>
+            <profile id="ec8d-63c0-a92c-2d53::810c-6efa-2190-8a98::0a2e-d808-9852-cc33" name="Inspirational Fighter (Aura)" page="92" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">While a friendly &lt;SHIELD HOST&gt; CORE unit is within 6&quot; of this model, each time a model in that unit makes an attack, re-roll a hit roll of 1.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <rules>
+            <rule id="ec8d-63c0-a92c-2d53::c3a9-16eb-5179-5cfe::71e6-fef9-c258-08e9" name="Aegis of the Emperor" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>- Models in this unit have a 4+ invulnerable save.
+              - Each time a model in this unit would lose a wound as a result of a mortal wound, roll a D6: on a 6, that would is not lost.</description>
+            </rule>
+            <rule id="ec8d-63c0-a92c-2d53::178d-c911-97ce-97bd::aef7-1ce0-bbb4-782b" name="From Golden Light" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>During deployment, if every model in this unit has this ability, then you can set up this unit in a teleportarium chamber instead of setting it up on the battlefield. If you do so, then in the Reinforcements step of one of your Movement phases, you can set up this unit anywhere on the battlefield that is more than 9&quot; away from any enemy models.</description>
+            </rule>
+            <rule id="ec8d-63c0-a92c-2d53::51e7-29b5-bd04-82f3::bfa6-9e02-c3a2-c27e" name="Martial K&apos;atah" page="89" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>Unless you&apos;re Henry Cavill, read -&gt;</description>
+            </rule>
+            <rule id="ec8d-63c0-a92c-2d53::c2da-8813-b2f1-2d06::e07e-8dbf-0b15-7485" name="Objective Secured" page="237" publicationId="28ec-711c-pubN72690" hidden="false">
+              <description>A player controls an objective marker if they have any models with this ability within range of that objective marker, even if there are more enemy models within range of that objective marker. If an enemy model within range of an objective marker also has this ability (or a similar ability), then the objective marker is controlled by the player who has the most models within range of that objective marker as normal.</description>
+            </rule>
+          </rules>
+          <selections>
+            <selection id="e1ca-2bee-84b8-8cdf" name="Balistus Grenade Launcher" entryId="ec8d-63c0-a92c-2d53::bdb5-985a-b9e3-c9da::81bb-3b74-6350-fad0" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::bdb5-985a-b9e3-c9da::4ab2-48b7-5e51-e9eb::e646-e571-7ba5-0ad8" name="Balistus Grenade Launcher" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">18&quot;</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Assault D3</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">5</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-3</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Blast</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="7a2d-ec3b-ca48-360e" name="Misericordia" entryId="ec8d-63c0-a92c-2d53::53ea-aa6a-e43f-1298::77ea-4be8-f3d1-1f4d" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::53ea-aa6a-e43f-1298::c876-4de4-c5b9-5514::7107-cb1c-85d8-ea17" name="Misericordia" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">User</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer fights, it makes 1 additional attack with this weapon.</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="65ef-7d4b-32e2-addf" name="Castellan Axe" entryGroupId="ec8d-63c0-a92c-2d53::d3e2-1605-57fa-1122" entryId="ec8d-63c0-a92c-2d53::ed80-3811-7ccb-7a47::9154-524f-c1b0-2fff" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::ed80-3811-7ccb-7a47::4c97-535c-6ab7-733a::c623-fddd-78f5-c2cd" name="Castellan Axe (Shooting)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">24&quot;</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Rapid Fire 1</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">4</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-1</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410"/>
+                  </characteristics>
+                </profile>
+                <profile id="ec8d-63c0-a92c-2d53::ed80-3811-7ccb-7a47::10f3-4d55-1e4a-ecf9::10d4-3375-ae69-fa28" name="Castellan Axe (Melee)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">+3</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">--</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="8207-6451-e36c-29d9" name="Obliteratum" entryGroupId="ec8d-63c0-a92c-2d53::2820-e53d-d050-09ed::35fc-bb34-950d-cce4" entryId="ec8d-63c0-a92c-2d53::2820-e53d-d050-09ed::c582-7e93-9f3f-1dbd" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::2820-e53d-d050-09ed::e35e-6a33-caf3-ef5b::cc99-53ad-9380-ed5f" name="Obliteratum" page="68" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Model equipped with a balistus grenade launcher only. This Relic replaces a balistus grenade launcher.</characteristic>
+                  </characteristics>
+                </profile>
+                <profile id="ec8d-63c0-a92c-2d53::2820-e53d-d050-09ed::767e-527a-c1f8-95c4::11d8-a259-d642-0d5f" name="Obliteratum" page="68" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">18&quot;</characteristic>
+                    <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Assault 1</characteristic>
+                    <characteristic name="S" typeId="59b1-319e-ec13-d466">10</characteristic>
+                    <characteristic name="AP" typeId="75aa-a838-b675-6484">-4</characteristic>
+                    <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">D3+3</characteristic>
+                    <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">-</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="d3a6-286a-277e-7483" name="Stratagem: The Emperor&apos;s Heroes" entryId="ec8d-63c0-a92c-2d53::5827-c6c6-f0ce-599a::8d82-6144-c9e6-0d75" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::5827-c6c6-f0ce-599a::9b35-ad6b-6af5-a16c::e7ea-67e2-9830-2b75" name="Stratagem: The Emperor&apos;s Heroes" page="61" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Use this Stratagem before the battle, when you are mustering your army, if your WARLORD has the ADEPTUS CUSTODES or ANATHEMA PSYKANA keyword. Select one ADEPTUS CUSTODES CHARACTER model or one ANATHEMA PSYKANA CHARACTER model from your army and determine one Warlord Trait for it (this must be a Warlord Trait it can have); that model is only regarded as your WARLORD for the purposes of that Warlord Trait. Each Warlord Trait from your army must be unique (if randomly generated, re-roll duplicate results), and you cannot use this Stratagem to give a model two Warlord Traits. You can only use this Stratagem once, unless you are playing a Strike Force battle (in which case, you can use this Stratagem twice) or an Onslaught battle (in which case, you can use this Stratagem three times).</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <categories>
+                <category id="b930-ccf5-6a09-342b" name="Stratagems" entryId="c845-c72c-6afe-3fc2" primary="true"/>
+              </categories>
+              <costs>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="-1.0"/>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="5ea3-e41d-74dd-7a34" name="6. Peerless Warrior" entryGroupId="ec8d-63c0-a92c-2d53::562a-8c15-0655-6709::0e0e-b058-f0ec-f09b" entryId="ec8d-63c0-a92c-2d53::562a-8c15-0655-6709::c306-d162-9987-0d72" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::562a-8c15-0655-6709::d9be-8aa6-9d35-51f0::ee59-03c0-3b63-e2a8" name="Peerless Warrior" page="66" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">- Each time this WARLORD makes a melee attack, an unmodified wound roll of 6 inflicts 1 mortal wound on the target in addition to any normal damage.
+                    - Each time an attack made by this WARLORD is allocated to an enemy model, the saving throw cannot be re-rolled.</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="97a0-1f88-f6d6-2b4f" name="Stratagem: Victor of the Blood Games" entryId="ec8d-63c0-a92c-2d53::919a-b877-2669-986b::82c4-95e5-e492-ba66" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::919a-b877-2669-986b::521e-51bf-34b0-3a6a" name="Stratagem: Victor of the Blood Games" page="62" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Use this Stratagem before the battle, after a Warlord Trait is determined for an ADEPTUS CUSTODES CHARACTER model from your army (excluding named characters). You can generate one additional Warlord Trait for them. Each Warlord Trait from your army must be unique (if randomly generated, re-roll duplicate results). You can only use this Stratagem once.</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="-1.0"/>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="b883-2130-955b-dd42" name="3. Superior Creation" entryGroupId="ec8d-63c0-a92c-2d53::562a-8c15-0655-6709::0e0e-b058-f0ec-f09b" entryId="ec8d-63c0-a92c-2d53::562a-8c15-0655-6709::af66-67a6-dd9a-3fa7" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::562a-8c15-0655-6709::609b-3559-36c6-3ea9::b1c1-50fb-24ef-ff65" name="Superior Creation" page="66" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Each time this WARLORD would lose a wound, roll one D6:on a 5+, that wound is not lost.</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="0.0"/>
+              </costs>
+            </selection>
+            <selection id="2c44-ea2b-4a86-10e0" name="Defiant to the Last" entryGroupId="ec8d-63c0-a92c-2d53::4f66-04c4-df55-4bdc::c01f-4206-a43d-8b0e" entryId="ec8d-63c0-a92c-2d53::4f66-04c4-df55-4bdc::adfd-2f51-a28e-4f7a" number="1" type="upgrade">
+              <profiles>
+                <profile id="ec8d-63c0-a92c-2d53::4f66-04c4-df55-4bdc::e0a5-19a3-5b5d-cdc9::dd59-baf5-5fd6-f23c" name="Defiant to the Last" page="64" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+                  <characteristics>
+                    <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">- If this model has less than its starting number of wounds but more than half, add 1 to its Attacks characteristic.
+                    - If this model has half or less of its starting number of wounds, add 2 to its Attacks characteristics.</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="1.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="20.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="fce4-921b-cebf-a7d1" name="Terminator" entryId="648b-745c-9da9-eda3" primary="false"/>
+            <category id="6eb5-d068-1a98-243d" name="Character" entryId="ef18-746a-369f-43a4" primary="false"/>
+            <category id="7e26-b54e-dddb-a416" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="839e-48dc-c98a-da83" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="d93a-f632-4bd8-9c8c" name="Infantry" entryId="3d52-fccf-10c0-3fae" primary="false"/>
+            <category id="e805-9d60-fef3-f287" name="Shield-Captain" entryId="1667-9ba1-0f53-51b0" primary="false"/>
+            <category id="2984-5511-9f4b-00d3" name="Allarus" entryId="ed67-ce7d-ab5a-1ea0" primary="false"/>
+            <category id="9146-9e4a-648b-91ea" name="Teleport Homer" entryId="5a56-b78a-5e06-6d79" primary="false"/>
+            <category id="55ef-d269-77f8-0979" name="Faction: &lt;Shield Host&gt;" entryId="98f2-b15c-d922-d1a7" primary="false"/>
+            <category id="2142-6a2f-529c-c1b4" name="HQ" entryId="848a6ff2-0def-4c72-8433-ff7da70e6bc7" primary="true"/>
+          </categories>
+          <costs>
+            <cost name="pts" typeId="points" value="115.0"/>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="6.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="f090-cc71-491c-31e5" name="Custodian Guard Squad" entryId="b419-1c3f-0f83-6b62::ca9b-e195-defb-380a" number="1" type="unit">
+          <rules>
+            <rule id="b419-1c3f-0f83-6b62::8adc-5a16-932c-5656::71e6-fef9-c258-08e9" name="Aegis of the Emperor" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>- Models in this unit have a 4+ invulnerable save.
+              - Each time a model in this unit would lose a wound as a result of a mortal wound, roll a D6: on a 6, that would is not lost.</description>
+            </rule>
+            <rule id="b419-1c3f-0f83-6b62::8e23-8050-4a30-a0f0::bfa6-9e02-c3a2-c27e" name="Martial K&apos;atah" page="89" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>Unless you&apos;re Henry Cavill, read -&gt;</description>
+            </rule>
+            <rule id="b419-1c3f-0f83-6b62::b382-eb1b-326d-b158::e07e-8dbf-0b15-7485" name="Objective Secured" page="237" publicationId="28ec-711c-pubN72690" hidden="false">
+              <description>A player controls an objective marker if they have any models with this ability within range of that objective marker, even if there are more enemy models within range of that objective marker. If an enemy model within range of an objective marker also has this ability (or a similar ability), then the objective marker is controlled by the player who has the most models within range of that objective marker as normal.</description>
+            </rule>
+          </rules>
+          <selections>
+            <selection id="1216-1d1f-5778-02c0" name="Custodian w/ Guardian Spear &amp; Misericordia" entryGroupId="b419-1c3f-0f83-6b62::6420-5566-c093-0cb0" entryId="b419-1c3f-0f83-6b62::091a-c916-26a0-91aa" number="3" type="model">
+              <profiles>
+                <profile id="b419-1c3f-0f83-6b62::af1b-60a0-9c03-6160::325c-1a4a-77d4-66ae" name="Custodian Guard" page="94" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="800f-21d0-4387-c943" typeName="Unit">
+                  <characteristics>
+                    <characteristic name="M" typeId="0bdf-a96e-9e38-7779">6&quot;</characteristic>
+                    <characteristic name="WS" typeId="e7f0-1278-0250-df0c">2+</characteristic>
+                    <characteristic name="BS" typeId="381b-eb28-74c3-df5f">2+</characteristic>
+                    <characteristic name="S" typeId="2218-aa3c-265f-2939">5</characteristic>
+                    <characteristic name="T" typeId="9c9f-9774-a358-3a39">5</characteristic>
+                    <characteristic name="W" typeId="f330-5e6e-4110-0978">3</characteristic>
+                    <characteristic name="A" typeId="13fc-b29b-31f2-ab9f">3</characteristic>
+                    <characteristic name="Ld" typeId="00ca-f8b8-876d-b705">11</characteristic>
+                    <characteristic name="Save" typeId="c0df-df94-abd7-e8d3">2+</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <selections>
+                <selection id="15fa-b485-24f2-7b47" name="Guardian Spear" entryId="b419-1c3f-0f83-6b62::318d-ff7f-c35b-3d3c::dafa-1543-e53e-7595" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b419-1c3f-0f83-6b62::318d-ff7f-c35b-3d3c::7689-d68d-f0ac-a2f1::44b1-e436-285c-8df2" name="Guardian Spear (Melee)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">+2</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-3</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410"/>
+                      </characteristics>
+                    </profile>
+                    <profile id="b419-1c3f-0f83-6b62::318d-ff7f-c35b-3d3c::0ed3-d3cd-7add-5eb6::54ca-87f5-832b-bda7" name="Guardian Spear (Shooting)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">24&quot;</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Rapid Fire 1</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">4</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-1</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">-</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+                <selection id="4aa8-74d8-1e49-c3b1" name="Misericordia" entryId="b419-1c3f-0f83-6b62::8378-8627-5b8e-7a69::ba04-6a42-34fa-a9d0" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b419-1c3f-0f83-6b62::8378-8627-5b8e-7a69::d4d8-2161-c8fc-54e7::7107-cb1c-85d8-ea17" name="Misericordia" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">User</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer fights, it makes 1 additional attack with this weapon.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+              </selections>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="135.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="4b47-ffa7-a72f-7737" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="b1f2-aaf4-1dc5-354a" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="c505-574b-33ff-c1c4" name="Faction: &lt;Shield Host&gt;" entryId="98f2-b15c-d922-d1a7" primary="false"/>
+            <category id="899f-a04e-9219-7e46" name="Infantry" entryId="3d52-fccf-10c0-3fae" primary="false"/>
+            <category id="39e0-9c41-bdd1-1147" name="Core" entryId="08f1-d244-eb44-7e01" primary="false"/>
+            <category id="1015-0c36-565f-7de4" name="Custodian Guard" entryId="b998-ce37-a0e6-4651" primary="false"/>
+            <category id="19b4-d3c3-a265-0288" name="Troops" entryId="5d76b6f5-20ae-4d70-8f59-ade72a2add3a" primary="true"/>
+          </categories>
+          <costs>
+            <cost name="pts" typeId="points" value="0.0"/>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="7.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="1ee1-fb59-768b-ba02" name="Vertus Praetors" entryId="b860-8515-5a4d-3508::3274-0635-aa46-9a9a" number="1" type="unit">
+          <profiles>
+            <profile id="b860-8515-5a4d-3508::e5e3-6001-d168-3805::cb13-aede-683e-c3a7" name="Implacable Vanguard" page="91,99" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Each time this model Advances, do not make an Advance roll. Instead, until the end of the phase, add 6&quot; to the Move characteristic of this model.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <rules>
+            <rule id="b860-8515-5a4d-3508::30be-7ed2-2d87-a8f0::71e6-fef9-c258-08e9" name="Aegis of the Emperor" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>- Models in this unit have a 4+ invulnerable save.
+              - Each time a model in this unit would lose a wound as a result of a mortal wound, roll a D6: on a 6, that would is not lost.</description>
+            </rule>
+            <rule id="b860-8515-5a4d-3508::5c79-c45f-3424-a727::bfa6-9e02-c3a2-c27e" name="Martial K&apos;atah" page="89" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>Unless you&apos;re Henry Cavill, read -&gt;</description>
+            </rule>
+          </rules>
+          <selections>
+            <selection id="3cda-096b-1dba-9325" name="Praetor w/ Salvo Launcher &amp; Misericordia" entryGroupId="b860-8515-5a4d-3508::c2cd-40db-3a51-399c" entryId="b860-8515-5a4d-3508::92ff-69b0-9abc-8cb4" number="3" type="model">
+              <profiles>
+                <profile id="b860-8515-5a4d-3508::ea35-903e-f9c8-3d4d::4e67-5b2c-2179-c15f" name="Vertus Praetor" page="99" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="800f-21d0-4387-c943" typeName="Unit">
+                  <characteristics>
+                    <characteristic name="M" typeId="0bdf-a96e-9e38-7779">14&quot;</characteristic>
+                    <characteristic name="WS" typeId="e7f0-1278-0250-df0c">2+</characteristic>
+                    <characteristic name="BS" typeId="381b-eb28-74c3-df5f">2+</characteristic>
+                    <characteristic name="S" typeId="2218-aa3c-265f-2939">5</characteristic>
+                    <characteristic name="T" typeId="9c9f-9774-a358-3a39">6</characteristic>
+                    <characteristic name="W" typeId="f330-5e6e-4110-0978">5</characteristic>
+                    <characteristic name="A" typeId="13fc-b29b-31f2-ab9f">4</characteristic>
+                    <characteristic name="Ld" typeId="00ca-f8b8-876d-b705">11</characteristic>
+                    <characteristic name="Save" typeId="c0df-df94-abd7-e8d3">2+</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <selections>
+                <selection id="859f-aa09-d015-382d" name="Salvo Launcher" entryId="b860-8515-5a4d-3508::d534-7778-bca4-8ca5::d841-9cd8-70d1-4692" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b860-8515-5a4d-3508::d534-7778-bca4-8ca5::2937-0c3b-56e3-0e0f::20c4-4029-147d-3161" name="Salvo Launcher" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">24&quot;</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Heavy 1</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">8</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-4</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">D3+3</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">-</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="15.0"/>
+                  </costs>
+                </selection>
+                <selection id="52b1-f5c4-24b4-2ada" name="Misericordia" entryId="b860-8515-5a4d-3508::7f59-53e6-ba65-745f::ba04-6a42-34fa-a9d0" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b860-8515-5a4d-3508::7f59-53e6-ba65-745f::d4d8-2161-c8fc-54e7::7107-cb1c-85d8-ea17" name="Misericordia" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">User</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer fights, it makes 1 additional attack with this weapon.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+                <selection id="6966-049a-4aa6-42c0" name="Interceptor Lance" entryId="b860-8515-5a4d-3508::e45c-c59e-7e3f-c062::fc43-c49b-4bbe-0783" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b860-8515-5a4d-3508::e45c-c59e-7e3f-c062::9750-369c-53cc-b22f::df5d-0a9d-5f46-c9ca" name="Interceptor Lance" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">+2</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-3</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer makes an melee attack with this weapon, if it made a charge move or performed a Heroic Intervention this turn, add 1 to that attack&apos;s wound roll.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                  </costs>
+                </selection>
+              </selections>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="12.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="240.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="3992-5d1c-c869-9dc6" name="Biker" entryId="1c6f-0311-3eba-3180" primary="false"/>
+            <category id="ea95-e801-463d-4378" name="Fly" entryId="3117-16d8-fcef-4f56" primary="false"/>
+            <category id="c05e-60e2-41d2-fb40" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="fb1b-a55f-e0e8-8ab3" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="f23f-62e8-9a99-3975" name="Praetors" entryId="7ef2-5be0-90f7-9ec2" primary="false"/>
+            <category id="503a-8f17-38c3-4a02" name="Core" entryId="08f1-d244-eb44-7e01" primary="false"/>
+            <category id="8b3f-d6bb-2d67-1fea" name="Vertus" entryId="e6a7-fa22-8ae2-30cf" primary="false"/>
+            <category id="2d3c-fb7f-cc1f-c10e" name="Faction: &lt;Shield Host&gt;" entryId="98f2-b15c-d922-d1a7" primary="false"/>
+            <category id="136a-9824-9775-845d" name="Biker" entryId="1c6f-0311-3eba-3180" primary="false"/>
+            <category id="14aa-034e-ffdd-c2ca" name="Fast Attack" entryId="c274d0b0-5866-44bc-9810-91c136ae7438" primary="true"/>
+            <category id="7986-58ae-ec60-400a" name="Fly" entryId="3117-16d8-fcef-4f56" primary="false"/>
+          </categories>
+          <costs>
+            <cost name="pts" typeId="points" value="0.0"/>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="9574-b4e3-3cd6-5728" name="Allarus Custodians" entryId="43e6-cecd-2743-61c6::69c3-de5c-53e4-9a4a" number="1" type="unit">
+          <profiles>
+            <profile id="43e6-cecd-2743-61c6::71d6-bb93-1542-ae22::6c89-d701-7b3c-9b7e" name="Slayers of Tyrants" page="95" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="72c5eafc-75bf-4ed9-b425-78009f1efe82" typeName="Abilities">
+              <characteristics>
+                <characteristic name="Description" typeId="21befb24-fc85-4f52-a745-64b2e48f8228">Each time this unit piles in or consolidates, each model in the unit can move towards an enemy CHARACTER model instead of the closest enemy model, so long as one or more models finish that move within Engagement Range of that CHARACTER model.</characteristic>
+              </characteristics>
+            </profile>
+          </profiles>
+          <rules>
+            <rule id="43e6-cecd-2743-61c6::4c5e-3718-4ace-335a::71e6-fef9-c258-08e9" name="Aegis of the Emperor" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>- Models in this unit have a 4+ invulnerable save.
+              - Each time a model in this unit would lose a wound as a result of a mortal wound, roll a D6: on a 6, that would is not lost.</description>
+            </rule>
+            <rule id="43e6-cecd-2743-61c6::a874-0bd1-51db-9fb0::aef7-1ce0-bbb4-782b" name="From Golden Light" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>During deployment, if every model in this unit has this ability, then you can set up this unit in a teleportarium chamber instead of setting it up on the battlefield. If you do so, then in the Reinforcements step of one of your Movement phases, you can set up this unit anywhere on the battlefield that is more than 9&quot; away from any enemy models.</description>
+            </rule>
+            <rule id="43e6-cecd-2743-61c6::e967-10ee-7ee5-8100::bfa6-9e02-c3a2-c27e" name="Martial K&apos;atah" page="89" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>Unless you&apos;re Henry Cavill, read -&gt;</description>
+            </rule>
+            <rule id="43e6-cecd-2743-61c6::e6ae-6bcc-2f79-3357::e07e-8dbf-0b15-7485" name="Objective Secured" page="237" publicationId="28ec-711c-pubN72690" hidden="false">
+              <description>A player controls an objective marker if they have any models with this ability within range of that objective marker, even if there are more enemy models within range of that objective marker. If an enemy model within range of an objective marker also has this ability (or a similar ability), then the objective marker is controlled by the player who has the most models within range of that objective marker as normal.</description>
+            </rule>
+          </rules>
+          <selections>
+            <selection id="4af3-4e02-9863-0316" name="Allarus w/ Castellan Axe &amp; Misericordia" entryGroupId="43e6-cecd-2743-61c6::6cd9-1016-7e24-b377" entryId="43e6-cecd-2743-61c6::e9de-abfd-59a7-a20a" number="3" type="model">
+              <profiles>
+                <profile id="43e6-cecd-2743-61c6::3eea-6cc7-ae0c-bce6::a573-ffe4-d162-73ac" name="Allarus Custodian" page="95" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="800f-21d0-4387-c943" typeName="Unit">
+                  <characteristics>
+                    <characteristic name="M" typeId="0bdf-a96e-9e38-7779">6&quot;</characteristic>
+                    <characteristic name="WS" typeId="e7f0-1278-0250-df0c">2+</characteristic>
+                    <characteristic name="BS" typeId="381b-eb28-74c3-df5f">2+</characteristic>
+                    <characteristic name="S" typeId="2218-aa3c-265f-2939">5</characteristic>
+                    <characteristic name="T" typeId="9c9f-9774-a358-3a39">5</characteristic>
+                    <characteristic name="W" typeId="f330-5e6e-4110-0978">4</characteristic>
+                    <characteristic name="A" typeId="13fc-b29b-31f2-ab9f">4</characteristic>
+                    <characteristic name="Ld" typeId="00ca-f8b8-876d-b705">11</characteristic>
+                    <characteristic name="Save" typeId="c0df-df94-abd7-e8d3">2+</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <selections>
+                <selection id="7264-e371-a3c4-edaa" name="Castellan Axe" entryId="43e6-cecd-2743-61c6::f474-6659-bf54-41f3::99c5-25fb-ddd2-5485" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="43e6-cecd-2743-61c6::f474-6659-bf54-41f3::5971-e25e-3b29-7614::c623-fddd-78f5-c2cd" name="Castellan Axe (Shooting)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">24&quot;</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Rapid Fire 1</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">4</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-1</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410"/>
+                      </characteristics>
+                    </profile>
+                    <profile id="43e6-cecd-2743-61c6::f474-6659-bf54-41f3::394d-17f2-ad07-3558::10d4-3375-ae69-fa28" name="Castellan Axe (Melee)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">+3</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">--</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+                <selection id="d1c8-912d-1d77-f109" name="Misericordia" entryId="43e6-cecd-2743-61c6::c32e-89dd-53df-a8c4::ba04-6a42-34fa-a9d0" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="43e6-cecd-2743-61c6::c32e-89dd-53df-a8c4::d4d8-2161-c8fc-54e7::7107-cb1c-85d8-ea17" name="Misericordia" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">User</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer fights, it makes 1 additional attack with this weapon.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+                <selection id="8134-5068-7feb-c657" name="Balistus Grenade Launcher" entryId="43e6-cecd-2743-61c6::b503-502c-586f-4176::0d25-e338-3e0a-ef2e" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="43e6-cecd-2743-61c6::b503-502c-586f-4176::790f-cffe-436e-cf2a::e646-e571-7ba5-0ad8" name="Balistus Grenade Launcher" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">18&quot;</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Assault D3</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">5</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-3</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Blast</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                  </costs>
+                </selection>
+              </selections>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="9.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="180.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="6937-1288-0df4-9545" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="30ec-09dd-1c62-19aa" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="e605-5512-9875-d0dc" name="Infantry" entryId="3d52-fccf-10c0-3fae" primary="false"/>
+            <category id="ecf4-f2b9-d9be-9ecb" name="Terminator" entryId="648b-745c-9da9-eda3" primary="false"/>
+            <category id="fdc9-cbf7-f7fa-0912" name="Faction: &lt;Shield Host&gt;" entryId="98f2-b15c-d922-d1a7" primary="false"/>
+            <category id="30af-a657-6056-e061" name="Core" entryId="08f1-d244-eb44-7e01" primary="false"/>
+            <category id="d0b3-93e5-9695-567a" name="Allarus" entryId="ed67-ce7d-ab5a-1ea0" primary="false"/>
+            <category id="4dd6-4087-20b3-e79a" name="Teleport Homer" entryId="5a56-b78a-5e06-6d79" primary="false"/>
+            <category id="d114-c87a-eaaf-8e77" name="Custodians" entryId="77aa-299a-de31-2f25" primary="false"/>
+            <category id="1a28-24e2-75ff-8165" name="Elites" entryId="638d74c6-bd97-4de5-b65a-6aaa24e9f4b2" primary="true"/>
+          </categories>
+          <costs>
+            <cost name="pts" typeId="points" value="0.0"/>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+          </costs>
+        </selection>
+        <selection id="6278-a5f9-e51a-4f2e" name="Custodian Guard Squad" entryId="b419-1c3f-0f83-6b62::ca9b-e195-defb-380a" number="1" type="unit">
+          <rules>
+            <rule id="b419-1c3f-0f83-6b62::8adc-5a16-932c-5656::71e6-fef9-c258-08e9" name="Aegis of the Emperor" page="88" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>- Models in this unit have a 4+ invulnerable save.
+              - Each time a model in this unit would lose a wound as a result of a mortal wound, roll a D6: on a 6, that would is not lost.</description>
+            </rule>
+            <rule id="b419-1c3f-0f83-6b62::8e23-8050-4a30-a0f0::bfa6-9e02-c3a2-c27e" name="Martial K&apos;atah" page="89" publicationId="1f0f-230b-a715-7d27" hidden="false">
+              <description>Unless you&apos;re Henry Cavill, read -&gt;</description>
+            </rule>
+            <rule id="b419-1c3f-0f83-6b62::b382-eb1b-326d-b158::e07e-8dbf-0b15-7485" name="Objective Secured" page="237" publicationId="28ec-711c-pubN72690" hidden="false">
+              <description>A player controls an objective marker if they have any models with this ability within range of that objective marker, even if there are more enemy models within range of that objective marker. If an enemy model within range of an objective marker also has this ability (or a similar ability), then the objective marker is controlled by the player who has the most models within range of that objective marker as normal.</description>
+            </rule>
+          </rules>
+          <selections>
+            <selection id="022e-7d72-04d8-e28c" name="Custodian w/ Guardian Spear &amp; Misericordia" entryGroupId="b419-1c3f-0f83-6b62::6420-5566-c093-0cb0" entryId="b419-1c3f-0f83-6b62::091a-c916-26a0-91aa" number="3" type="model">
+              <profiles>
+                <profile id="b419-1c3f-0f83-6b62::af1b-60a0-9c03-6160::325c-1a4a-77d4-66ae" name="Custodian Guard" page="94" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="800f-21d0-4387-c943" typeName="Unit">
+                  <characteristics>
+                    <characteristic name="M" typeId="0bdf-a96e-9e38-7779">6&quot;</characteristic>
+                    <characteristic name="WS" typeId="e7f0-1278-0250-df0c">2+</characteristic>
+                    <characteristic name="BS" typeId="381b-eb28-74c3-df5f">2+</characteristic>
+                    <characteristic name="S" typeId="2218-aa3c-265f-2939">5</characteristic>
+                    <characteristic name="T" typeId="9c9f-9774-a358-3a39">5</characteristic>
+                    <characteristic name="W" typeId="f330-5e6e-4110-0978">3</characteristic>
+                    <characteristic name="A" typeId="13fc-b29b-31f2-ab9f">3</characteristic>
+                    <characteristic name="Ld" typeId="00ca-f8b8-876d-b705">11</characteristic>
+                    <characteristic name="Save" typeId="c0df-df94-abd7-e8d3">2+</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+              <selections>
+                <selection id="bce2-79e0-5d4f-9f96" name="Guardian Spear" entryId="b419-1c3f-0f83-6b62::318d-ff7f-c35b-3d3c::dafa-1543-e53e-7595" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b419-1c3f-0f83-6b62::318d-ff7f-c35b-3d3c::7689-d68d-f0ac-a2f1::44b1-e436-285c-8df2" name="Guardian Spear (Melee)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">+2</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-3</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410"/>
+                      </characteristics>
+                    </profile>
+                    <profile id="b419-1c3f-0f83-6b62::318d-ff7f-c35b-3d3c::0ed3-d3cd-7add-5eb6::54ca-87f5-832b-bda7" name="Guardian Spear (Shooting)" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">24&quot;</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Rapid Fire 1</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">4</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-1</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">2</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">-</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+                <selection id="1cef-2450-c0ec-b4d4" name="Misericordia" entryId="b419-1c3f-0f83-6b62::8378-8627-5b8e-7a69::ba04-6a42-34fa-a9d0" number="3" type="upgrade">
+                  <profiles>
+                    <profile id="b419-1c3f-0f83-6b62::8378-8627-5b8e-7a69::d4d8-2161-c8fc-54e7::7107-cb1c-85d8-ea17" name="Misericordia" page="101" publicationId="1f0f-230b-a715-7d27" hidden="false" typeId="d5f97c0b-9fc9-478d-aa34-a7c414d3ea48" typeName="Weapon">
+                      <characteristics>
+                        <characteristic name="Range" typeId="6fa97fa8-ea74-4a27-a0fb-bc4e5f367464">Melee</characteristic>
+                        <characteristic name="Type" typeId="077c342f-d7b9-45c6-b8af-88e97cafd3a2">Melee</characteristic>
+                        <characteristic name="S" typeId="59b1-319e-ec13-d466">User</characteristic>
+                        <characteristic name="AP" typeId="75aa-a838-b675-6484">-2</characteristic>
+                        <characteristic name="D" typeId="ae8a-3137-d65b-4ca7">1</characteristic>
+                        <characteristic name="Abilities" typeId="837d-5e63-aeb7-1410">Each time the bearer fights, it makes 1 additional attack with this weapon.</characteristic>
+                      </characteristics>
+                    </profile>
+                  </profiles>
+                  <costs>
+                    <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                    <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                    <cost name="pts" typeId="points" value="0.0"/>
+                  </costs>
+                </selection>
+              </selections>
+              <costs>
+                <cost name=" PL" typeId="e356-c769-5920-6e14" value="0.0"/>
+                <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+                <cost name="pts" typeId="points" value="135.0"/>
+              </costs>
+            </selection>
+          </selections>
+          <categories>
+            <category id="5f2d-7b4e-ef74-12c4" name="Faction: Imperium" entryId="84e2-9fa9-ebe6-1d18" primary="false"/>
+            <category id="96a6-fbc0-3cb4-b033" name="Faction: Adeptus Custodes" entryId="c8f7-6d2e-f4b8-f7a5" primary="false"/>
+            <category id="9ca5-68f2-4aa1-a809" name="Faction: &lt;Shield Host&gt;" entryId="98f2-b15c-d922-d1a7" primary="false"/>
+            <category id="005c-cfea-5602-acd3" name="Infantry" entryId="3d52-fccf-10c0-3fae" primary="false"/>
+            <category id="7883-7133-a9f2-afeb" name="Core" entryId="08f1-d244-eb44-7e01" primary="false"/>
+            <category id="46b1-ff0d-e22c-e089" name="Custodian Guard" entryId="b998-ce37-a0e6-4651" primary="false"/>
+            <category id="7cc0-5b6c-4471-7856" name="Troops" entryId="5d76b6f5-20ae-4d70-8f59-ade72a2add3a" primary="true"/>
+          </categories>
+          <costs>
+            <cost name="pts" typeId="points" value="0.0"/>
+            <cost name=" PL" typeId="e356-c769-5920-6e14" value="7.0"/>
+            <cost name="CP" typeId="2d3b-b544-ad49-fb75" value="0.0"/>
+          </costs>
+        </selection>
+      </selections>
+      <categories>
+        <category id="f754-e34b-2263-a2a9" name="Uncategorised" entryId="(No Category)" primary="false"/>
+        <category id="37fc-c01b-0c6d-f8b9" name="Configuration" entryId="fcff-0f21-93e6-1ddc" primary="false"/>
+        <category id="fccc-353c-d5b4-53e0" name="Stratagems" entryId="c845-c72c-6afe-3fc2" primary="false"/>
+        <category id="f8d0-9b56-bfe1-1570" name="No Force Org Slot" entryId="ff36a6f3-19bf-4f48-8956-adacfd28fe74" primary="false"/>
+        <category id="019a-a0f0-3558-a905" name="Agents of the Imperium" entryId="0f35-2c34-ba6a-8105" primary="false"/>
+        <category id="81ed-2745-f97d-3151" name="HQ" entryId="848a6ff2-0def-4c72-8433-ff7da70e6bc7" primary="false"/>
+        <category id="9c70-8470-3171-7b3a" name="Troops" entryId="5d76b6f5-20ae-4d70-8f59-ade72a2add3a" primary="false"/>
+        <category id="2e68-ef77-eeb8-acd4" name="Elites" entryId="638d74c6-bd97-4de5-b65a-6aaa24e9f4b2" primary="false"/>
+        <category id="0a41-e5e7-1b7d-c4bd" name="Fast Attack" entryId="c274d0b0-5866-44bc-9810-91c136ae7438" primary="false"/>
+        <category id="f8b2-341d-fd90-d265" name="Heavy Support" entryId="abf5fd55-9ac7-4263-8bc1-a9fb0a8fa6a6" primary="false"/>
+        <category id="0ebb-e4c5-0c56-1f08" name="Flyer" entryId="e888-1504-aa61-95ff" primary="false"/>
+        <category id="aa3f-a03e-8502-a234" name="Dedicated Transport" entryId="1b66-3f5f-6705-079a" primary="false"/>
+        <category id="6ef9-0cea-1984-c13d" name="Relic Elites" entryId="8d86-9490-0f7d-a5b5" primary="false"/>
+        <category id="2e76-1d75-c82e-c006" name="Relic Heavy Support" entryId="6c4c-a416-b8cb-c380" primary="false"/>
+        <category id="0793-2c99-7e46-8887" name="Relic HQ" entryId="655f-e142-dfa9-11a4" primary="false"/>
+      </categories>
+      <publications>
+        <publication id="85df-1155-c986-4d71" name="Psychic Awakening IX: Pariah"/>
+        <publication id="c9fe-4431-b76d-267a" name="Psychic Awakening VIII: War of the Spider"/>
+        <publication id="ecea-8b62-fefb-9f8e" name="Psychic Awakening VII: Engine War"/>
+        <publication id="28ec-711c-pubN118139" name="Index: Xenos 2"/>
+        <publication id="5c2d-db9f-58ca-e7b2" name="Psychic Awakening IV: Ritual of the Damned"/>
+        <publication id="1f0f-230b-a715-7d27" name="Codex: Adeptus Custodes"/>
+        <publication id="0865-ee21-d1f1-ed38" name="War Zone Charadon, Act I: The Book of Rust"/>
+        <publication id="28ec-711c-pubN72690" name="Warhammer 40,000 Core Book"/>
+        <publication id="28ec-711c-pubN78977" name="Index: Imperium 1"/>
+        <publication id="28ec-711c-pubN98266" name="Imperium Nihilus: Vigilus Defiant"/>
+        <publication id="52c4-39c0-ae97-d4dc" name="Psychic Awakening VI: Saga of the Beast"/>
+        <publication id="b854-bcb5-5746-e0d3" name="War Zone Charadon, Act II: The Book of Fire"/>
+        <publication id="28ec-711c-pubN77581" name="Index: Imperium 2"/>
+        <publication id="db16-1a92-fdd3-95a9" name="The Balance Dataslate"/>
+        <publication id="5093-9448-d8cc-5327" name="Psychic Awakening II: Faith and Fury"/>
+        <publication id="255d-c624-9fcb-ca23" name="War Zone Octarius, Book 2: Critical Mass"/>
+        <publication id="28ec-711c-pubN76527" name="Index: Xenos 1"/>
+        <publication id="f731-6aa6-pubN66377" name="Codex: Officio Assassinorum"/>
+        <publication id="5b08-09e5-a80a-fd67" name="Psychic Awakening I: Phoenix Rising"/>
+        <publication id="977a-446b-737a-b571" name="Chapter Approved 2021"/>
+        <publication id="ce40-ec9e-21e2-2e42" name="Warhammer Quest: Blackstone Fortress"/>
+        <publication id="28ec-711c-pubN99666" name="Index: Chaos"/>
+        <publication id="f000-7b0c-01bf-7630" name="Psychic Awakening III: Blood of Baal"/>
+        <publication id="7573-8d1b-acdf-2de8" name="Imperial Armour: Compendium"/>
+        <publication id="b652-8bab-1453-da20" name="Warhammer Legends"/>
+        <publication id="4a3e-a6d9-b5f8-3e3d" name="Shadow Throne"/>
+        <publication id="e056-7215-247f-0a20" name="War Zone Octarius, Book 1: Rising Tide"/>
+        <publication id="4593-a2f0-546a-d6f2" name="Psychic Awakening V: The Greater Good"/>
+        <publication id="2ec0-6d53-e36b-9895" name="Chapter Approved 2018"/>
+        <publication id="28ec-711c-pubN73170" name="Chapter Approved 2017"/>
+      </publications>
+    </force>
+  </forces>
+</roster>
