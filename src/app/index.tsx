@@ -1,32 +1,36 @@
 import { router } from "expo-router";
 import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 
 export default function Index() {
-  const data = [
-    { id: "1", title: "Item 1" },
-    { id: "2", title: "Item 2" },
-    { id: "3", title: "Item 3" },
-  ];
+  const { rosters, loading, error } = useFetchRosters();
 
-  const renderItem = ({ item }: { item: { id: string; title: string } }) => (
+  const renderItem = ({ item }: { item: RosterMeta }) => (
     <View id={item.id} style={styles.listItem}>
-      <Text>{item.title}</Text>
+      <Text>{item.name}</Text>
       <Button
         title="Enter App"
-        onPress={() => router.push("/(tabs)/roster-overview")}
+        onPress={() =>
+          router.push({
+            pathname: "/(tabs)/roster-overview",
+            params: { rosterId: item.id },
+          })
+        }
       />
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <View style={styles.button}>
-        <Button title="Open Modal" onPress={() => router.push("/modal")} />
+      <View style={styles.status}>
+        {loading && <Text>Loading rosters...</Text>}
+        {!loading && error && <Text>{error}</Text>}
+        {!loading && !error && (
+          <Text>{`Rosters loaded: ${rosters?.length ?? 0}`}</Text>
+        )}
+        <FlatList data={rosters ?? []} renderItem={renderItem} />
       </View>
-      <View>
-        <FlatList data={data} renderItem={renderItem} />
-      </View>
+      <Button title="Add roster" />
     </View>
   );
 }
@@ -47,12 +51,15 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 12,
   },
+  status: {
+    marginBottom: 16,
+  },
   listItem: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: 54,
+    height: 128,
     width: "100%",
     borderWidth: 1,
     backgroundColor: "light-gray",

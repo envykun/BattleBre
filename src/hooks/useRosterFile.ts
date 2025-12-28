@@ -1,0 +1,75 @@
+import * as FileSystem from "expo-file-system";
+import { useEffect, useState } from "react";
+import { RosterMeta } from "./useFetchRosters";
+
+export type RosterFileData = {
+  meta: RosterMeta;
+  raw: string;
+};
+
+type UseRosterFileResult = {
+  data: RosterFileData | null;
+  loading: boolean;
+  error: string | null;
+};
+
+export function useRosterFile(
+  selectedRosterMeta: RosterMeta | null
+): UseRosterFileResult {
+  const [data, setData] = useState<RosterFileData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadRosterData = async () => {
+      if (!selectedRosterMeta) {
+        setData(null);
+        setError(null);
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        const rosterFile = new FileSystem.File(
+          FileSystem.Paths.document,
+          selectedRosterMeta.filePath
+        );
+
+        if (!rosterFile.exists) {
+          throw new Error("Roster file not found.");
+        }
+
+        const isZip = selectedRosterMeta.filePath.endsWith(".rosz");
+        const raw = isZip ? await rosterFile.base64() : await rosterFile.text();
+
+        if (isMounted) {
+          // TODO: Replace raw payload with parsed roster data.
+          setData({ meta: selectedRosterMeta, raw });
+        }
+      } catch (err) {
+        if (isMounted) {
+          const message =
+            err instanceof Error ? err.message : "Failed to load roster file.";
+          setError(message);
+          setData(null);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadRosterData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedRosterMeta]);
+
+  return { data, loading, error };
+}
