@@ -14,8 +14,8 @@ import { FAB, Icon, ListItem } from 'react-native-elements';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 
-import { checkIfValid, getForce } from '../utils/DataExtractor';
-// import { checkIfValid, getForce } from "../utils/ParseBattleScribeData";
+// import { checkIfValid, getForce } from '../utils/DataExtractor';
+import { checkIfValid, getForce } from '../utils/ParseBattleScribeData';
 import Colors, { setCodexColor } from '../constants/Colors';
 import { DataContext, DataContextValueType, DataExtractorType } from '../hooks/DataContext';
 import Constants from 'expo-constants';
@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }: Props) => {
   const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false);
 
   const { setContext } = useContext(DataContext);
-  const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : Constants.statusBarHeight;
+  const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 0 : Constants.statusBarHeight;
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -56,25 +56,32 @@ const HomeScreen = ({ navigation }: Props) => {
     setLoading(true);
     let result = await DocumentPicker.getDocumentAsync({});
     setLoadingAnimation(true);
-    if (result.type === 'cancel') {
+    if (result.canceled) {
       setLoading(false);
       setLoadingAnimation(false);
       return;
     }
-    setFileName(result.name);
-    await FileSystem.readAsStringAsync(result.uri, {
-      encoding: result.name.includes('.rosz') ? 'base64' : 'utf8',
-    })
-      .then((data) => {
-        checkIfValid(data)
-          .then(() => {
-            setBattlescribeData(data);
-          })
-          .catch((e) => {
-            setError(true);
-          });
-      })
-      .catch((e) => setError(true));
+    const asset = result.assets?.[0];
+    if (!asset?.uri) {
+      setError(true);
+      setLoading(false);
+      setLoadingAnimation(false);
+      return;
+    }
+    setFileName(asset.name);
+    try {
+      const file = new FileSystem.File(asset.uri);
+      const data = asset.name.includes('.rosz') ? await file.base64() : await file.text();
+      checkIfValid(data)
+        .then(() => {
+          setBattlescribeData(data);
+        })
+        .catch((e) => {
+          setError(true);
+        });
+    } catch (e) {
+      setError(true);
+    }
     setLoading(false);
   }
 

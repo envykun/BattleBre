@@ -11,12 +11,12 @@ export async function useFetchStratagemData(bsFaction: string) {
   const fullDataApi = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet?ranges=${faction}!A1:A2&ranges=${faction}!B:J&ranges=${faction}!L:AG&key=${apiKey}`;
   const versionApi = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${faction}!A1:A2?key=${apiKey}`;
 
-  const fileUri = FileSystem.documentDirectory + '/';
-  const files = await FileSystem.readDirectoryAsync(fileUri);
-  const hasFile = files.includes(`${faction}.json`);
+  const documentDir = FileSystem.Paths.document;
+  const factionFile = new FileSystem.File(documentDir, `${faction}.json`);
+  const hasFile = factionFile.exists;
 
   if (false) {
-    files.map((file) => FileSystem.deleteAsync(fileUri + file));
+    documentDir.list().forEach((entry) => entry.delete());
     return;
   }
 
@@ -42,10 +42,10 @@ export async function useFetchStratagemData(bsFaction: string) {
         data: newJSON,
         phases: newPhases,
       };
-      await FileSystem.writeAsStringAsync(
-        fileUri + `${faction}.json/`,
-        JSON.stringify(fileContent),
-      );
+      if (!factionFile.exists) {
+        factionFile.create({ intermediates: true });
+      }
+      factionFile.write(JSON.stringify(fileContent));
 
       return fileContent;
     } catch (e) {
@@ -53,7 +53,7 @@ export async function useFetchStratagemData(bsFaction: string) {
     }
   }
 
-  const fileContent = await FileSystem.readAsStringAsync(fileUri + `${faction}.json/`);
+  const fileContent = await factionFile.text();
   const fileContentJSON: FactionStratagems = JSON.parse(fileContent);
   const version: string = fileContentJSON.version;
 
@@ -87,10 +87,10 @@ export async function useFetchStratagemData(bsFaction: string) {
       data: newJSON,
       phases: newPhases,
     };
-    await FileSystem.writeAsStringAsync(
-      fileUri + `${faction}.json/`,
-      JSON.stringify(newFileContent),
-    );
+    if (!factionFile.exists) {
+      factionFile.create({ intermediates: true });
+    }
+    factionFile.write(JSON.stringify(newFileContent));
 
     return newFileContent;
   } catch (e) {
