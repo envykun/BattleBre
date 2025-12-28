@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   ImageBackground,
@@ -9,22 +9,18 @@ import {
   Platform,
   TouchableHighlight,
   TouchableOpacity,
-} from "react-native";
-import { Avatar, FAB, Icon, ListItem } from "react-native-elements";
-import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
+} from 'react-native';
+import { FAB, Icon, ListItem } from 'react-native-elements';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 
-import { checkIfValid, getForce } from "../utils/DataExtractor";
+import { checkIfValid, getForce } from '../utils/DataExtractor';
 // import { checkIfValid, getForce } from "../utils/ParseBattleScribeData";
-import Colors, { setCodexColor } from "../constants/Colors";
-import {
-  DataContext,
-  DataContextValueType,
-  DataExtractorType,
-} from "../hooks/DataContext";
-import Constants from "expo-constants";
-import { useIsFocused } from "@react-navigation/native";
-import { useFetchStratagemData } from "../hooks/useFetchStratagemData";
+import Colors, { setCodexColor } from '../constants/Colors';
+import { DataContext, DataContextValueType, DataExtractorType } from '../hooks/DataContext';
+import Constants from 'expo-constants';
+import { useIsFocused } from '@react-navigation/native';
+import { useFetchStratagemData } from '../hooks/useFetchStratagemData';
 // import CircularProgress from "react-native-circular-progress-indicator";
 
 interface Props {
@@ -32,9 +28,7 @@ interface Props {
 }
 
 const HomeScreen = ({ navigation }: Props) => {
-  const [battlescribeData, setBattlescribeData] = useState<
-    string | undefined
-  >();
+  const [battlescribeData, setBattlescribeData] = useState<string | undefined>();
   const [fileName, setFileName] = useState<string | undefined>();
 
   const [loading, setLoading] = useState(true);
@@ -45,13 +39,12 @@ const HomeScreen = ({ navigation }: Props) => {
   const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false);
 
   const { setContext } = useContext(DataContext);
-  const STATUSBAR_HEIGHT =
-    Platform.OS === "ios" ? 20 : Constants.statusBarHeight;
+  const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : Constants.statusBarHeight;
   const isFocused = useIsFocused();
 
   useEffect(() => {
     if (isFocused) {
-      setCodexColor("default");
+      setCodexColor('default');
     }
   }, [isFocused]);
 
@@ -63,14 +56,14 @@ const HomeScreen = ({ navigation }: Props) => {
     setLoading(true);
     let result = await DocumentPicker.getDocumentAsync({});
     setLoadingAnimation(true);
-    if (result.type === "cancel") {
+    if (result.type === 'cancel') {
       setLoading(false);
       setLoadingAnimation(false);
       return;
     }
     setFileName(result.name);
     await FileSystem.readAsStringAsync(result.uri, {
-      encoding: result.name.includes(".rosz") ? "base64" : "utf8",
+      encoding: result.name.includes('.rosz') ? 'base64' : 'utf8',
     })
       .then((data) => {
         checkIfValid(data)
@@ -98,13 +91,12 @@ const HomeScreen = ({ navigation }: Props) => {
     setLoadingData(true);
     try {
       if (battlescribeData) {
-        const isZip = fileName?.includes(".rosz") || false;
+        const isZip = fileName?.includes('.rosz') || false;
         newData = await getForce(battlescribeData, isZip);
         useFetchStratagemData(newData.rosterCost.faction)
           .then((res) => {
             newContext = {
-              fileName:
-                fileName?.replace(".rosz", "").replace(".ros", "") || "",
+              fileName: fileName?.replace('.rosz', '').replace('.ros', '') || '',
               stratagems: res,
               ...newData,
             };
@@ -114,35 +106,33 @@ const HomeScreen = ({ navigation }: Props) => {
           })
           .catch((e) => {
             setError(true);
-            setErrorMessage("There was an error fetching the Stratagems.");
+            setErrorMessage('There was an error fetching the Stratagems.');
             console.log(e);
             setLoadingData(false);
           });
       }
     } catch (e) {
       setError(true);
-      console.log("Error:", e);
-      setErrorMessage(
-        "There was an error with the roster file. Please try again."
-      );
+      console.log('Error:', e);
+      setErrorMessage('There was an error with the roster file. Please try again.');
       setLoadingData(false);
     }
   }
   const handleNavigation = () => {
-    navigation.navigate("Root");
+    navigation.navigate('Root');
   };
 
   return (
     <View style={[styles.container, { marginTop: STATUSBAR_HEIGHT }]}>
       <ImageBackground
-        style={{ width: "100%", height: "40%", overflow: "hidden" }}
-        source={require("../assets/images/emperor.png")}
+        style={{ width: '100%', height: '40%', overflow: 'hidden' }}
+        source={require('../assets/images/emperor.png')}
         imageStyle={{ height: 560, bottom: undefined, top: 0 }}
       ></ImageBackground>
       <ImageBackground
         resizeMode="cover"
-        style={{ width: "100%", height: "100%" }}
-        source={require("../assets/images/background.jpg")}
+        style={{ width: '100%', height: '100%' }}
+        source={require('../assets/images/background.jpg')}
         imageStyle={{ opacity: 0.2 }}
       >
         <View style={styles.description}>
@@ -150,21 +140,20 @@ const HomeScreen = ({ navigation }: Props) => {
             Welcome to the inofficial Warhammer 40.000 Army List Helper.
           </Text>
           <Text style={styles.descText}>
-            To start select a{" "}
-            <Text style={{ fontWeight: "bold" }}>*.ros/*.rosz</Text> file from
+            To start select a <Text style={{ fontWeight: 'bold' }}>*.ros/*.rosz</Text> file from
             your device down below.
           </Text>
           <Text style={styles.descText}>
-            These files are your typical battlescribe rosters and are stored on
-            your device in the respective folder.
+            These files are your typical battlescribe rosters and are stored on your device in the
+            respective folder.
           </Text>
         </View>
         <View style={styles.separator} />
         <View style={{ height: 300, paddingVertical: 18 }}>
           <View
             style={{
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
               marginBottom: 16,
             }}
           >
@@ -194,13 +183,11 @@ const HomeScreen = ({ navigation }: Props) => {
                   <View>
                     <Icon
                       type="ant-design"
-                      name="unknowfile1"
+                      name="file-unknown"
                       size={82}
                       color={Colors.default.error}
                     />
-                    <Text
-                      style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}
-                    >
+                    <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}>
                       No file selected.
                     </Text>
                   </View>
@@ -224,10 +211,7 @@ const HomeScreen = ({ navigation }: Props) => {
                     </Text>
                   </View>
                 ) : (
-                  <TouchableOpacity
-                    style={styles.navigationContainer}
-                    onPress={handleNavigation}
-                  >
+                  <TouchableOpacity style={styles.navigationContainer} onPress={handleNavigation}>
                     <View>
                       <Icon
                         type="material"
@@ -235,9 +219,7 @@ const HomeScreen = ({ navigation }: Props) => {
                         size={82}
                         color={Colors.default.success}
                       />
-                      <Text
-                        style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}
-                      >
+                      <Text style={{ fontSize: 18, marginTop: 8, marginBottom: 16 }}>
                         {fileName}
                       </Text>
                     </View>
@@ -245,16 +227,16 @@ const HomeScreen = ({ navigation }: Props) => {
                 )}
                 <FAB
                   icon={{
-                    name: fileName ? "delete" : "add",
-                    type: "ionicons",
-                    color: "white",
+                    name: fileName ? 'delete' : 'add',
+                    type: 'ionicons',
+                    color: 'white',
                     size: 32,
                   }}
                   color={fileName ? Colors.default.error : Colors.dark.primary}
                   size="large"
                   iconContainerStyle={{
-                    justifyContent: "center",
-                    alignItems: "center",
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     padding: 0,
                   }}
                   onPress={fileName ? handleDelete : pickFile}
@@ -275,7 +257,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   description: {
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingHorizontal: 12,
     paddingVertical: 14,
   },
@@ -283,28 +265,28 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   separator: {
-    alignSelf: "center",
+    alignSelf: 'center',
     height: 1,
-    width: "95%",
+    width: '95%',
     backgroundColor: Colors.light.text,
   },
   bottomView: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   loadingIndicator: {
-    position: "absolute",
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    justifyContent: "center",
-    alignItems: "center",
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
   },
   loading: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   navigationContainer: {
     borderRadius: 12,

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Divider, ListItem } from "react-native-elements";
-import Colors from "../../constants/Colors";
-import Layout from "../../constants/Layout";
-import useColorScheme from "../../hooks/useColorScheme";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Divider, ListItem } from 'react-native-elements';
+import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
+import useColorScheme from '../../hooks/useColorScheme';
 
 interface OverviewRuleItemAccordionProps {
   title: string;
@@ -12,24 +12,37 @@ interface OverviewRuleItemAccordionProps {
   detachmentRule: boolean;
 }
 
-const OverviewRuleItemAccordion = ({ title, description, unit, detachmentRule }: OverviewRuleItemAccordionProps) => {
+const OverviewRuleItemAccordion = ({
+  title,
+  description,
+  unit,
+  detachmentRule,
+}: OverviewRuleItemAccordionProps) => {
   const colorScheme = useColorScheme();
   const [expanded, setExpanded] = useState<boolean>(false);
   return (
-    <View style={[styles.container, { borderColor: Colors[colorScheme].primary, backgroundColor: Colors[colorScheme].secondary }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          borderColor: Colors[colorScheme].primary,
+          backgroundColor: Colors[colorScheme].secondary,
+        },
+      ]}
+    >
       <ListItem.Accordion
         containerStyle={{ backgroundColor: Colors[colorScheme].secondary, borderRadius: 4 }}
         isExpanded={expanded}
         onPress={() => setExpanded(!expanded)}
         content={
           <ListItem.Content>
-            <ListItem.Title style={{ fontWeight: "bold" }}>{title}</ListItem.Title>
+            <ListItem.Title style={{ fontWeight: 'bold' }}>{title}</ListItem.Title>
           </ListItem.Content>
         }
       >
         <Divider style={{ backgroundColor: Colors[colorScheme].primary, height: 1 }} />
         <View style={styles.abilities}>
-          <Text style={{ textAlign: "justify" }}>{description}</Text>
+          <Text style={{ textAlign: 'justify' }}>{description}</Text>
         </View>
       </ListItem.Accordion>
       <Divider style={{ backgroundColor: Colors[colorScheme].primary, height: 1 }} />
@@ -39,7 +52,7 @@ const OverviewRuleItemAccordion = ({ title, description, unit, detachmentRule }:
             unit.every((i: any) => i === undefined) ? (
               <Text style={styles.unitText}>Detachment Rule</Text>
             ) : (
-              <Text style={styles.unitText}>{unit.sort().join(", ")}</Text>
+              <Text style={styles.unitText}>{unit.sort().join(', ')}</Text>
             )
           ) : (
             <Text style={styles.unitText}>{unit}</Text>
@@ -72,28 +85,28 @@ const styles = StyleSheet.create({
     padding: Layout.spacing(3),
   },
   unitText: {
-    fontStyle: "italic",
+    fontStyle: 'italic',
   },
   triangle: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1,
     right: -1,
     width: 0,
     height: 0,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderRightWidth: 12,
     borderTopWidth: 12,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    transform: [{ rotate: '180deg' }],
   },
   borderCorner: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: 4,
     width: 5,
     height: 16,
     borderRightWidth: 1,
-    transform: [{ rotate: "45deg" }],
+    transform: [{ rotate: '45deg' }],
   },
 });

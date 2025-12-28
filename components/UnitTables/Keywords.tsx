@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import Layout from "../../constants/Layout";
-import Colors from "../../constants/Colors";
-import useColorScheme from "../../hooks/useColorScheme";
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import Layout from '../../constants/Layout';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 type Props = {
   data: Array<string>;
@@ -11,29 +11,36 @@ type Props = {
 const Keywords = ({ data }: Props) => {
   const colorScheme = useColorScheme();
   const renderKeywords = (data: Array<string>) => {
-    const factionKeywords = data.filter((keyword: string) => keyword.includes("Faction:")).sort();
-    const keywords = data.filter((keyword: string) => !keyword.includes("Faction:")).sort();
+    const factionKeywords = data.filter((keyword: string) => keyword.includes('Faction:')).sort();
+    const keywords = data.filter((keyword: string) => !keyword.includes('Faction:')).sort();
     return (
-      <View style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
+      <View
+        style={{
+          borderWidth: 1,
+          marginBottom: 12,
+          borderColor: Colors[colorScheme].primary,
+          borderRadius: 4,
+        }}
+      >
         <View style={[styles.tableHead, { backgroundColor: Colors[colorScheme].secondary }]}>
           <Text>FACTION KEYWORDS</Text>
         </View>
-        <Text style={{ fontWeight: "bold", paddingHorizontal: 12, paddingVertical: 4 }}>
+        <Text style={{ fontWeight: 'bold', paddingHorizontal: 12, paddingVertical: 4 }}>
           {factionKeywords.map((keyword: string, index: number) => (
             <Text key={index}>
-              {keyword.replace("Faction: ", "")}
-              {index !== factionKeywords.length - 1 && ", "}
+              {keyword.replace('Faction: ', '')}
+              {index !== factionKeywords.length - 1 && ', '}
             </Text>
           ))}
         </Text>
         <View style={[styles.tableHead, { backgroundColor: Colors[colorScheme].secondary }]}>
           <Text>KEYWORDS</Text>
         </View>
-        <Text style={{ fontWeight: "bold", paddingHorizontal: 12, paddingVertical: 4 }}>
+        <Text style={{ fontWeight: 'bold', paddingHorizontal: 12, paddingVertical: 4 }}>
           {keywords.map((keyword: string, index: number) => (
             <Text key={index}>
               {keyword}
-              {index !== keywords.length - 1 && ", "}
+              {index !== keywords.length - 1 && ', '}
             </Text>
           ))}
         </Text>
@@ -62,48 +69,48 @@ export default Keywords;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   tableRow2: {
-    flexDirection: "row",
+    flexDirection: 'row',
     minHeight: Layout.spacing(5),
   },
   title: {
     height: Layout.spacing(6),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 18,
   },
   tableHead: {
     height: Layout.spacing(5),
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingLeft: 12,
     borderTopLeftRadius: 2,
     borderTopRightRadius: 2,
   },
   triangle: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: -1.5,
     width: 0,
     height: 0,
-    backgroundColor: "white",
-    borderStyle: "solid",
+    backgroundColor: 'white',
+    borderStyle: 'solid',
     borderRightWidth: 12,
     borderTopWidth: 12,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    transform: [{ rotate: '180deg' }],
   },
   borderCorner: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: 4,
     width: 5,
     height: 16,
     borderRightWidth: 1,
-    transform: [{ rotate: "45deg" }],
+    transform: [{ rotate: '45deg' }],
   },
 });

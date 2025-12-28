@@ -1,20 +1,29 @@
-import React, { useState } from "react";
-import { useContext } from "react";
-import { Platform, ScrollView, StyleSheet, Image, Button, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { Divider } from "react-native-elements";
-import { Text, View } from "../components/Themed";
-import Abilities from "../components/UnitTables/Abilities";
-import CharacteristicsTable from "../components/UnitTables/CharacteristicsTable";
-import Keywords from "../components/UnitTables/Keywords";
-import PsychicPowers from "../components/UnitTables/PsychicPowers";
-import Weapons from "../components/UnitTables/Weapons";
-import Colors from "../constants/Colors";
-import { Images } from "../constants/Images";
-import Layout from "../constants/Layout";
-import { DataContext } from "../hooks/DataContext";
-import useColorScheme from "../hooks/useColorScheme";
-import { Ability, Characteristics, Psychic, Rule, Unit, Weapon } from "../utils/DataTypes";
-import { useHeaderHeight } from "@react-navigation/elements";
+import React, { useState } from 'react';
+import { useContext } from 'react';
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Button,
+  Modal,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import { Divider } from 'react-native-elements';
+import { Text, View } from '../components/Themed';
+import Abilities from '../components/UnitTables/Abilities';
+import CharacteristicsTable from '../components/UnitTables/CharacteristicsTable';
+import Keywords from '../components/UnitTables/Keywords';
+import PsychicPowers from '../components/UnitTables/PsychicPowers';
+import Weapons from '../components/UnitTables/Weapons';
+import Colors from '../constants/Colors';
+import { Images } from '../constants/Images';
+import Layout from '../constants/Layout';
+import { DataContext } from '../hooks/DataContext';
+import useColorScheme from '../hooks/useColorScheme';
+import { Ability, Characteristics, Psychic, Rule, Unit, Weapon } from '../utils/DataTypes';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 export default function ModalScreen({ route, navigation }: any) {
   const { context } = useContext(DataContext);
@@ -27,7 +36,7 @@ export default function ModalScreen({ route, navigation }: any) {
   const keywords: Array<string> = unit.keywords;
   const unitRules: Array<Rule> = unit.rules || [];
   const forceRules: Array<Rule> = context.forceRules || [];
-  const points: string = unit.costs.replace("pts", "");
+  const points: string = unit.costs.replace('pts', '');
 
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
@@ -41,14 +50,14 @@ export default function ModalScreen({ route, navigation }: any) {
             style={{
               width: useHeaderHeight() / 2,
               height: useHeaderHeight() / 2,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <Image
               source={Images[route.params?.unit.type]}
               resizeMode="center"
-              style={{ width: "110%", height: "110%", tintColor: "black" }}
+              style={{ width: '110%', height: '110%', tintColor: 'black' }}
             />
           </View>
         </TouchableOpacity>
@@ -66,9 +75,16 @@ export default function ModalScreen({ route, navigation }: any) {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container} ref={(ref) => (this.scrollViewRef = ref)} scrollsToTop>
-        <View style={styles.header} onLayout={(event) => (this.backToTop = event.nativeEvent.layout)}>
-          <View style={{ justifyContent: "center", flex: 1 }}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        ref={(ref) => (this.scrollViewRef = ref)}
+        scrollsToTop
+      >
+        <View
+          style={styles.header}
+          onLayout={(event) => (this.backToTop = event.nativeEvent.layout)}
+        >
+          <View style={{ justifyContent: 'center', flex: 1 }}>
             <Text numberOfLines={1} style={styles.title}>
               {unit.name}
             </Text>
@@ -78,12 +94,20 @@ export default function ModalScreen({ route, navigation }: any) {
             <View style={[styles.unitTypeIcon, { backgroundColor: Colors[colorScheme].primary }]}>
               <Text style={{ color: Colors.dark.text }}>PTS</Text>
               <View
-                style={[styles.triangle, { backgroundColor: Colors[colorScheme].primary, borderTopColor: Colors[colorScheme].secondary }]}
+                style={[
+                  styles.triangle,
+                  {
+                    backgroundColor: Colors[colorScheme].primary,
+                    borderTopColor: Colors[colorScheme].secondary,
+                  },
+                ]}
               />
             </View>
             <View style={[styles.unitTypeText, { backgroundColor: Colors[colorScheme].secondary }]}>
-              <View style={[styles.triangle2, { backgroundColor: Colors[colorScheme].secondary }]} />
-              <Text style={{ fontWeight: "bold", color: Colors.light.text }}>{points}</Text>
+              <View
+                style={[styles.triangle2, { backgroundColor: Colors[colorScheme].secondary }]}
+              />
+              <Text style={{ fontWeight: 'bold', color: Colors.light.text }}>{points}</Text>
             </View>
           </View>
         </View>
@@ -103,13 +127,22 @@ export default function ModalScreen({ route, navigation }: any) {
             <PsychicPowers data={psychic} />
           </View>
         )}
-        <View style={styles.table} onLayout={(event) => (this.weaponLayout = event.nativeEvent.layout)}>
+        <View
+          style={styles.table}
+          onLayout={(event) => (this.weaponLayout = event.nativeEvent.layout)}
+        >
           <Weapons data={weapons} />
         </View>
-        <View style={styles.table} onLayout={(event) => (this.abilityLayout = event.nativeEvent.layout)}>
+        <View
+          style={styles.table}
+          onLayout={(event) => (this.abilityLayout = event.nativeEvent.layout)}
+        >
           <Abilities abilities={abilities} unitRules={unitRules} forceRules={forceRules} />
         </View>
-        <View style={styles.table} onLayout={(event) => (this.keywordLayout = event.nativeEvent.layout)}>
+        <View
+          style={styles.table}
+          onLayout={(event) => (this.keywordLayout = event.nativeEvent.layout)}
+        >
           <Keywords data={keywords} />
         </View>
       </ScrollView>
@@ -166,21 +199,21 @@ const styles = StyleSheet.create({
   },
   header: {
     height: Layout.spacing(6),
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: Layout.spacing(4),
     marginBottom: Layout.spacing(4),
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     flex: 1,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
-    textTransform: "uppercase",
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
   subTitle: {
     fontSize: 14,
-    color: "grey",
-    textTransform: "uppercase",
+    color: 'grey',
+    textTransform: 'uppercase',
   },
   table: {
     marginTop: 12,
@@ -191,45 +224,45 @@ const styles = StyleSheet.create({
     marginLeft: Layout.spacing(2),
   },
   unitTypeText: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
     borderBottomLeftRadius: 4,
   },
   unitTypeIcon: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
   },
   triangle: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     right: 0,
     width: 0,
     height: 0,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderRightWidth: 8,
     borderTopWidth: 8,
-    borderRightColor: "transparent",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    transform: [{ rotate: '180deg' }],
   },
   triangle2: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     right: 0,
     width: 0,
     height: 0,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderRightWidth: 8,
     borderTopWidth: 8,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    transform: [{ rotate: '180deg' }],
   },
   popupMenu: {
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
     elevation: 3,
     paddingHorizontal: Layout.spacing(2),
     borderRadius: 4,
@@ -239,19 +272,19 @@ const styles = StyleSheet.create({
   popupMenuLink: {
     height: 50,
     paddingHorizontal: Layout.spacing(4),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   popupMenuLinkLast: {
     height: 50,
     paddingHorizontal: Layout.spacing(4),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   modalOverlay: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: 'rgba(0,0,0,0.3)',
   },
 });

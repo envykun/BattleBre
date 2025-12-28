@@ -1,17 +1,17 @@
-import * as FileSystem from "expo-file-system";
-import { FactionMapping } from "../constants/FactionMapping";
-import { StratagemData } from "../utils/DataTypes";
+import * as FileSystem from 'expo-file-system';
+import { FactionMapping } from '../constants/FactionMapping';
+import { StratagemData } from '../utils/DataTypes';
 
-const sheetId = "1mO0JGcqwER43QMBod15XDOr2Q9-Y5NF1-7T5RTWVSLA";
+const sheetId = '1mO0JGcqwER43QMBod15XDOr2Q9-Y5NF1-7T5RTWVSLA';
 // const api = "https://v1.nocodeapi.com/envy_kun/google_sheets/BAYvezLEKcgYChVf?tabId=";
-const apiKey = "AIzaSyBihbeMy2CPOq9xwuAAgSFvq0FhQgauOHc";
+const apiKey = 'AIzaSyBihbeMy2CPOq9xwuAAgSFvq0FhQgauOHc';
 
 export async function useFetchStratagemData(bsFaction: string) {
   const faction = FactionMapping[bsFaction];
   const fullDataApi = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet?ranges=${faction}!A1:A2&ranges=${faction}!B:J&ranges=${faction}!L:AG&key=${apiKey}`;
   const versionApi = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${faction}!A1:A2?key=${apiKey}`;
 
-  const fileUri = FileSystem.documentDirectory + "/";
+  const fileUri = FileSystem.documentDirectory + '/';
   const files = await FileSystem.readDirectoryAsync(fileUri);
   const hasFile = files.includes(`${faction}.json`);
 
@@ -29,16 +29,27 @@ export async function useFetchStratagemData(bsFaction: string) {
       const stratagemData = json.valueRanges[1].values;
       const phasesData = json.valueRanges[2].values;
 
-      const version = versionData.slice(1).map((row: Array<string>) => syncIterators(versionData[0], row))[0];
-      const newJSON = stratagemData.slice(1).map((row: Array<string>) => syncIterators(stratagemData[0], row));
+      const version = versionData
+        .slice(1)
+        .map((row: Array<string>) => syncIterators(versionData[0], row))[0];
+      const newJSON = stratagemData
+        .slice(1)
+        .map((row: Array<string>) => syncIterators(stratagemData[0], row));
       const newPhases = phasesToObject(phasesData[0], phasesData.slice(1));
 
-      const fileContent: FactionStratagems = { version: version.version, data: newJSON, phases: newPhases };
-      await FileSystem.writeAsStringAsync(fileUri + `${faction}.json/`, JSON.stringify(fileContent));
+      const fileContent: FactionStratagems = {
+        version: version.version,
+        data: newJSON,
+        phases: newPhases,
+      };
+      await FileSystem.writeAsStringAsync(
+        fileUri + `${faction}.json/`,
+        JSON.stringify(fileContent),
+      );
 
       return fileContent;
     } catch (e) {
-      console.log("ERROR:", e);
+      console.log('ERROR:', e);
     }
   }
 
@@ -51,7 +62,9 @@ export async function useFetchStratagemData(bsFaction: string) {
     const versionJSON = await versionResponse.json();
 
     const versionData = versionJSON.values;
-    const checkedVersion = versionData.slice(1).map((row: Array<string>) => syncIterators(versionData[0], row))[0];
+    const checkedVersion = versionData
+      .slice(1)
+      .map((row: Array<string>) => syncIterators(versionData[0], row))[0];
 
     if (version === checkedVersion.version) {
       return fileContentJSON;
@@ -63,23 +76,34 @@ export async function useFetchStratagemData(bsFaction: string) {
     const stratagemData = json.valueRanges[1].values;
     const phasesData = json.valueRanges[2].values;
 
-    const newJSON = stratagemData.slice(1).map((row: Array<string>) => syncIterators(stratagemData[0], row));
+    const newJSON = stratagemData
+      .slice(1)
+      .map((row: Array<string>) => syncIterators(stratagemData[0], row));
     const newPhases = phasesToObject(phasesData[0], phasesData.slice(1));
     console.log(newPhases);
 
-    const newFileContent: FactionStratagems = { version: checkedVersion.version, data: newJSON, phases: newPhases };
-    await FileSystem.writeAsStringAsync(fileUri + `${faction}.json/`, JSON.stringify(newFileContent));
+    const newFileContent: FactionStratagems = {
+      version: checkedVersion.version,
+      data: newJSON,
+      phases: newPhases,
+    };
+    await FileSystem.writeAsStringAsync(
+      fileUri + `${faction}.json/`,
+      JSON.stringify(newFileContent),
+    );
 
     return newFileContent;
   } catch (e) {
-    console.log("ERROR:", e);
+    console.log('ERROR:', e);
   }
 }
 
 function syncIterators(keyArray: Array<string>, valueArray: Array<string>) {
   let newObj: any = {};
   keyArray.forEach((keyItem, idx) =>
-    keyItem === "list" ? valueArray[idx] && (newObj[keyItem] = valueArray[idx].split(" || ")) : (newObj[keyItem] = valueArray[idx])
+    keyItem === 'list'
+      ? valueArray[idx] && (newObj[keyItem] = valueArray[idx].split(' || '))
+      : (newObj[keyItem] = valueArray[idx]),
   );
 
   return newObj;

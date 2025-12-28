@@ -1,16 +1,16 @@
-import React from "react";
-import { RosterCosts, Rule, StratagemData, Unit } from "../utils/DataTypes";
-import { FactionStratagems } from "./useFetchStratagemData";
+import React from 'react';
+import { RosterCosts, Rule, StratagemData, Unit } from '../utils/DataTypes';
+import { FactionStratagems } from './useFetchStratagemData';
 
 export const DataContext = React.createContext<DataContextType>({
   context: {
-    fileName: "",
-    stratagems: { data: [], phases: "", version: "" },
-    rosterCost: { points: "0", cp: "0", faction: "" },
+    fileName: '',
+    stratagems: { data: [], phases: '', version: '' },
+    rosterCost: { points: '0', cp: '0', faction: '' },
     unitData: [],
     forceRules: [],
   },
-  setContext: (context) => console.info("no data yet"),
+  setContext: (context) => console.info('no data yet'),
 });
 
 export type DataContextType = {

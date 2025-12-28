@@ -1,28 +1,38 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Constants from "expo-constants";
-import { StatusBar } from "expo-status-bar";
-import React, { PureComponent, useContext, useEffect, useState } from "react";
-import { Animated, FlatList, ImageBackground, ListRenderItem, Platform, ScrollView, SectionList, StyleSheet } from "react-native";
-import { Chip, FAB, SearchBar, ListItem } from "react-native-elements";
-import { Picker } from "@react-native-picker/picker";
-import Stratagem from "../components/Stratagem/Stratagem";
-import { Text, View } from "../components/Themed";
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import { ItemValue } from "@react-native-picker/picker/typings/Picker";
-import Layout from "../constants/Layout";
-import { ENEMYPHASE, PHASES, PLAYERPHASE, StratagemData } from "../utils/DataTypes";
-import { DataContext } from "../hooks/DataContext";
+import { Picker } from '@react-native-picker/picker';
+import { ItemValue } from '@react-native-picker/picker/typings/Picker';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Constants from 'expo-constants';
+import { StatusBar } from 'expo-status-bar';
+import { useContext, useEffect, useState } from 'react';
+import {
+  Animated,
+  FlatList,
+  ImageBackground,
+  ListRenderItem,
+  Platform,
+  SectionList,
+  StyleSheet,
+} from 'react-native';
+import { FAB, SearchBar } from 'react-native-elements';
+import Stratagem from '../components/Stratagem/Stratagem';
+import { Text, View } from '../components/Themed';
+import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
+import { DataContext } from '../hooks/DataContext';
+import useColorScheme from '../hooks/useColorScheme';
+import { ENEMYPHASE, PHASES, PLAYERPHASE, StratagemData } from '../utils/DataTypes';
 
 const Tab = createMaterialTopTabNavigator();
 
 const All = () => {
   const { context } = useContext(DataContext);
-  const allStratagems: Array<StratagemData> | undefined = context.stratagems?.data.sort((a, b) => (a.title < b.title ? -1 : 1));
+  const allStratagems: Array<StratagemData> | undefined = context.stratagems?.data.sort((a, b) =>
+    a.title < b.title ? -1 : 1,
+  );
 
   const colorScheme = useColorScheme();
 
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const [filteredStratagems, setFilteredStratagems] = useState(allStratagems);
 
@@ -34,7 +44,8 @@ const All = () => {
     if (search.length > 0) {
       const filtered = allStratagems?.filter(
         (strat) =>
-          strat?.title.toLowerCase().includes(search.toLowerCase()) || strat?.description.toLowerCase().includes(search.toLowerCase())
+          strat?.title.toLowerCase().includes(search.toLowerCase()) ||
+          strat?.description.toLowerCase().includes(search.toLowerCase()),
       );
       setFilteredStratagems(filtered);
     } else {
@@ -65,21 +76,21 @@ const All = () => {
     <View style={styles.container}>
       <ImageBackground
         resizeMode="cover"
-        style={{ width: "100%", height: "100%" }}
-        source={require("../assets/images/background.jpg")}
+        style={{ width: '100%', height: '100%' }}
+        source={require('../assets/images/background.jpg')}
         imageStyle={{ opacity: 0.2 }}
       >
         {showSearch && (
           <SearchBar
             lightTheme
             onChangeText={(text: any) => updateSearch(text)}
-            onClear={() => setSearch("")}
+            onClear={() => setSearch('')}
             placeholder="Search..."
             value={search}
             round
             containerStyle={{ backgroundColor: Colors[colorScheme].primary }}
-            inputContainerStyle={{ backgroundColor: "white" }}
-            inputStyle={{ color: "black" }}
+            inputContainerStyle={{ backgroundColor: 'white' }}
+            inputStyle={{ color: 'black' }}
           />
         )}
 
@@ -91,8 +102,8 @@ const All = () => {
           ListFooterComponent={<View />}
         />
         <FAB
-          icon={{ name: showSearch ? "close" : "search", color: "white" }}
-          style={{ position: "absolute", right: 10, bottom: 16 }}
+          icon={{ name: showSearch ? 'close' : 'search', color: 'white' }}
+          style={{ position: 'absolute', right: 10, bottom: 16 }}
           onPress={() => setShowSearch(!showSearch)}
           size="small"
           color={Colors[colorScheme].primary}
@@ -104,7 +115,9 @@ const All = () => {
 
 const ByPhase = () => {
   const { context } = useContext(DataContext);
-  const allStratagems: Array<StratagemData> | undefined = context.stratagems?.data.sort((a, b) => (a.title < b.title ? -1 : 1));
+  const allStratagems: Array<StratagemData> | undefined = context.stratagems?.data.sort((a, b) =>
+    a.title < b.title ? -1 : 1,
+  );
   const allPhases: any = context.stratagems?.phases;
 
   const sectionList = Object.keys(allPhases).map((key: string) => {
@@ -130,7 +143,7 @@ const ByPhase = () => {
     if (!activeChip) {
       return;
     }
-    if (activeChip === "ALL") {
+    if (activeChip === 'ALL') {
       setPhase(sectionList);
     } else {
       setPhase(sectionList.filter((item) => item.title === activeChip));
@@ -182,14 +195,16 @@ const ByPhase = () => {
       </Animated.View>
       <ImageBackground
         resizeMode="cover"
-        style={{ width: "100%", height: "100%" }}
-        source={require("../assets/images/background.jpg")}
+        style={{ width: '100%', height: '100%' }}
+        source={require('../assets/images/background.jpg')}
         imageStyle={{ opacity: 0.2 }}
       >
         <SectionList
           sections={phase}
           renderItem={renderStratagems}
-          renderSectionHeader={({ section: { title } }) => <Text style={styles.title}>{title}</Text>}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.title}>{title}</Text>
+          )}
           renderSectionFooter={() => <View style={{ marginBottom: Layout.spacing(4) }} />}
           onScroll={(e) => scrollY.setValue(e.nativeEvent.contentOffset.y)}
           ListHeaderComponent={() => <View style={{ height: headerHeight }} />}
@@ -201,7 +216,7 @@ const ByPhase = () => {
 
 export default function TabTwoScreen() {
   const colorScheme = useColorScheme();
-  const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : Constants.statusBarHeight;
+  const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : Constants.statusBarHeight;
   return (
     <>
       <Tab.Navigator
@@ -226,22 +241,22 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginHorizontal: Layout.spacing(3),
     marginBottom: Layout.spacing(2),
     marginTop: Layout.spacing(3),
   },
   separator: {
     height: 2,
-    width: "100%",
-    backgroundColor: "black",
+    width: '100%',
+    backgroundColor: 'black',
     marginVertical: Layout.spacing(3),
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   chipContainer: {
     height: 50 + Layout.spacing(4),
     elevation: 3,
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
@@ -255,9 +270,9 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 50,
-    width: "100%",
+    width: '100%',
     borderRadius: 12,
-    justifyContent: "center",
+    justifyContent: 'center',
     marginTop: -2,
     zIndex: 1002,
   },

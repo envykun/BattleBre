@@ -1,20 +1,27 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import React, { useContext, useEffect, useState } from "react";
-import { FlatList, ImageBackground, ListRenderItem, Platform, SectionList, StyleSheet } from "react-native";
-import { Button, FAB, Input, Overlay } from "react-native-elements";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  FlatList,
+  ImageBackground,
+  ListRenderItem,
+  Platform,
+  SectionList,
+  StyleSheet,
+} from 'react-native';
+import { Button, FAB, Input, Overlay } from 'react-native-elements';
 
-import ListItemUnit from "../components/ListItems/ListItemUnit";
-import { Text, View } from "../components/Themed";
-import { RootTabScreenProps } from "../types";
-import Constants from "expo-constants";
-import { StatusBar } from "expo-status-bar";
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import { DataContext } from "../hooks/DataContext";
-import { Rule, Unit } from "../utils/DataTypes";
-import PointsOverview from "../components/PointsOverview/PointsOverview";
-import OverviewRuleItemAccordion from "../components/ListItems/OverviewRuleItemAccordion";
-import Layout from "../constants/Layout";
+import ListItemUnit from '../components/ListItems/ListItemUnit';
+import { Text, View } from '../components/Themed';
+import { RootTabScreenProps } from '../types';
+import Constants from 'expo-constants';
+import { StatusBar } from 'expo-status-bar';
+import Colors from '../constants/Colors';
+import useColorScheme from '../hooks/useColorScheme';
+import { DataContext } from '../hooks/DataContext';
+import { Rule, Unit } from '../utils/DataTypes';
+import PointsOverview from '../components/PointsOverview/PointsOverview';
+import OverviewRuleItemAccordion from '../components/ListItems/OverviewRuleItemAccordion';
+import Layout from '../constants/Layout';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,8 +30,8 @@ const Overview = () => {
   const { context } = useContext(DataContext);
   const [showAddOverlay, setShowAddOverlay] = useState<boolean>(false);
   const [allRules, setAllRules] = useState<Array<Rule | undefined>>(context.forceRules);
-  const [customRule, setCustomRule] = useState<string>("");
-  const [customRuleUnits, setCustomRuleUnits] = useState<string>("");
+  const [customRule, setCustomRule] = useState<string>('');
+  const [customRuleUnits, setCustomRuleUnits] = useState<string>('');
 
   useEffect(() => {
     addUnitRules();
@@ -61,10 +68,10 @@ const Overview = () => {
   };
 
   const addCustomRule = () => {
-    if (customRule === "") return;
+    if (customRule === '') return;
     const newEntry: Rule = {
       id: Math.random().toString(),
-      title: "Custom Rule",
+      title: 'Custom Rule',
       description: customRule,
       unit: customRuleUnits,
       detachmentRule: false,
@@ -72,16 +79,16 @@ const Overview = () => {
     var newArray = [...allRules, newEntry];
     setAllRules(newArray);
     setShowAddOverlay(false);
-    setCustomRule("");
-    setCustomRuleUnits("");
+    setCustomRule('');
+    setCustomRuleUnits('');
   };
 
   return (
     <View style={styles.container}>
       <ImageBackground
         resizeMode="cover"
-        style={{ width: "100%", height: "100%" }}
-        source={require("../assets/images/background.jpg")}
+        style={{ width: '100%', height: '100%' }}
+        source={require('../assets/images/background.jpg')}
         imageStyle={{ opacity: 0.2 }}
       >
         <FlatList
@@ -99,8 +106,8 @@ const Overview = () => {
         />
         <FAB
           onPress={() => setShowAddOverlay(true)}
-          icon={{ name: "add", color: "white" }}
-          style={{ position: "absolute", right: 10, bottom: 16 }}
+          icon={{ name: 'add', color: 'white' }}
+          style={{ position: 'absolute', right: 10, bottom: 16 }}
           size="small"
           color={Colors[colorScheme].primary}
         />
@@ -108,15 +115,20 @@ const Overview = () => {
           isVisible={showAddOverlay}
           onBackdropPress={() => {
             setShowAddOverlay(false);
-            setCustomRule("");
+            setCustomRule('');
           }}
         >
           <View style={{ width: 260 }}>
-            <Text style={{ marginVertical: 8, fontWeight: "bold" }}>Custom Rule</Text>
+            <Text style={{ marginVertical: 8, fontWeight: 'bold' }}>Custom Rule</Text>
             <View>
               <Text style={{ marginVertical: 4 }}>Add a custom rule</Text>
               <Input
-                style={{ borderWidth: 1, marginTop: 16, paddingHorizontal: 4, borderBottomWidth: 0 }}
+                style={{
+                  borderWidth: 1,
+                  marginTop: 16,
+                  paddingHorizontal: 4,
+                  borderBottomWidth: 0,
+                }}
                 multiline
                 value={customRule}
                 onChangeText={(text) => setCustomRule(text)}
@@ -125,7 +137,12 @@ const Overview = () => {
             <View>
               <Text>For units</Text>
               <Input
-                style={{ borderWidth: 1, marginTop: 16, paddingHorizontal: 4, borderBottomWidth: 0 }}
+                style={{
+                  borderWidth: 1,
+                  marginTop: 16,
+                  paddingHorizontal: 4,
+                  borderBottomWidth: 0,
+                }}
                 multiline
                 value={customRuleUnits}
                 onChangeText={(text) => setCustomRuleUnits(text)}
@@ -144,14 +161,25 @@ const Overview = () => {
   );
 };
 
-const Units = ({ navigation }: RootTabScreenProps<"TabOne">) => {
+const Units = ({ navigation }: RootTabScreenProps<'TabOne'>) => {
   const { context } = useContext(DataContext);
-  const order = ["HQ", "Troops", "Elites", "Fast Attack", "Heavy Support", "Flyer", "Dedicated Transport"];
+  const order = [
+    'HQ',
+    'Troops',
+    'Elites',
+    'Fast Attack',
+    'Heavy Support',
+    'Flyer',
+    'Dedicated Transport',
+  ];
 
   const detachments = [...new Set(context.unitData.map((unit: Unit) => unit.detachment))];
   const sectionList = detachments.map((detachment: string) => {
     const data = context.unitData.filter((unit: Unit) => unit.detachment === detachment);
-    return { title: detachment, data: data.sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type)) };
+    return {
+      title: detachment,
+      data: data.sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type)),
+    };
   });
 
   const renderItem: ListRenderItem<Unit> = ({ item, index }) => {
@@ -162,7 +190,7 @@ const Units = ({ navigation }: RootTabScreenProps<"TabOne">) => {
         subTitle={item.type}
         costs={item.costs}
         firstItem={index === 0}
-        onPress={() => navigation.navigate("Modal", { unit: item })}
+        onPress={() => navigation.navigate('Modal', { unit: item })}
       />
     );
   };
@@ -170,14 +198,16 @@ const Units = ({ navigation }: RootTabScreenProps<"TabOne">) => {
     <View style={styles.container}>
       <ImageBackground
         resizeMode="cover"
-        style={{ width: "100%", height: "100%" }}
-        source={require("../assets/images/background.jpg")}
+        style={{ width: '100%', height: '100%' }}
+        source={require('../assets/images/background.jpg')}
         imageStyle={{ opacity: 0.2 }}
       >
         <SectionList
           sections={sectionList}
           renderItem={renderItem}
-          renderSectionHeader={({ section: { title } }) => <Text style={styles.title}>{title}</Text>}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={styles.title}>{title}</Text>
+          )}
           renderSectionFooter={() => <View style={styles.separator} />}
         />
       </ImageBackground>
@@ -185,9 +215,9 @@ const Units = ({ navigation }: RootTabScreenProps<"TabOne">) => {
   );
 };
 
-export default function TabOneScreen({ navigation, route }: RootTabScreenProps<"TabOne">) {
+export default function TabOneScreen({ navigation, route }: RootTabScreenProps<'TabOne'>) {
   const colorScheme = useColorScheme();
-  const STATUSBAR_HEIGHT = Platform.OS === "ios" ? 20 : Constants.statusBarHeight;
+  const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : Constants.statusBarHeight;
   return (
     <>
       <Tab.Navigator
@@ -211,7 +241,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginHorizontal: Layout.spacing(3),
     marginBottom: Layout.spacing(2),
     marginTop: Layout.spacing(3),

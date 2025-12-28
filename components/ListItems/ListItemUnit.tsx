@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Avatar, Icon, ListItem } from "react-native-elements";
-import Colors from "../../constants/Colors";
-import useColorScheme from "../../hooks/useColorScheme";
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Avatar, Icon, ListItem } from 'react-native-elements';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 
 interface Props {
   index: string;
@@ -36,16 +36,34 @@ const ListItemUnit = ({ index, title, subTitle, costs, firstItem, onPress }: Pro
         />
       )}
       <ListItem.Content>
-        <ListItem.Title style={{ fontSize: 18, textDecorationLine: isDead ? "line-through" : "none", opacity: isDead ? 0.6 : 1.0 }}>
+        <ListItem.Title
+          style={{
+            fontSize: 18,
+            textDecorationLine: isDead ? 'line-through' : 'none',
+            opacity: isDead ? 0.6 : 1.0,
+          }}
+        >
           {title}
         </ListItem.Title>
         {subTitle && (
-          <ListItem.Subtitle style={{ textDecorationLine: isDead ? "line-through" : "none", opacity: isDead ? 0.6 : 1.0 }}>
+          <ListItem.Subtitle
+            style={{
+              textDecorationLine: isDead ? 'line-through' : 'none',
+              opacity: isDead ? 0.6 : 1.0,
+            }}
+          >
             {subTitle}
           </ListItem.Subtitle>
         )}
       </ListItem.Content>
-      <ListItem.Title style={{ textDecorationLine: isDead ? "line-through" : "none", opacity: isDead ? 0.6 : 1.0 }}>{costs}</ListItem.Title>
+      <ListItem.Title
+        style={{
+          textDecorationLine: isDead ? 'line-through' : 'none',
+          opacity: isDead ? 0.6 : 1.0,
+        }}
+      >
+        {costs}
+      </ListItem.Title>
       <ListItem.Chevron />
     </ListItem>
   );

@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
-import Layout from "../../constants/Layout";
-import useColorScheme from "../../hooks/useColorScheme";
-import { Characteristics } from "../../utils/DataTypes";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
+import useColorScheme from '../../hooks/useColorScheme';
+import { Characteristics } from '../../utils/DataTypes';
 
 interface Props {
   data: Characteristics;
@@ -77,7 +77,9 @@ const CharacteristicsTable = ({ data }: Props) => {
       </View>
       <View style={styles.tableRow2}>
         <View style={styles.abilities}>
-          <Text style={{ fontStyle: "italic", color: "grey", fontSize: 12 }}>{data.weapons.join(", ")}</Text>
+          <Text style={{ fontStyle: 'italic', color: 'grey', fontSize: 12 }}>
+            {data.weapons.join(', ')}
+          </Text>
         </View>
       </View>
       <View style={styles.triangle} />
@@ -96,67 +98,67 @@ const styles = StyleSheet.create({
   },
   tableHead: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     height: Layout.spacing(5),
   },
   tableRow: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     height: Layout.spacing(5),
     borderBottomWidth: 1,
   },
   tableRow2: {
-    flexDirection: "row",
+    flexDirection: 'row',
     minHeight: Layout.spacing(5),
   },
   abilities: {
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingLeft: 8,
     marginRight: 12,
     paddingVertical: 4,
   },
   tableCell: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   unitTitle: {
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: Layout.spacing(2),
     height: Layout.spacing(5),
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   unitTitleText: {
     color: Colors.dark.text,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   triangle: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: -1.5,
     width: 0,
     height: 0,
-    backgroundColor: "white",
-    borderStyle: "solid",
+    backgroundColor: 'white',
+    borderStyle: 'solid',
     borderRightWidth: 12,
     borderTopWidth: 12,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    transform: [{ rotate: '180deg' }],
   },
   borderCorner: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: 4,
     width: 5,
     height: 16,
     borderRightWidth: 1,
-    transform: [{ rotate: "45deg" }],
+    transform: [{ rotate: '45deg' }],
   },
 });

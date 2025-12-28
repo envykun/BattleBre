@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
-import Layout from "../../constants/Layout";
-import useColorScheme from "../../hooks/useColorScheme";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
+import useColorScheme from '../../hooks/useColorScheme';
 
 interface OverviewRuleItemProps {
   title: string;
@@ -12,13 +12,21 @@ interface OverviewRuleItemProps {
 const OverviewRuleItem = ({ title, description }: OverviewRuleItemProps) => {
   const colorScheme = useColorScheme();
   return (
-    <View style={[styles.container, { borderColor: Colors[colorScheme].primary, backgroundColor: Colors[colorScheme].secondary }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          borderColor: Colors[colorScheme].primary,
+          backgroundColor: Colors[colorScheme].secondary,
+        },
+      ]}
+    >
       <View style={styles.tableHead}>
-        <Text style={{ fontWeight: "bold", marginRight: 4 }}>{title}</Text>
+        <Text style={{ fontWeight: 'bold', marginRight: 4 }}>{title}</Text>
       </View>
       <View style={styles.tableRow}>
         <View style={styles.abilities}>
-          <Text style={{ textAlign: "justify" }}>{description}</Text>
+          <Text style={{ textAlign: 'justify' }}>{description}</Text>
         </View>
       </View>
       <View style={[styles.triangle, { backgroundColor: Colors[colorScheme].secondary }]} />
@@ -38,35 +46,35 @@ const styles = StyleSheet.create({
   },
   tableHead: {
     height: Layout.spacing(5),
-    justifyContent: "center",
+    justifyContent: 'center',
     marginTop: 4,
   },
   tableRow: {
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   abilities: {
     paddingVertical: 4,
   },
   triangle: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1,
     right: -1,
     width: 0,
     height: 0,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderRightWidth: 12,
     borderTopWidth: 12,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    transform: [{ rotate: '180deg' }],
   },
   borderCorner: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: 4,
     width: 5,
     height: 16,
     borderRightWidth: 1,
-    transform: [{ rotate: "45deg" }],
+    transform: [{ rotate: '45deg' }],
   },
 });

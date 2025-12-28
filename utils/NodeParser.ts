@@ -1,13 +1,13 @@
 // import { Create40kRoster } from "./roster40k";
 // import { Renderer40k } from "./renderer40k";
-import { validationOptions, X2jOptions, XMLParser } from "fast-xml-parser";
-const fs = require("fs");
-const JSZip = require("jszip");
+import { validationOptions, X2jOptions, XMLParser } from 'fast-xml-parser';
+const fs = require('fs');
+const JSZip = require('jszip');
 // const xml2js = require("xml2js");
 // const DOMParser1 = require("xmldom").DOMParser;
 
 const options: Partial<X2jOptions> = {
-  attributeNamePrefix: "@_",
+  attributeNamePrefix: '@_',
   ignoreAttributes: false,
 };
 
@@ -19,7 +19,7 @@ function parseXML(xmldata: string) {
 
   console.log(json);
 
-  fs.writeFileSync("newJson.json", json);
+  fs.writeFileSync('newJson.json', json);
 
   // let parser = new DOMParser1();
   // let doc = parser.parseFromString(xmldata, "text/xml");
@@ -42,19 +42,19 @@ function parseXML(xmldata: string) {
 }
 
 const unzip = async (file: string): Promise<string> => {
-  if (file.charAt(0) !== "P") {
+  if (file.charAt(0) !== 'P') {
     return file;
   } else {
     const jszip = new JSZip();
-    console.log("????----????", file);
+    console.log('????----????', file);
     const zip = await jszip.loadAsync(file);
-    return zip.file(/[^/]+\.ros/)[0].async("string"); // Get roster files that are in the root
+    return zip.file(/[^/]+\.ros/)[0].async('string'); // Get roster files that are in the root
   }
 };
 
 function handleFileSelect() {
-  const files = fs.readFileSync("RosterFile.rosz", "binary");
-  fs.writeFileSync("BinFile.txt", files);
+  const files = fs.readFileSync('RosterFile.rosz', 'binary');
+  fs.writeFileSync('BinFile.txt', files);
   unzip(files)
     .then((xml) => parseXML(xml))
     .catch((err) => console.log(err));

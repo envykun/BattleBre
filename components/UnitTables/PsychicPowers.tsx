@@ -1,9 +1,9 @@
-import React, { ReactElement } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
-import Layout from "../../constants/Layout";
-import useColorScheme from "../../hooks/useColorScheme";
-import { Psychic, PsychicPower } from "../../utils/DataTypes";
+import React, { ReactElement } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
+import useColorScheme from '../../hooks/useColorScheme';
+import { Psychic, PsychicPower } from '../../utils/DataTypes';
 
 interface Props {
   data: Psychic | undefined;
@@ -12,7 +12,15 @@ interface Props {
 const PsychicPowers = ({ data }: Props) => {
   const colorScheme = useColorScheme();
   const renderPsy = (psy: PsychicPower, index: number): ReactElement => (
-    <View key={index} style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
+    <View
+      key={index}
+      style={{
+        borderWidth: 1,
+        marginBottom: 12,
+        borderColor: Colors[colorScheme].primary,
+        borderRadius: 4,
+      }}
+    >
       <View style={[styles.unitTitle, { backgroundColor: Colors[colorScheme].primary }]}>
         <Text style={styles.unitTitleText}>{psy.name}</Text>
       </View>
@@ -47,7 +55,14 @@ const PsychicPowers = ({ data }: Props) => {
       <View style={styles.title}>
         <Text style={styles.titleText}>PSYKER</Text>
       </View>
-      <View style={{ borderWidth: 1, marginBottom: 12, borderColor: Colors[colorScheme].primary, borderRadius: 4 }}>
+      <View
+        style={{
+          borderWidth: 1,
+          marginBottom: 12,
+          borderColor: Colors[colorScheme].primary,
+          borderRadius: 4,
+        }}
+      >
         <View style={[styles.unitTitle, { backgroundColor: Colors[colorScheme].primary }]}>
           <Text style={styles.unitTitleText}>{data?.name}</Text>
         </View>
@@ -93,80 +108,80 @@ export default PsychicPowers;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
   tableHead: {
     height: Layout.spacing(5),
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   tableRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderBottomWidth: 1,
     height: Layout.spacing(5),
   },
   tableRow2: {
-    flexDirection: "row",
+    flexDirection: 'row',
     minHeight: Layout.spacing(5),
   },
   tableCell: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tableCell2: {
     flex: 2,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   abilities: {
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingLeft: 8,
     marginRight: 12,
     paddingVertical: 4,
   },
   title: {
     height: Layout.spacing(6),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 18,
   },
   unitTitle: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingLeft: Layout.spacing(2),
     height: Layout.spacing(5),
   },
   unitTitleText: {
     color: Colors.dark.text,
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   triangle: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: -1.5,
     width: 0,
     height: 0,
-    backgroundColor: "white",
-    borderStyle: "solid",
+    backgroundColor: 'white',
+    borderStyle: 'solid',
     borderRightWidth: 12,
     borderTopWidth: 12,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
+    borderRightColor: 'transparent',
+    borderTopColor: 'white',
+    transform: [{ rotate: '180deg' }],
   },
   borderCorner: {
-    position: "absolute",
+    position: 'absolute',
     bottom: -1.5,
     right: 4,
     width: 5,
     height: 16,
     borderRightWidth: 1,
-    transform: [{ rotate: "45deg" }],
+    transform: [{ rotate: '45deg' }],
   },
 });

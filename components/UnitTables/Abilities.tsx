@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
-import Layout from "../../constants/Layout";
-import { Ability, Rule } from "../../utils/DataTypes";
-import OverviewRuleItem from "../ListItems/OverviewRuleItem";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Colors from '../../constants/Colors';
+import Layout from '../../constants/Layout';
+import { Ability, Rule } from '../../utils/DataTypes';
+import OverviewRuleItem from '../ListItems/OverviewRuleItem';
 
 interface Props {
   abilities: Array<Ability>;
@@ -77,10 +77,10 @@ const styles = StyleSheet.create({
   },
   title: {
     height: Layout.spacing(6),
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 18,
   },
 });
