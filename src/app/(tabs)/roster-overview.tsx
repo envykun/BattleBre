@@ -15,8 +15,18 @@ export default function RosterOverviewScreen() {
         {isLoading ? "Loading roster..." : rosterName}
       </Text>
       <Text style={styles.title}>Roster Overview</Text>
+      <Text>{selectedRoster?.roster.name}</Text>
+      <Text>{selectedRoster?.roster.costs[0].name}</Text>
+      <Text>{selectedRoster?.roster.costs[0].value}</Text>
+      <Text>{selectedRoster?.roster.costs[0].valueText}</Text>
+      <Text>{selectedRoster?.roster.forces.length}</Text>
+      <Text>{selectedRoster?.roster.forces[0].name}</Text>
+      <Text>{selectedRoster?.roster.forces[0].catalogueName}</Text>
       <View style={styles.button}>
-        <Button title="Open Modal" onPress={() => router.push("/modal")} />
+        <Button
+          title="Open Modal"
+          onPress={() => router.push("/(tabs)/modal")}
+        />
       </View>
       <View style={styles.button}>
         <Button title="Back to Home" onPress={() => router.dismissTo("/")} />

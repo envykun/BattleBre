@@ -15,6 +15,14 @@ export default function TabLayout() {
       >
         <Tabs.Screen name="roster-overview" options={{ title: "Overview" }} />
         <Tabs.Screen name="roster-units" options={{ title: "Units" }} />
+        <Tabs.Screen
+          name="modal"
+          options={{
+            title: "Unit",
+            href: null,
+            tabBarStyle: { display: "none" },
+          }}
+        />
       </Tabs>
     </RosterProvider>
   );

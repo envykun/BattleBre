@@ -1,5 +1,11 @@
+import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Roster, type Selection } from "../data/models/roster";
+import {
+  extractRosterXml,
+  parseRosterXml,
+} from "../data/parser/warhammer/dataExtractor10e";
 
 export type RosterMeta = {
   id: string;
@@ -53,7 +59,40 @@ type UseFetchRostersResult = {
   rosters: RosterMeta[] | null;
   loading: boolean;
   error: string | null;
+  addRoster: () => Promise<void>;
 };
+
+const rosterPoints = (roster: Roster) => {
+  const pointsCost = roster.costs.find(
+    (cost) => cost.name.trim().toLowerCase() === "pts"
+  );
+  if (!pointsCost) {
+    return 0;
+  }
+  if (typeof pointsCost.value === "number") {
+    return pointsCost.value;
+  }
+  const parsed = Number(pointsCost.valueText ?? 0);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+const countUnits = (selections: Selection[]): number =>
+  selections.reduce((count, selection) => {
+    const type = selection.type?.toLowerCase();
+    const isUnitLike = type === "unit" || type === "model";
+    const isGrouped = selection.from === "group";
+    const nextCount = isUnitLike && !isGrouped ? 1 : 0;
+    return count + nextCount + countUnits(selection.selections);
+  }, 0);
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)+/g, "");
+
+const stripRosterExtension = (value: string) =>
+  value.replace(/\.(rosz|ros)$/i, "");
 
 export function useFetchRosters(): UseFetchRostersResult {
   const [rosters, setRosters] = useState<RosterMeta[] | null>(null);
@@ -120,5 +159,96 @@ export function useFetchRosters(): UseFetchRostersResult {
     };
   }, []);
 
-  return { rosters, loading, error };
+  const addRoster = useCallback(async () => {
+    try {
+      setError(null);
+      const result = await DocumentPicker.getDocumentAsync({
+        multiple: false,
+        type: "*/*",
+      });
+
+      if (result.canceled || !result.assets?.length) {
+        return;
+      }
+
+      const [asset] = result.assets;
+      if (!asset?.uri) {
+        throw new Error("No roster file selected.");
+      }
+
+      const displayName = asset.name ?? "roster";
+      const normalizedName = displayName.toLowerCase();
+      const isZip = normalizedName.endsWith(".rosz");
+      const isRoster = normalizedName.endsWith(".ros");
+
+      if (!isZip && !isRoster) {
+        throw new Error("Unsupported roster file. Use .ros or .rosz.");
+      }
+
+      const pickedFile = new FileSystem.File(asset.uri);
+      const raw = isZip ? await pickedFile.base64() : await pickedFile.text();
+
+      const xml = await extractRosterXml(raw, { isZip });
+      const parsed = parseRosterXml(xml);
+
+      if (!parsed?.roster) {
+        throw new Error("Invalid roster file.");
+      }
+
+      const roster = Roster.fromRaw(parsed.roster);
+      const rosterId = `roster-${Date.now().toString(36)}-${Math.random()
+        .toString(36)
+        .slice(2, 6)}`;
+      const baseName = slugify(
+        stripRosterExtension(roster.name || displayName || "roster")
+      );
+      const fileName = `${baseName || "roster"}-${rosterId}.ros`;
+      const filePath = `rosters/${fileName}`;
+
+      const storedFile = new FileSystem.File(
+        FileSystem.Paths.document,
+        filePath
+      );
+      if (!storedFile.exists) {
+        storedFile.create({ intermediates: true });
+      }
+      storedFile.write(xml);
+
+      const faction =
+        roster.forces[0]?.catalogueName ?? roster.forces[0]?.name ?? "Unknown";
+      const unitCount = countUnits(
+        roster.forces.flatMap((force) => force.selections)
+      );
+      const lastUpdated = new Date().toISOString().slice(0, 10);
+
+      const newRoster: RosterMeta = {
+        id: rosterId,
+        name: roster.name || displayName,
+        fileName,
+        filePath,
+        faction,
+        points: rosterPoints(roster),
+        unitCount,
+        lastUpdated,
+      };
+
+      const nextRosters = [...(rosters ?? []), newRoster];
+      const rosterFile = new FileSystem.File(
+        FileSystem.Paths.document,
+        "rosters.json"
+      );
+      if (!rosterFile.exists) {
+        rosterFile.create({ intermediates: true });
+      }
+      rosterFile.write(JSON.stringify({ rosters: nextRosters }));
+
+      setRosters(nextRosters);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to add roster.";
+      setError(message);
+    }
+  }, [rosters]);
+
+  return { rosters, loading, error, addRoster };
 }

@@ -3,7 +3,7 @@ import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 
 export default function Index() {
-  const { rosters, loading, error } = useFetchRosters();
+  const { rosters, loading, error, addRoster } = useFetchRosters();
 
   const renderItem = ({ item }: { item: RosterMeta }) => (
     <View id={item.id} style={styles.listItem}>
@@ -30,7 +30,7 @@ export default function Index() {
         )}
         <FlatList data={rosters ?? []} renderItem={renderItem} />
       </View>
-      <Button title="Add roster" />
+      <Button title="Add roster" onPress={addRoster} />
     </View>
   );
 }

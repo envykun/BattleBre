@@ -1,10 +1,14 @@
 import * as FileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
+import { parseRoster } from "../data/parser/warhammer/dataExtractor10e";
+import type { Roster } from "../data/models/roster";
 import { RosterMeta } from "./useFetchRosters";
 
 export type RosterFileData = {
   meta: RosterMeta;
   raw: string;
+  isZip: boolean;
+  roster: Roster;
 };
 
 type UseRosterFileResult = {
@@ -14,7 +18,7 @@ type UseRosterFileResult = {
 };
 
 export function useRosterFile(
-  selectedRosterMeta: RosterMeta | null
+  selectedRosterMeta: RosterMeta | null,
 ): UseRosterFileResult {
   const [data, setData] = useState<RosterFileData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -36,7 +40,7 @@ export function useRosterFile(
       try {
         const rosterFile = new FileSystem.File(
           FileSystem.Paths.document,
-          selectedRosterMeta.filePath
+          selectedRosterMeta.filePath,
         );
 
         if (!rosterFile.exists) {
@@ -45,10 +49,10 @@ export function useRosterFile(
 
         const isZip = selectedRosterMeta.filePath.endsWith(".rosz");
         const raw = isZip ? await rosterFile.base64() : await rosterFile.text();
+        const roster = await parseRoster(raw, { isZip });
 
         if (isMounted) {
-          // TODO: Replace raw payload with parsed roster data.
-          setData({ meta: selectedRosterMeta, raw });
+          setData({ meta: selectedRosterMeta, raw, isZip, roster });
         }
       } catch (err) {
         if (isMounted) {
