@@ -34,6 +34,15 @@ export default function ModalScreen() {
       : unitPointsParam
         ? `${unitPointsParam} pts`
         : null;
+  const unitCount = unitDetails?.count ?? 1;
+  const displayName =
+    unitCount > 1 ? `${resolvedName} x${unitCount}` : resolvedName;
+  const meleeWeapons =
+    unitDetails?.weapons.filter((weapon) => weapon.mode === "melee") ?? [];
+  const rangedWeapons =
+    unitDetails?.weapons.filter((weapon) => weapon.mode === "ranged") ?? [];
+  const otherWeapons =
+    unitDetails?.weapons.filter((weapon) => weapon.mode === "other") ?? [];
   const hasMeta = Boolean(resolvedRole || resolvedPoints);
   const hasDetails = Boolean(
     unitDetails?.characteristics.length ||
@@ -51,7 +60,7 @@ export default function ModalScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>{resolvedName}</Text>
+        <Text style={styles.title}>{displayName}</Text>
         {hasMeta && (
           <View style={styles.detailsCard}>
             {resolvedRole && (
@@ -82,9 +91,12 @@ export default function ModalScreen() {
             <Text style={styles.sectionTitle}>Characteristics</Text>
             {unitDetails.characteristics.map((block) => (
               <View key={block.name} style={styles.itemBlock}>
-                <Text style={styles.itemTitle}>{block.name}</Text>
+                <Text style={styles.itemTitle}>
+                  {block.name}
+                  {block.count > 1 ? ` x${block.count}` : ""}
+                </Text>
                 <Text style={styles.itemMeta}>
-                  {`M ${block.m} | WS ${block.ws} | BS ${block.bs} | S ${block.s} | T ${block.t} | W ${block.w} | A ${block.a} | Ld ${block.ld} | Sv ${block.sv}`}
+                  {`M ${block.m} | T ${block.t} | Sv ${block.sv} | W ${block.w} | Ld ${block.ld} | OC ${block.oc}`}
                 </Text>
               </View>
             ))}
@@ -93,20 +105,105 @@ export default function ModalScreen() {
         {unitDetails?.weapons.length ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Weapons</Text>
-            {unitDetails.weapons.map((weapon) => (
-              <View key={weapon.id} style={styles.itemBlock}>
-                <Text style={styles.itemTitle}>
-                  {weapon.name}
-                  {weapon.count != null ? ` x${weapon.count}` : ""}
-                </Text>
-                <Text style={styles.itemMeta}>
-                  {`Range ${weapon.range} | Type ${weapon.type} | S ${weapon.s} | AP ${weapon.ap} | D ${weapon.d}`}
-                </Text>
-                {weapon.abilities !== "-" && weapon.abilities !== "" && (
-                  <Text style={styles.itemBody}>{`Abilities: ${weapon.abilities}`}</Text>
-                )}
+            {rangedWeapons.length ? (
+              <View style={styles.subSection}>
+                <Text style={styles.sectionSubtitle}>Ranged Weapons</Text>
+                {rangedWeapons.map((weapon) => {
+                  const metaParts = [
+                    `Range ${weapon.range}`,
+                    weapon.type !== "-" && weapon.type !== ""
+                      ? `Type ${weapon.type}`
+                      : null,
+                    `A ${weapon.a}`,
+                    `BS ${weapon.bs}`,
+                    `S ${weapon.s}`,
+                    `AP ${weapon.ap}`,
+                    `D ${weapon.d}`,
+                  ].filter((part): part is string => Boolean(part));
+
+                  return (
+                    <View key={weapon.id} style={styles.itemBlock}>
+                      <Text style={styles.itemTitle}>
+                        {weapon.name}
+                        {weapon.count != null ? ` x${weapon.count}` : ""}
+                      </Text>
+                      <Text style={styles.itemMeta}>{metaParts.join(" | ")}</Text>
+                      {weapon.abilities !== "-" && weapon.abilities !== "" && (
+                        <Text style={styles.itemBody}>
+                          {`Abilities: ${weapon.abilities}`}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
               </View>
-            ))}
+            ) : null}
+            {meleeWeapons.length ? (
+              <View style={styles.subSection}>
+                <Text style={styles.sectionSubtitle}>Melee Weapons</Text>
+                {meleeWeapons.map((weapon) => {
+                  const metaParts = [
+                    `Range ${weapon.range}`,
+                    weapon.type !== "-" && weapon.type !== ""
+                      ? `Type ${weapon.type}`
+                      : null,
+                    `A ${weapon.a}`,
+                    `WS ${weapon.bs}`,
+                    `S ${weapon.s}`,
+                    `AP ${weapon.ap}`,
+                    `D ${weapon.d}`,
+                  ].filter((part): part is string => Boolean(part));
+
+                  return (
+                    <View key={weapon.id} style={styles.itemBlock}>
+                      <Text style={styles.itemTitle}>
+                        {weapon.name}
+                        {weapon.count != null ? ` x${weapon.count}` : ""}
+                      </Text>
+                      <Text style={styles.itemMeta}>{metaParts.join(" | ")}</Text>
+                      {weapon.abilities !== "-" && weapon.abilities !== "" && (
+                        <Text style={styles.itemBody}>
+                          {`Abilities: ${weapon.abilities}`}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            ) : null}
+            {otherWeapons.length ? (
+              <View style={styles.subSection}>
+                <Text style={styles.sectionSubtitle}>Other Weapons</Text>
+                {otherWeapons.map((weapon) => {
+                  const metaParts = [
+                    `Range ${weapon.range}`,
+                    weapon.type !== "-" && weapon.type !== ""
+                      ? `Type ${weapon.type}`
+                      : null,
+                    `A ${weapon.a}`,
+                    weapon.bs !== "-" ? `BS/WS ${weapon.bs}` : null,
+                    `S ${weapon.s}`,
+                    `AP ${weapon.ap}`,
+                    `D ${weapon.d}`,
+                  ].filter((part): part is string => Boolean(part));
+
+                  return (
+                    <View key={weapon.id} style={styles.itemBlock}>
+                      <Text style={styles.itemTitle}>
+                        {weapon.name}
+                        {weapon.count != null ? ` x${weapon.count}` : ""}
+                      </Text>
+                      <Text style={styles.itemMeta}>{metaParts.join(" | ")}</Text>
+                      {weapon.abilities !== "-" && weapon.abilities !== "" && (
+                        <Text style={styles.itemBody}>
+                          {`Abilities: ${weapon.abilities}`}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            ) : null}
           </View>
         ) : null}
         {unitDetails?.abilities.length ? (

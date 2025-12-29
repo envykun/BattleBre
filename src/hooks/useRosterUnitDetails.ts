@@ -1,24 +1,30 @@
+import type {
+  Profile,
+  Roster,
+  Rule,
+  Selection,
+} from "@/src/data/models/roster";
 import { useMemo } from "react";
-import type { Roster, Selection, Profile, Rule } from "@/src/data/models/roster";
 
 export type UnitCharacteristics = {
   name: string;
+  count: number;
   m: string;
-  ws: string;
-  bs: string;
-  s: string;
   t: string;
-  w: string;
-  a: string;
-  ld: string;
   sv: string;
+  w: string;
+  ld: string;
+  oc: string;
 };
 
 export type UnitWeapon = {
   id: string;
   name: string;
+  mode: "melee" | "ranged" | "other";
   range: string;
   type: string;
+  a: string;
+  bs: string;
   s: string;
   ap: string;
   d: string;
@@ -55,6 +61,7 @@ export type UnitDetails = {
   name: string;
   role: string;
   points: number | null;
+  count: number;
   characteristics: UnitCharacteristics[];
   weapons: UnitWeapon[];
   abilities: UnitAbility[];
@@ -64,7 +71,16 @@ export type UnitDetails = {
   forceRules: Rule[];
 };
 
-type ProfileKind = "unit" | "weapon" | "ability" | "psyker" | "psychic-power" | "other";
+type ProfileKind =
+  | "unit"
+  | "weapon"
+  | "ability"
+  | "psyker"
+  | "psychic-power"
+  | "transport"
+  | "wound-track"
+  | "explosion"
+  | "other";
 
 const ROLE_ORDER = [
   "HQ",
@@ -85,7 +101,7 @@ const flattenSelections = (selection: Selection): Selection[] => [
 
 const findSelectionInForce = (
   selections: Selection[],
-  unitId: string,
+  unitId: string
 ): Selection | null => {
   for (const selection of selections) {
     if (selection.id === unitId) {
@@ -109,13 +125,45 @@ const findSelectionWithForce = (roster: Roster, unitId: string) => {
   return null;
 };
 
-const readCharacteristic = (profile: Profile, key: string) =>
-  profile.characteristics.find((entry) => entry.name === key)?.value ?? "-";
+const readCharacteristic = (profile: Profile, key: string | string[]) => {
+  const keys = Array.isArray(key) ? key : [key];
+  const normalized = keys.map(normalize);
+  const entry = profile.characteristics.find((item) =>
+    normalized.includes(normalize(item.name)),
+  );
+  return entry?.value ?? "-";
+};
 
 const normalize = (value?: string) => value?.trim().toLowerCase() ?? "";
 
 const characteristicNames = (profile: Profile) =>
   new Set(profile.characteristics.map((entry) => normalize(entry.name)));
+
+const readSelectionNumber = (selection: Selection): number => {
+  if (typeof selection.number === "number") {
+    return selection.number;
+  }
+  if (selection.numberText != null) {
+    const parsed = Number(selection.numberText);
+    if (!Number.isNaN(parsed)) {
+      return parsed;
+    }
+  }
+  return 1;
+};
+
+const unitCount = (selection: Selection): number => {
+  const modelSelections = flattenSelections(selection).filter(
+    (entry) => entry.type?.toLowerCase() === "model",
+  );
+  if (modelSelections.length) {
+    return modelSelections.reduce(
+      (sum, entry) => sum + readSelectionNumber(entry),
+      0,
+    );
+  }
+  return readSelectionNumber(selection);
+};
 
 const classifyProfile = (profile: Profile): ProfileKind => {
   const typeName = normalize(profile.typeName);
@@ -131,15 +179,31 @@ const classifyProfile = (profile: Profile): ProfileKind => {
   if (typeName.includes("psychic power")) {
     return "psychic-power";
   }
+  if (typeName.includes("transport")) {
+    return "transport";
+  }
+  if (typeName.includes("wound track")) {
+    return "wound-track";
+  }
+  if (typeName.includes("explosion")) {
+    return "explosion";
+  }
   if (typeName === "unit" || typeName.includes("unit")) {
     return "unit";
   }
 
   const names = characteristicNames(profile);
-  const has = (value: string) => names.has(value);
+  const has = (value: string) => names.has(normalize(value));
   const hasAll = (values: string[]) => values.every((value) => has(value));
+  const hasAny = (values: string[]) => values.some((value) => has(value));
 
-  if (hasAll(["range", "type", "s", "ap", "d"])) {
+  if (
+    has("range") &&
+    has("s") &&
+    has("ap") &&
+    has("d") &&
+    hasAny(["type", "a", "attacks", "bs", "ws", "bs/ws"])
+  ) {
     return "weapon";
   }
   if (has("description")) {
@@ -151,7 +215,19 @@ const classifyProfile = (profile: Profile): ProfileKind => {
   if (hasAll(["warp charge", "range", "details"])) {
     return "psychic-power";
   }
-  if (has("m") && (has("ws") || has("bs"))) {
+  if (has("capacity")) {
+    return "transport";
+  }
+  if (has("remaining w") || has("characteristic 1")) {
+    return "wound-track";
+  }
+  if (hasAny(["mortal wounds", "dice roll", "distance"])) {
+    return "explosion";
+  }
+  if (
+    (has("m") && has("t") && (has("sv") || has("save")) && has("w")) ||
+    (has("m") && (has("ws") || has("bs")) && has("s") && has("t"))
+  ) {
     return "unit";
   }
 
@@ -164,9 +240,27 @@ const unitRole = (selection: Selection) => {
     return primary.name;
   }
   const fallback = selection.categories.find((category) =>
-    ROLE_ORDER.includes(category.name ?? ""),
+    ROLE_ORDER.includes(category.name ?? "")
   );
   return fallback?.name ?? "Other";
+};
+
+const weaponMode = (profile: Profile, range: string) => {
+  const typeName = normalize(profile.typeName);
+  if (typeName.includes("melee")) {
+    return "melee";
+  }
+  if (typeName.includes("ranged")) {
+    return "ranged";
+  }
+  const normalizedRange = normalize(range);
+  if (normalizedRange.includes("melee")) {
+    return "melee";
+  }
+  if (normalizedRange && normalizedRange !== "-") {
+    return "ranged";
+  }
+  return "other";
 };
 
 const unitPoints = (selection: Selection): number | null => {
@@ -198,7 +292,7 @@ const unitPoints = (selection: Selection): number | null => {
   return total;
 };
 
-const uniqueBy = <T,>(items: T[], getKey: (item: T) => string | undefined) => {
+const uniqueBy = <T>(items: T[], getKey: (item: T) => string | undefined) => {
   const map = new Map<string, T>();
   for (const item of items) {
     const key = getKey(item);
@@ -214,7 +308,7 @@ const uniqueBy = <T,>(items: T[], getKey: (item: T) => string | undefined) => {
 
 export function useRosterUnitDetails(
   roster: Roster | null,
-  unitId: string | null,
+  unitId: string | null
 ): UnitDetails | null {
   return useMemo(() => {
     if (!roster || !unitId) {
@@ -229,10 +323,10 @@ export function useRosterUnitDetails(
     const selection = match.selection;
     const flattened = flattenSelections(selection);
     const allProfilesWithSelection = flattened.flatMap((entry) =>
-      entry.profiles.map((profile) => ({ profile, selection: entry })),
+      entry.profiles.map((profile) => ({ profile, selection: entry }))
     );
     const profilesWithSelection = allProfilesWithSelection.filter(
-      ({ profile }) => !profile.isHidden,
+      ({ profile }) => !profile.isHidden
     );
     const profileEntries = profilesWithSelection.map((entry) => ({
       ...entry,
@@ -243,58 +337,111 @@ export function useRosterUnitDetails(
       kind: classifyProfile(entry.profile),
     }));
 
-    const unitProfiles = profileEntries
-      .filter((entry) => entry.kind === "unit")
-      .map(({ profile }) => profile);
+    let unitProfileEntries = profileEntries.filter(
+      (entry) => entry.kind === "unit",
+    );
+    if (!unitProfileEntries.length) {
+      unitProfileEntries = allProfileEntries.filter(
+        (entry) => entry.kind === "unit",
+      );
+    }
 
-    const characteristics = uniqueBy(unitProfiles, (profile) => profile.id).map(
-      (profile) => ({
+    const characteristicMap = new Map<
+      string,
+      { profile: Profile; count: number }
+    >();
+    for (const entry of unitProfileEntries) {
+      const id = entry.profile.id;
+      const count = unitCount(entry.selection);
+      const existing = characteristicMap.get(id);
+      characteristicMap.set(id, {
+        profile: entry.profile,
+        count: (existing?.count ?? 0) + count,
+      });
+    }
+
+    const characteristics = Array.from(characteristicMap.values()).map(
+      ({ profile, count }) => ({
         name: profile.name ?? "Unit",
-        m: readCharacteristic(profile, "M"),
-        ws: readCharacteristic(profile, "WS"),
-        bs: readCharacteristic(profile, "BS"),
-        s: readCharacteristic(profile, "S"),
-        t: readCharacteristic(profile, "T"),
-        w: readCharacteristic(profile, "W"),
-        a: readCharacteristic(profile, "A"),
-        ld: readCharacteristic(profile, "Ld"),
-        sv: readCharacteristic(profile, "Save"),
+        count,
+        m: readCharacteristic(profile, ["M", "Move"]),
+        t: readCharacteristic(profile, ["T", "Toughness"]),
+        sv: readCharacteristic(profile, ["Sv", "Save"]),
+        w: readCharacteristic(profile, ["W", "Wounds"]),
+        ld: readCharacteristic(profile, ["Ld", "Leadership"]),
+        oc: readCharacteristic(profile, ["OC", "Objective Control"]),
       }),
     );
 
-    let weaponProfiles = profileEntries.filter((entry) => entry.kind === "weapon");
+    let weaponProfiles = profileEntries.filter(
+      (entry) => entry.kind === "weapon"
+    );
     if (!weaponProfiles.length) {
-      weaponProfiles = allProfileEntries.filter((entry) => entry.kind === "weapon");
+      weaponProfiles = allProfileEntries.filter(
+        (entry) => entry.kind === "weapon"
+      );
     }
     const weaponMap = new Map<string, UnitWeapon>();
     for (const { profile, selection: source } of weaponProfiles) {
       const name = profile.name ?? "Weapon";
+      const range = readCharacteristic(profile, "Range");
+      const type = readCharacteristic(profile, ["Type", "Weapon Type"]);
+      const a = readCharacteristic(profile, ["A", "Attacks"]);
+      const bs = readCharacteristic(profile, ["BS/WS", "BS", "WS"]);
+      const s = readCharacteristic(profile, ["S", "Strength"]);
+      const ap = readCharacteristic(profile, ["AP"]);
+      const d = readCharacteristic(profile, ["D", "Damage"]);
+      const abilities = readCharacteristic(profile, [
+        "Abilities",
+        "Ability",
+        "Keywords",
+      ]);
+      const mode = weaponMode(profile, range);
+      const key = [
+        mode,
+        name,
+        range,
+        type,
+        a,
+        bs,
+        s,
+        ap,
+        d,
+        abilities,
+      ]
+        .map((entry) => normalize(entry))
+        .join("|");
       const next: UnitWeapon = {
         id: profile.id,
         name,
-        range: readCharacteristic(profile, "Range"),
-        type: readCharacteristic(profile, "Type"),
-        s: readCharacteristic(profile, "S"),
-        ap: readCharacteristic(profile, "AP"),
-        d: readCharacteristic(profile, "D"),
-        abilities: readCharacteristic(profile, "Abilities"),
+        mode,
+        range,
+        type,
+        a,
+        bs,
+        s,
+        ap,
+        d,
+        abilities,
         count: source.number ?? undefined,
       };
-      const existing = weaponMap.get(name);
+      const existing = weaponMap.get(key);
       if (!existing) {
-        weaponMap.set(name, next);
+        weaponMap.set(key, next);
         continue;
       }
       const counts = [existing.count, next.count].filter(
-        (value): value is number => typeof value === "number",
+        (value): value is number => typeof value === "number"
       );
-      weaponMap.set(name, {
+      weaponMap.set(key, {
         ...existing,
-        count: counts.length ? counts.reduce((sum, value) => sum + value, 0) : existing.count,
+        count: counts.length
+          ? counts.reduce((sum, value) => sum + value, 0)
+          : existing.count,
       });
     }
     const weapons = Array.from(weaponMap.values()).sort((a, b) =>
-      a.name.localeCompare(b.name),
+      a.name.localeCompare(b.name)
     );
 
     const abilityProfiles = profileEntries
@@ -305,11 +452,11 @@ export function useRosterUnitDetails(
         description: readCharacteristic(profile, "Description"),
       }));
     const abilities = uniqueBy(abilityProfiles, (ability) => ability.name).sort(
-      (a, b) => a.name.localeCompare(b.name),
+      (a, b) => a.name.localeCompare(b.name)
     );
 
     const psykerProfile = profileEntries.find(
-      (entry) => entry.kind === "psyker",
+      (entry) => entry.kind === "psyker"
     )?.profile;
     const psychicPowerProfiles = profileEntries
       .filter((entry) => entry.kind === "psychic-power")
@@ -339,16 +486,18 @@ export function useRosterUnitDetails(
         .map((category) => category.name)
         .filter((name): name is string => Boolean(name))
         .filter((name) => !EXCLUDED_KEYWORDS.has(name)),
-      (name) => name,
+      (name) => name
     );
 
     const unitRules = uniqueBy(
-      flattened.flatMap((entry) => entry.rules).filter((rule) => !rule.isHidden),
-      (rule) => rule.id,
+      flattened
+        .flatMap((entry) => entry.rules)
+        .filter((rule) => !rule.isHidden),
+      (rule) => rule.id
     );
     const forceRules = uniqueBy(
       (match.forceRules ?? []).filter((rule) => !rule.isHidden),
-      (rule) => rule.id,
+      (rule) => rule.id
     );
 
     return {
@@ -356,6 +505,7 @@ export function useRosterUnitDetails(
       name: selection.name ?? "Unknown unit",
       role: unitRole(selection),
       points: unitPoints(selection),
+      count: unitCount(selection),
       characteristics,
       weapons,
       abilities,
