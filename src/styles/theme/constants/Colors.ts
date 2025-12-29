@@ -1,20 +1,25 @@
+export type ThemeScheme = 'light' | 'dark';
+export type CodexPalette = { primary: string; secondary: string };
+
 const tintColorLight = '#4A7E94';
 const tintColorDark = '#fff';
 
-export function setCodexColor(army: string): void {
-  if (army === undefined || !(army in codexColors)) return;
+export function setCodexColor(army?: string): void {
+  if (!army) return;
+  const palette = codexColors[army];
+  if (!palette) return;
 
-  Colors.light.primary = codexColors[army].primary;
-  Colors.light.secondary = codexColors[army].secondary;
-  Colors.light.tint = codexColors[army].primary;
-  Colors.light.tabIconSelected = codexColors[army].primary;
-  Colors.dark.primary = codexColors[army].primary;
-  Colors.dark.secondary = codexColors[army].secondary;
-  Colors.dark.tint = codexColors[army].primary;
-  Colors.dark.tabIconSelected = codexColors[army].primary;
+  Colors.light.primary = palette.primary;
+  Colors.light.secondary = palette.secondary;
+  Colors.light.tint = palette.primary;
+  Colors.light.tabIconSelected = palette.primary;
+  Colors.dark.primary = palette.primary;
+  Colors.dark.secondary = palette.secondary;
+  Colors.dark.tint = palette.primary;
+  Colors.dark.tabIconSelected = palette.primary;
 }
 
-const codexColors: any = {
+export const codexColors: Record<string, CodexPalette> = {
   default: { primary: '#12517E', secondary: '#CEDCEB' },
   'Aeldari - Craftworlds': { primary: '#12517E', secondary: '#CEDCEB' },
   'Aeldari - Drukhari': { primary: '#0B474A', secondary: '#9FC2C4' },
@@ -95,5 +100,27 @@ const Colors = {
     success: '#099609',
   },
 };
+
+export function getCodexPalette(army?: string): CodexPalette {
+  if (!army) {
+    return codexColors.default;
+  }
+  return codexColors[army] ?? codexColors.default;
+}
+
+export function getThemeColors(scheme: ThemeScheme, army?: string) {
+  const palette = getCodexPalette(army);
+  const base = Colors[scheme];
+
+  return {
+    ...base,
+    primary: palette.primary,
+    secondary: palette.secondary,
+    tint: palette.primary,
+    tabIconSelected: palette.primary,
+    error: Colors.default.error,
+    success: Colors.default.success,
+  };
+}
 
 export default Colors;

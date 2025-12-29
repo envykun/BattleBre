@@ -15,11 +15,22 @@ export type UnitSection = {
 };
 
 const ROLE_ORDER = [
-  "Characters",
+  "Epic Hero",
+  "Character",
   "Battleline",
-  "Dedicated Transport",
+  "Infantry",
+  "Mounted",
+  "Beast",
+  "Monster",
   "Vehicle",
+  "Dedicated Transport",
+  "Allied Unit",
 ];
+
+const ROLE_ORDER_INDEX = new Map<string, number>();
+for (const [index, name] of ROLE_ORDER.entries()) {
+  ROLE_ORDER_INDEX.set(name.toLowerCase(), index);
+}
 
 const collectUnitSelections = (
   selections: RosterSelection[],
@@ -46,7 +57,7 @@ const unitRole = (selection: RosterSelection) => {
     return primary.name;
   }
   const fallback = selection.categories.find((category) =>
-    ROLE_ORDER.includes(category.name ?? "")
+    ROLE_ORDER_INDEX.has((category.name ?? "").toLowerCase())
   );
   return fallback?.name ?? "Other";
 };
@@ -65,10 +76,8 @@ const unitPoints = (selection: RosterSelection): number | null => {
   return Number.isNaN(parsed) ? null : parsed;
 };
 
-const orderIndex = (role: string) => {
-  const index = ROLE_ORDER.indexOf(role);
-  return index === -1 ? ROLE_ORDER.length : index;
-};
+const orderIndex = (role: string) =>
+  ROLE_ORDER_INDEX.get(role.toLowerCase()) ?? ROLE_ORDER.length;
 
 export function useRosterUnits(roster: Roster | null): UnitSection[] {
   return useMemo(() => {

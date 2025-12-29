@@ -1,10 +1,11 @@
+import ListItemUnit from "@/src/components/List/ListItemUnit";
 import { useRosterContext } from "@/src/context/RosterContext";
 import { useRosterUnits, type UnitItem } from "@/src/hooks/useRosterUnits";
+import { Layout } from "@/src/styles/theme";
 import { router } from "expo-router";
 import {
   ImageBackground,
   ListRenderItem,
-  Pressable,
   SectionList,
   StyleSheet,
   Text,
@@ -17,9 +18,13 @@ export default function RosterUnitsScreen() {
   const isLoading = loading || rosterDataLoading;
   const sections = useRosterUnits(selectedRoster?.roster ?? null);
 
-  const renderItem: ListRenderItem<UnitItem> = ({ item }) => (
-    <Pressable
-      style={styles.unitRow}
+  const renderItem: ListRenderItem<UnitItem> = ({ item, index }) => (
+    <ListItemUnit
+      index={item.id}
+      title={item.name}
+      subTitle={item.role}
+      costs={item.points?.toString()}
+      firstItem={index === 0}
       onPress={() => {
         const params: Record<string, string> = {
           unitId: item.id,
@@ -31,15 +36,7 @@ export default function RosterUnitsScreen() {
         }
         router.push({ pathname: "/(tabs)/unit-details", params });
       }}
-    >
-      <View style={styles.unitInfo}>
-        <Text style={styles.unitName}>{item.name}</Text>
-        <Text style={styles.unitRole}>{item.role}</Text>
-      </View>
-      {item.points != null && (
-        <Text style={styles.unitPoints}>{item.points} pts</Text>
-      )}
-    </Pressable>
+    />
   );
   return (
     <View style={styles.container}>
@@ -65,6 +62,7 @@ export default function RosterUnitsScreen() {
               {isLoading ? "Loading units..." : "No units found."}
             </Text>
           }
+          stickySectionHeadersEnabled={false}
         />
       </ImageBackground>
     </View>
@@ -74,14 +72,11 @@ export default function RosterUnitsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
   },
   title: {
     fontSize: 22,
     fontWeight: "600",
-    marginBottom: 24,
+    padding: Layout.spacing(4),
   },
   unitRow: {
     flexDirection: "row",
