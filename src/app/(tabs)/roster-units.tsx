@@ -26,15 +26,7 @@ export default function RosterUnitsScreen() {
       costs={item.points?.toString()}
       firstItem={index === 0}
       onPress={() => {
-        const params: Record<string, string> = {
-          unitId: item.id,
-          unitName: item.name,
-          unitRole: item.role,
-        };
-        if (item.points != null) {
-          params.unitPoints = item.points.toString();
-        }
-        router.push({ pathname: "/(tabs)/unit-details", params });
+        router.push({ pathname: "/unit-details", params: { unitId: item.id } });
       }}
     />
   );

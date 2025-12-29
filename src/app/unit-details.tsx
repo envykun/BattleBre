@@ -6,18 +6,12 @@ import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 export default function UnitDetailsScreen() {
   const params = useLocalSearchParams<{
     unitId?: string | string[];
-    unitName?: string | string[];
-    unitRole?: string | string[];
-    unitPoints?: string | string[];
   }>();
 
   const readParam = (value?: string | string[]) =>
     Array.isArray(value) ? value[0] : value;
 
   const unitId = readParam(params.unitId);
-  const unitNameParam = readParam(params.unitName);
-  const unitRoleParam = readParam(params.unitRole);
-  const unitPointsParam = readParam(params.unitPoints);
 
   const { selectedRoster, rosterDataLoading, rosterDataError } =
     useRosterContext();
@@ -26,14 +20,10 @@ export default function UnitDetailsScreen() {
     unitId ?? null
   );
 
-  const resolvedName = unitDetails?.name ?? unitNameParam ?? "Unit Details";
-  const resolvedRole = unitDetails?.role ?? unitRoleParam;
+  const resolvedName = unitDetails?.name ?? "Unit Details";
+  const resolvedRole = unitDetails?.role ?? null;
   const resolvedPoints =
-    unitDetails?.points != null
-      ? `${unitDetails.points} pts`
-      : unitPointsParam
-      ? `${unitPointsParam} pts`
-      : null;
+    unitDetails?.points != null ? `${unitDetails.points} pts` : null;
   const unitCount = unitDetails?.count ?? 1;
   const displayName =
     unitCount > 1 ? `${resolvedName} x${unitCount}` : resolvedName;
