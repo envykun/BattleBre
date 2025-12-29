@@ -1,6 +1,6 @@
-import { router } from "expo-router";
 import { useRosterContext } from "@/src/context/RosterContext";
 import { useRosterUnits, type UnitItem } from "@/src/hooks/useRosterUnits";
+import { router } from "expo-router";
 import {
   ImageBackground,
   ListRenderItem,
@@ -29,7 +29,7 @@ export default function RosterUnitsScreen() {
         if (item.points != null) {
           params.unitPoints = item.points.toString();
         }
-        router.push({ pathname: "/(tabs)/modal", params });
+        router.push({ pathname: "/(tabs)/unit-details", params });
       }}
     >
       <View style={styles.unitInfo}>

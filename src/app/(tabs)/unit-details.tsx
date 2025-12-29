@@ -1,9 +1,9 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRosterContext } from "@/src/context/RosterContext";
 import { useRosterUnitDetails } from "@/src/hooks/useRosterUnitDetails";
+import { router, useLocalSearchParams } from "expo-router";
+import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 
-export default function ModalScreen() {
+export default function UnitDetailsScreen() {
   const params = useLocalSearchParams<{
     unitId?: string | string[];
     unitName?: string | string[];
@@ -23,7 +23,7 @@ export default function ModalScreen() {
     useRosterContext();
   const unitDetails = useRosterUnitDetails(
     selectedRoster?.roster ?? null,
-    unitId ?? null,
+    unitId ?? null
   );
 
   const resolvedName = unitDetails?.name ?? unitNameParam ?? "Unit Details";
@@ -32,8 +32,8 @@ export default function ModalScreen() {
     unitDetails?.points != null
       ? `${unitDetails.points} pts`
       : unitPointsParam
-        ? `${unitPointsParam} pts`
-        : null;
+      ? `${unitPointsParam} pts`
+      : null;
   const unitCount = unitDetails?.count ?? 1;
   const displayName =
     unitCount > 1 ? `${resolvedName} x${unitCount}` : resolvedName;
@@ -46,13 +46,13 @@ export default function ModalScreen() {
   const hasMeta = Boolean(resolvedRole || resolvedPoints);
   const hasDetails = Boolean(
     unitDetails?.models.length ||
-    unitDetails?.characteristics.length ||
-    unitDetails?.weapons.length ||
-    unitDetails?.abilities.length ||
-    unitDetails?.profileSections.length ||
-    unitDetails?.keywords.length ||
-    unitDetails?.unitRules.length ||
-    unitDetails?.forceRules.length,
+      unitDetails?.characteristics.length ||
+      unitDetails?.weapons.length ||
+      unitDetails?.abilities.length ||
+      unitDetails?.profileSections.length ||
+      unitDetails?.keywords.length ||
+      unitDetails?.unitRules.length ||
+      unitDetails?.forceRules.length
   );
 
   return (
@@ -85,7 +85,9 @@ export default function ModalScreen() {
           <Text style={styles.loadingText}>Loading unit details...</Text>
         )}
         {!rosterDataLoading && !rosterDataError && !hasDetails && (
-          <Text style={styles.emptyText}>No additional unit details available.</Text>
+          <Text style={styles.emptyText}>
+            No additional unit details available.
+          </Text>
         )}
         {unitDetails?.models.length ? (
           <View style={styles.section}>
@@ -141,7 +143,9 @@ export default function ModalScreen() {
                         {weapon.name}
                         {weapon.count != null ? ` x${weapon.count}` : ""}
                       </Text>
-                      <Text style={styles.itemMeta}>{metaParts.join(" | ")}</Text>
+                      <Text style={styles.itemMeta}>
+                        {metaParts.join(" | ")}
+                      </Text>
                       {weapon.abilities !== "-" && weapon.abilities !== "" && (
                         <Text style={styles.itemBody}>
                           {`Abilities: ${weapon.abilities}`}
@@ -174,7 +178,9 @@ export default function ModalScreen() {
                         {weapon.name}
                         {weapon.count != null ? ` x${weapon.count}` : ""}
                       </Text>
-                      <Text style={styles.itemMeta}>{metaParts.join(" | ")}</Text>
+                      <Text style={styles.itemMeta}>
+                        {metaParts.join(" | ")}
+                      </Text>
                       {weapon.abilities !== "-" && weapon.abilities !== "" && (
                         <Text style={styles.itemBody}>
                           {`Abilities: ${weapon.abilities}`}
@@ -207,7 +213,9 @@ export default function ModalScreen() {
                         {weapon.name}
                         {weapon.count != null ? ` x${weapon.count}` : ""}
                       </Text>
-                      <Text style={styles.itemMeta}>{metaParts.join(" | ")}</Text>
+                      <Text style={styles.itemMeta}>
+                        {metaParts.join(" | ")}
+                      </Text>
                       {weapon.abilities !== "-" && weapon.abilities !== "" && (
                         <Text style={styles.itemBody}>
                           {`Abilities: ${weapon.abilities}`}
@@ -263,7 +271,9 @@ export default function ModalScreen() {
         {unitDetails?.keywords.length ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Keywords</Text>
-            <Text style={styles.itemBody}>{unitDetails.keywords.join(", ")}</Text>
+            <Text style={styles.itemBody}>
+              {unitDetails.keywords.join(", ")}
+            </Text>
           </View>
         ) : null}
         {unitDetails?.unitRules.length ? (

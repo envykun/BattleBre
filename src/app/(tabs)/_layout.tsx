@@ -16,7 +16,7 @@ export default function TabLayout() {
         <Tabs.Screen name="roster-overview" options={{ title: "Overview" }} />
         <Tabs.Screen name="roster-units" options={{ title: "Units" }} />
         <Tabs.Screen
-          name="modal"
+          name="unit-details"
           options={{
             title: "Unit",
             href: null,

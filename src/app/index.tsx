@@ -1,23 +1,13 @@
-import { router } from "expo-router";
 import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import Divider from "../components/Divider/Divider";
+import ListItemRoster from "../components/List/ListItemRoster";
 import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 
 export default function Index() {
   const { rosters, loading, error, addRoster } = useFetchRosters();
 
   const renderItem = ({ item }: { item: RosterMeta }) => (
-    <View id={item.id} style={styles.listItem}>
-      <Text>{item.name}</Text>
-      <Button
-        title="Enter App"
-        onPress={() =>
-          router.push({
-            pathname: "/(tabs)/roster-overview",
-            params: { rosterId: item.id },
-          })
-        }
-      />
-    </View>
+    <ListItemRoster {...item} />
   );
 
   return (
@@ -28,7 +18,11 @@ export default function Index() {
         {!loading && !error && (
           <Text>{`Rosters loaded: ${rosters?.length ?? 0}`}</Text>
         )}
-        <FlatList data={rosters ?? []} renderItem={renderItem} />
+        <FlatList
+          data={rosters ?? []}
+          renderItem={renderItem}
+          ItemSeparatorComponent={() => <Divider />}
+        />
       </View>
       <Button title="Add roster" onPress={addRoster} />
     </View>
@@ -40,7 +34,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 24,
   },
   title: {
     fontSize: 22,
@@ -52,16 +45,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   status: {
-    marginBottom: 16,
-  },
-  listItem: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 128,
-    width: "100%",
-    borderWidth: 1,
-    backgroundColor: "light-gray",
+    marginTop: 16,
   },
 });
