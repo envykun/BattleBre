@@ -1,14 +1,14 @@
 import type {
-  RawCondition,
-  RawConditionGroup,
-  RawConstraint,
-  RawModifier,
-  RawModifierGroup,
-  RawRepeat,
+  BSDataRawCondition,
+  BSDataRawConditionGroup,
+  BSDataRawConstraint,
+  BSDataRawModifier,
+  BSDataRawModifierGroup,
+  BSDataRawRepeat,
 } from "./types";
 import { readBoolean, readNumber, readText, toArray } from "./utils";
 
-export class Modifier {
+export class BSDataModifier {
   readonly id?: string;
   readonly type?: string;
   readonly field?: string;
@@ -18,11 +18,11 @@ export class Modifier {
   readonly position?: string;
   readonly join?: string;
   readonly affects?: string;
-  readonly conditionGroups: ConditionGroup[];
-  readonly conditions: Condition[];
-  readonly repeats: Repeat[];
+  readonly conditionGroups: BSDataConditionGroup[];
+  readonly conditions: BSDataCondition[];
+  readonly repeats: BSDataRepeat[];
 
-  constructor(raw: RawModifier) {
+  constructor(raw: BSDataRawModifier) {
     this.id = raw["@_id"];
     this.type = raw["@_type"];
     this.field = raw["@_field"];
@@ -33,36 +33,36 @@ export class Modifier {
     this.join = raw["@_join"];
     this.affects = raw["@_affects"];
     this.conditionGroups = toArray(raw.conditionGroups?.conditionGroup).map(
-      (entry) => new ConditionGroup(entry),
+      (entry) => new BSDataConditionGroup(entry),
     );
     this.conditions = toArray(raw.conditions?.condition).map(
-      (entry) => new Condition(entry),
+      (entry) => new BSDataCondition(entry),
     );
     this.repeats = toArray(raw.repeats?.repeat).map(
-      (entry) => new Repeat(entry),
+      (entry) => new BSDataRepeat(entry),
     );
   }
 }
 
-export class ModifierGroup {
+export class BSDataModifierGroup {
   readonly type?: string;
   readonly comment?: string;
-  readonly conditions: Condition[];
-  readonly modifiers: Modifier[];
+  readonly conditions: BSDataCondition[];
+  readonly modifiers: BSDataModifier[];
 
-  constructor(raw: RawModifierGroup) {
+  constructor(raw: BSDataRawModifierGroup) {
     this.type = raw["@_type"];
     this.comment = readText(raw.comment);
     this.conditions = toArray(raw.conditions?.condition).map(
-      (entry) => new Condition(entry),
+      (entry) => new BSDataCondition(entry),
     );
     this.modifiers = toArray(raw.modifiers?.modifier).map(
-      (entry) => new Modifier(entry),
+      (entry) => new BSDataModifier(entry),
     );
   }
 }
 
-export class Condition {
+export class BSDataCondition {
   readonly id?: string;
   readonly type?: string;
   readonly field?: string;
@@ -74,7 +74,7 @@ export class Condition {
   readonly childId?: string;
   readonly percentValue?: string;
 
-  constructor(raw: RawCondition) {
+  constructor(raw: BSDataRawCondition) {
     this.id = raw["@_id"];
     this.type = raw["@_type"];
     this.field = raw["@_field"];
@@ -88,23 +88,23 @@ export class Condition {
   }
 }
 
-export class ConditionGroup {
+export class BSDataConditionGroup {
   readonly type?: string;
-  readonly conditionGroups: ConditionGroup[];
-  readonly conditions: Condition[];
+  readonly conditionGroups: BSDataConditionGroup[];
+  readonly conditions: BSDataCondition[];
 
-  constructor(raw: RawConditionGroup) {
+  constructor(raw: BSDataRawConditionGroup) {
     this.type = raw["@_type"];
     this.conditionGroups = toArray(raw.conditionGroups?.conditionGroup).map(
-      (entry) => new ConditionGroup(entry),
+      (entry) => new BSDataConditionGroup(entry),
     );
     this.conditions = toArray(raw.conditions?.condition).map(
-      (entry) => new Condition(entry),
+      (entry) => new BSDataCondition(entry),
     );
   }
 }
 
-export class Constraint {
+export class BSDataConstraint {
   readonly id?: string;
   readonly type?: string;
   readonly field?: string;
@@ -116,7 +116,7 @@ export class Constraint {
   readonly percentValue?: string;
   readonly isNegative: boolean;
 
-  constructor(raw: RawConstraint) {
+  constructor(raw: BSDataRawConstraint) {
     this.id = raw["@_id"];
     this.type = raw["@_type"];
     this.field = raw["@_field"];
@@ -130,7 +130,7 @@ export class Constraint {
   }
 }
 
-export class Repeat {
+export class BSDataRepeat {
   readonly childId?: string;
   readonly field?: string;
   readonly includeChildSelections: boolean;
@@ -140,7 +140,7 @@ export class Repeat {
   readonly isShared: boolean;
   readonly value?: string;
 
-  constructor(raw: RawRepeat) {
+  constructor(raw: BSDataRawRepeat) {
     this.childId = raw["@_childId"];
     this.field = raw["@_field"];
     this.includeChildSelections = readBoolean(raw["@_includeChildSelections"]);

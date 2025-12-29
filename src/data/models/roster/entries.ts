@@ -1,32 +1,32 @@
 import type {
-  CategoryInit,
-  ForceInit,
-  RawCategory,
-  RawForce,
-  RawSelection,
-  SelectionInit,
+  RosterCategoryInit,
+  RosterForceInit,
+  RosterRawCategory,
+  RosterRawForce,
+  RosterRawSelection,
+  RosterSelectionInit,
 } from "./types";
 import { readBoolean, readNumber, toArray } from "./utils";
-import { Cost } from "./costs";
-import { Profile } from "./profiles";
-import { Publication } from "./publications";
-import { Rule } from "./rules";
+import { RosterCost } from "./costs";
+import { RosterProfile } from "./profiles";
+import { RosterPublication } from "./publications";
+import { RosterRule } from "./rules";
 
-export class Category {
+export class RosterCategory {
   id?: string;
   name?: string;
   entryId?: string;
   isPrimary: boolean;
 
-  constructor(init: CategoryInit) {
+  constructor(init: RosterCategoryInit) {
     this.id = init.id;
     this.name = init.name;
     this.entryId = init.entryId;
     this.isPrimary = init.isPrimary ?? false;
   }
 
-  static fromRaw(raw: RawCategory): Category {
-    return new Category({
+  static fromRaw(raw: RosterRawCategory): RosterCategory {
+    return new RosterCategory({
       id: raw["@_id"],
       name: raw["@_name"],
       entryId: raw["@_entryId"],
@@ -35,7 +35,7 @@ export class Category {
   }
 }
 
-export class Selection {
+export class RosterSelection {
   id: string;
   name?: string;
   entryGroupId?: string;
@@ -47,13 +47,13 @@ export class Selection {
   publicationId?: string;
   from?: string;
   group?: string;
-  selections: Selection[];
-  profiles: Profile[];
-  categories: Category[];
-  rules: Rule[];
-  costs: Cost[];
+  selections: RosterSelection[];
+  profiles: RosterProfile[];
+  categories: RosterCategory[];
+  rules: RosterRule[];
+  costs: RosterCost[];
 
-  constructor(init: SelectionInit) {
+  constructor(init: RosterSelectionInit) {
     this.id = init.id;
     this.name = init.name;
     this.entryGroupId = init.entryGroupId;
@@ -72,8 +72,8 @@ export class Selection {
     this.costs = init.costs ?? [];
   }
 
-  static fromRaw(raw: RawSelection): Selection {
-    return new Selection({
+  static fromRaw(raw: RosterRawSelection): RosterSelection {
+    return new RosterSelection({
       id: raw["@_id"],
       name: raw["@_name"],
       entryGroupId: raw["@_entryGroupId"],
@@ -86,33 +86,33 @@ export class Selection {
       from: raw["@_from"],
       group: raw["@_group"],
       selections: toArray(raw.selections?.selection).map((entry) =>
-        Selection.fromRaw(entry),
+        RosterSelection.fromRaw(entry),
       ),
       profiles: toArray(raw.profiles?.profile).map((entry) =>
-        Profile.fromRaw(entry),
+        RosterProfile.fromRaw(entry),
       ),
       categories: toArray(raw.categories?.category).map((entry) =>
-        Category.fromRaw(entry),
+        RosterCategory.fromRaw(entry),
       ),
-      rules: toArray(raw.rules?.rule).map((entry) => Rule.fromRaw(entry)),
-      costs: toArray(raw.costs?.cost).map((entry) => Cost.fromRaw(entry)),
+      rules: toArray(raw.rules?.rule).map((entry) => RosterRule.fromRaw(entry)),
+      costs: toArray(raw.costs?.cost).map((entry) => RosterCost.fromRaw(entry)),
     });
   }
 }
 
-export class Force {
+export class RosterForce {
   id: string;
   name?: string;
   entryId?: string;
   catalogueId?: string;
   catalogueName?: string;
   catalogueRevision?: string;
-  selections: Selection[];
-  categories: Category[];
-  publications: Publication[];
-  rules: Rule[];
+  selections: RosterSelection[];
+  categories: RosterCategory[];
+  publications: RosterPublication[];
+  rules: RosterRule[];
 
-  constructor(init: ForceInit) {
+  constructor(init: RosterForceInit) {
     this.id = init.id;
     this.name = init.name;
     this.entryId = init.entryId;
@@ -125,8 +125,8 @@ export class Force {
     this.rules = init.rules ?? [];
   }
 
-  static fromRaw(raw: RawForce): Force {
-    return new Force({
+  static fromRaw(raw: RosterRawForce): RosterForce {
+    return new RosterForce({
       id: raw["@_id"],
       name: raw["@_name"],
       entryId: raw["@_entryId"],
@@ -134,15 +134,15 @@ export class Force {
       catalogueName: raw["@_catalogueName"],
       catalogueRevision: raw["@_catalogueRevision"],
       selections: toArray(raw.selections?.selection).map((entry) =>
-        Selection.fromRaw(entry),
+        RosterSelection.fromRaw(entry),
       ),
       categories: toArray(raw.categories?.category).map((entry) =>
-        Category.fromRaw(entry),
+        RosterCategory.fromRaw(entry),
       ),
       publications: toArray(raw.publications?.publication).map((entry) =>
-        Publication.fromRaw(entry),
+        RosterPublication.fromRaw(entry),
       ),
-      rules: toArray(raw.rules?.rule).map((entry) => Rule.fromRaw(entry)),
+      rules: toArray(raw.rules?.rule).map((entry) => RosterRule.fromRaw(entry)),
     });
   }
 }

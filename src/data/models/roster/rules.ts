@@ -1,7 +1,7 @@
-import type { RawRule, RuleInit } from "./types";
+import type { RosterRawRule, RosterRuleInit } from "./types";
 import { readBoolean, readText } from "./utils";
 
-export class Rule {
+export class RosterRule {
   id: string;
   name?: string;
   isHidden: boolean;
@@ -9,7 +9,7 @@ export class Rule {
   publicationId?: string;
   description?: string;
 
-  constructor(init: RuleInit) {
+  constructor(init: RosterRuleInit) {
     this.id = init.id;
     this.name = init.name;
     this.isHidden = init.isHidden ?? false;
@@ -18,8 +18,8 @@ export class Rule {
     this.description = init.description;
   }
 
-  static fromRaw(raw: RawRule): Rule {
-    return new Rule({
+  static fromRaw(raw: RosterRawRule): RosterRule {
+    return new RosterRule({
       id: raw["@_id"],
       name: raw["@_name"],
       isHidden: readBoolean(raw["@_hidden"]),

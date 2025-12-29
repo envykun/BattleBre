@@ -1,26 +1,26 @@
 export * from "./types";
-export { Catalogue } from "./catalogue";
-export { GameSystem } from "./game-system";
+export { BSDataCatalogue } from "./catalogue";
+export { BSDataGameSystem } from "./game-system";
 export {
-  Association,
-  CatalogueLink,
-  CategoryEntry,
-  CategoryLink,
-  EntryLink,
-  ForceEntry,
-  InfoLink,
-  SelectionEntry,
-  SelectionEntryGroup,
+  BSDataAssociation,
+  BSDataCatalogueLink,
+  BSDataCategoryEntry,
+  BSDataCategoryLink,
+  BSDataEntryLink,
+  BSDataForceEntry,
+  BSDataInfoLink,
+  BSDataSelectionEntry,
+  BSDataSelectionEntryGroup,
 } from "./entries";
-export { Cost, CostType } from "./costs";
+export { BSDataCost, BSDataCostType } from "./costs";
 export {
-  Condition,
-  ConditionGroup,
-  Constraint,
-  Modifier,
-  ModifierGroup,
-  Repeat,
+  BSDataCondition,
+  BSDataConditionGroup,
+  BSDataConstraint,
+  BSDataModifier,
+  BSDataModifierGroup,
+  BSDataRepeat,
 } from "./modifiers";
-export { Characteristic, CharacteristicType, Profile, ProfileType } from "./profiles";
-export { Publication } from "./publications";
-export { Rule } from "./rules";
+export { BSDataCharacteristic, BSDataCharacteristicType, BSDataProfile, BSDataProfileType } from "./profiles";
+export { BSDataPublication } from "./publications";
+export { BSDataRule } from "./rules";

@@ -45,13 +45,14 @@ export default function ModalScreen() {
     unitDetails?.weapons.filter((weapon) => weapon.mode === "other") ?? [];
   const hasMeta = Boolean(resolvedRole || resolvedPoints);
   const hasDetails = Boolean(
+    unitDetails?.models.length ||
     unitDetails?.characteristics.length ||
-      unitDetails?.weapons.length ||
-      unitDetails?.abilities.length ||
-      unitDetails?.psychic ||
-      unitDetails?.keywords.length ||
-      unitDetails?.unitRules.length ||
-      unitDetails?.forceRules.length,
+    unitDetails?.weapons.length ||
+    unitDetails?.abilities.length ||
+    unitDetails?.profileSections.length ||
+    unitDetails?.keywords.length ||
+    unitDetails?.unitRules.length ||
+    unitDetails?.forceRules.length,
   );
 
   return (
@@ -86,6 +87,19 @@ export default function ModalScreen() {
         {!rosterDataLoading && !rosterDataError && !hasDetails && (
           <Text style={styles.emptyText}>No additional unit details available.</Text>
         )}
+        {unitDetails?.models.length ? (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Models</Text>
+            {unitDetails.models.map((model) => (
+              <View key={model.id} style={styles.itemBlock}>
+                <Text style={styles.itemTitle}>
+                  {model.name}
+                  {model.count > 1 ? ` x${model.count}` : ""}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
         {unitDetails?.characteristics.length ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Characteristics</Text>
@@ -219,36 +233,33 @@ export default function ModalScreen() {
             ))}
           </View>
         ) : null}
-        {unitDetails?.psychic ? (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Psychic</Text>
-            <View style={styles.itemBlock}>
-              <Text style={styles.itemTitle}>{unitDetails.psychic.name}</Text>
-              <Text style={styles.itemMeta}>
-                {`Cast ${unitDetails.psychic.cast} | Deny ${unitDetails.psychic.deny} | Powers ${unitDetails.psychic.powers}`}
-              </Text>
-              {unitDetails.psychic.other !== "-" && unitDetails.psychic.other !== "" && (
-                <Text style={styles.itemBody}>{unitDetails.psychic.other}</Text>
-              )}
-            </View>
-            {unitDetails.psychic.psychicPowers.length ? (
-              <View style={styles.subSection}>
-                <Text style={styles.sectionSubtitle}>Psychic Powers</Text>
-                {unitDetails.psychic.psychicPowers.map((power) => (
-                  <View key={power.id} style={styles.itemBlock}>
-                    <Text style={styles.itemTitle}>{power.name}</Text>
-                    <Text style={styles.itemMeta}>
-                      {`Warp ${power.warpCharge} | Range ${power.range}`}
-                    </Text>
-                    {power.details !== "-" && power.details !== "" && (
-                      <Text style={styles.itemBody}>{power.details}</Text>
-                    )}
+        {unitDetails?.profileSections.length
+          ? unitDetails.profileSections.map((section) => (
+              <View key={section.typeName} style={styles.section}>
+                <Text style={styles.sectionTitle}>{section.typeName}</Text>
+                {section.entries.map((entry) => (
+                  <View key={entry.id} style={styles.itemBlock}>
+                    <Text style={styles.itemTitle}>{entry.name}</Text>
+                    {entry.characteristics.map((characteristic) => {
+                      const label = characteristic.name.toLowerCase();
+                      const isBody =
+                        label === "description" || label === "effect";
+                      return (
+                        <Text
+                          key={`${entry.id}-${characteristic.name}`}
+                          style={isBody ? styles.itemBody : styles.itemMeta}
+                        >
+                          {isBody
+                            ? characteristic.value
+                            : `${characteristic.name}: ${characteristic.value}`}
+                        </Text>
+                      );
+                    })}
                   </View>
                 ))}
               </View>
-            ) : null}
-          </View>
-        ) : null}
+            ))
+          : null}
         {unitDetails?.keywords.length ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Keywords</Text>

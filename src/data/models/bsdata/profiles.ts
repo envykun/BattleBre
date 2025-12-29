@@ -1,25 +1,25 @@
 import type {
-  RawCharacteristic,
-  RawCharacteristicType,
-  RawProfile,
-  RawProfileType,
+  BSDataRawCharacteristic,
+  BSDataRawCharacteristicType,
+  BSDataRawProfile,
+  BSDataRawProfileType,
 } from "./types";
 import { readBoolean, readText, toArray } from "./utils";
-import { Modifier, ModifierGroup } from "./modifiers";
+import { BSDataModifier, BSDataModifierGroup } from "./modifiers";
 
-export class Profile {
+export class BSDataProfile {
   readonly id: string;
   readonly name?: string;
   readonly typeId?: string;
   readonly typeName?: string;
   readonly page?: string;
   readonly isHidden: boolean;
-  readonly characteristics: Characteristic[];
+  readonly characteristics: BSDataCharacteristic[];
   readonly comment?: string;
-  readonly modifierGroups: ModifierGroup[];
-  readonly modifiers: Modifier[];
+  readonly modifierGroups: BSDataModifierGroup[];
+  readonly modifiers: BSDataModifier[];
 
-  constructor(raw: RawProfile) {
+  constructor(raw: BSDataRawProfile) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
     this.typeId = raw["@_typeId"];
@@ -27,26 +27,26 @@ export class Profile {
     this.page = raw["@_page"];
     this.isHidden = readBoolean(raw["@_hidden"]);
     this.characteristics = toArray(raw.characteristics?.characteristic).map(
-      (entry) => new Characteristic(entry),
+      (entry) => new BSDataCharacteristic(entry),
     );
     this.comment = readText(raw.comment);
     this.modifierGroups = toArray(raw.modifierGroups?.modifierGroup).map(
-      (entry) => new ModifierGroup(entry),
+      (entry) => new BSDataModifierGroup(entry),
     );
     this.modifiers = toArray(raw.modifiers?.modifier).map(
-      (entry) => new Modifier(entry),
+      (entry) => new BSDataModifier(entry),
     );
   }
 }
 
-export class Characteristic {
+export class BSDataCharacteristic {
   readonly id?: string;
   readonly name?: string;
   readonly typeId?: string;
   readonly isHidden: boolean;
   readonly value?: string;
 
-  constructor(raw: RawCharacteristic) {
+  constructor(raw: BSDataRawCharacteristic) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
     this.typeId = raw["@_typeId"];
@@ -55,27 +55,27 @@ export class Characteristic {
   }
 }
 
-export class ProfileType {
+export class BSDataProfileType {
   readonly id: string;
   readonly name?: string;
   readonly isHidden: boolean;
-  readonly characteristicTypes: CharacteristicType[];
+  readonly characteristicTypes: BSDataCharacteristicType[];
 
-  constructor(raw: RawProfileType) {
+  constructor(raw: BSDataRawProfileType) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
     this.isHidden = readBoolean(raw["@_hidden"]);
     this.characteristicTypes = toArray(
       raw.characteristicTypes?.characteristicType,
-    ).map((entry) => new CharacteristicType(entry));
+    ).map((entry) => new BSDataCharacteristicType(entry));
   }
 }
 
-export class CharacteristicType {
+export class BSDataCharacteristicType {
   readonly id: string;
   readonly name?: string;
 
-  constructor(raw: RawCharacteristicType) {
+  constructor(raw: BSDataRawCharacteristicType) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
   }

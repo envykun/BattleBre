@@ -1,13 +1,13 @@
-import type { MaybeArray, RawText } from "./types";
+import type { RosterMaybeArray, RosterRawText } from "./types";
 
-export const toArray = <T>(value?: MaybeArray<T>): T[] => {
+export const toArray = <T>(value?: RosterMaybeArray<T>): T[] => {
   if (!value) {
     return [];
   }
   return Array.isArray(value) ? value : [value];
 };
 
-export const readText = (value?: RawText): string | undefined => {
+export const readText = (value?: RosterRawText): string | undefined => {
   if (typeof value === "string") {
     return value;
   }

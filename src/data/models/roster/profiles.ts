@@ -1,24 +1,25 @@
 import type {
-  CharacteristicInit,
-  ProfileInit,
-  RawCharacteristic,
-  RawProfile,
+  RosterCharacteristicInit,
+  RosterProfileInit,
+  RosterRawCharacteristic,
+  RosterRawProfile,
 } from "./types";
 import { readBoolean, readText, toArray } from "./utils";
 
-export class Characteristic {
+export class RosterCharacteristic {
   name?: string;
   typeId?: string;
   value?: string;
+  isHidden: any;
 
-  constructor(init: CharacteristicInit) {
+  constructor(init: RosterCharacteristicInit) {
     this.name = init.name;
     this.typeId = init.typeId;
     this.value = init.value;
   }
 
-  static fromRaw(raw: RawCharacteristic): Characteristic {
-    return new Characteristic({
+  static fromRaw(raw: RosterRawCharacteristic): RosterCharacteristic {
+    return new RosterCharacteristic({
       name: raw["@_name"],
       typeId: raw["@_typeId"],
       value: readText(raw),
@@ -26,7 +27,7 @@ export class Characteristic {
   }
 }
 
-export class Profile {
+export class RosterProfile {
   id: string;
   name?: string;
   typeId?: string;
@@ -35,9 +36,9 @@ export class Profile {
   page?: string;
   publicationId?: string;
   from?: string;
-  characteristics: Characteristic[];
+  characteristics: RosterCharacteristic[];
 
-  constructor(init: ProfileInit) {
+  constructor(init: RosterProfileInit) {
     this.id = init.id;
     this.name = init.name;
     this.typeId = init.typeId;
@@ -49,8 +50,8 @@ export class Profile {
     this.characteristics = init.characteristics ?? [];
   }
 
-  static fromRaw(raw: RawProfile): Profile {
-    return new Profile({
+  static fromRaw(raw: RosterRawProfile): RosterProfile {
+    return new RosterProfile({
       id: raw["@_id"],
       name: raw["@_name"],
       typeId: raw["@_typeId"],
@@ -60,7 +61,7 @@ export class Profile {
       publicationId: raw["@_publicationId"],
       from: raw["@_from"],
       characteristics: toArray(raw.characteristics?.characteristic).map(
-        (entry) => Characteristic.fromRaw(entry),
+        (entry) => RosterCharacteristic.fromRaw(entry)
       ),
     });
   }

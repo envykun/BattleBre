@@ -1,21 +1,21 @@
-import type { CostInit, CostLimitInit, RawCost, RawCostLimit } from "./types";
+import type { RosterCostInit, RosterCostLimitInit, RosterRawCost, RosterRawCostLimit } from "./types";
 import { readNumber } from "./utils";
 
-export class Cost {
+export class RosterCost {
   name: string;
   typeId?: string;
   value?: number;
   valueText?: string;
 
-  constructor(init: CostInit) {
+  constructor(init: RosterCostInit) {
     this.name = init.name;
     this.typeId = init.typeId;
     this.value = init.value;
     this.valueText = init.valueText;
   }
 
-  static fromRaw(raw: RawCost): Cost {
-    return new Cost({
+  static fromRaw(raw: RosterRawCost): RosterCost {
+    return new RosterCost({
       name: raw["@_name"],
       typeId: raw["@_typeId"],
       value: readNumber(raw["@_value"]),
@@ -24,21 +24,21 @@ export class Cost {
   }
 }
 
-export class CostLimit {
+export class RosterCostLimit {
   name: string;
   typeId?: string;
   value?: number;
   valueText?: string;
 
-  constructor(init: CostLimitInit) {
+  constructor(init: RosterCostLimitInit) {
     this.name = init.name;
     this.typeId = init.typeId;
     this.value = init.value;
     this.valueText = init.valueText;
   }
 
-  static fromRaw(raw: RawCostLimit): CostLimit {
-    return new CostLimit({
+  static fromRaw(raw: RosterRawCostLimit): RosterCostLimit {
+    return new RosterCostLimit({
       name: raw["@_name"],
       typeId: raw["@_typeId"],
       value: readNumber(raw["@_value"]),

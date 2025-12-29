@@ -1,7 +1,7 @@
-import type { RawRoster, RosterInit } from "./types";
+import type { RosterRawRoster, RosterInit } from "./types";
 import { toArray } from "./utils";
-import { Cost, CostLimit } from "./costs";
-import { Force } from "./entries";
+import { RosterCost, RosterCostLimit } from "./costs";
+import { RosterForce } from "./entries";
 
 export class Roster {
   id: string;
@@ -12,9 +12,9 @@ export class Roster {
   gameSystemName?: string;
   gameSystemRevision?: string;
   xmlns?: string;
-  costs: Cost[];
-  costLimits: CostLimit[];
-  forces: Force[];
+  costs: RosterCost[];
+  costLimits: RosterCostLimit[];
+  forces: RosterForce[];
 
   constructor(init: RosterInit) {
     this.id = init.id;
@@ -30,7 +30,7 @@ export class Roster {
     this.forces = init.forces ?? [];
   }
 
-  static fromRaw(raw: RawRoster): Roster {
+  static fromRaw(raw: RosterRawRoster): Roster {
     return new Roster({
       id: raw["@_id"],
       name: raw["@_name"],
@@ -40,11 +40,11 @@ export class Roster {
       gameSystemName: raw["@_gameSystemName"],
       gameSystemRevision: raw["@_gameSystemRevision"],
       xmlns: raw["@_xmlns"],
-      costs: toArray(raw.costs?.cost).map((entry) => Cost.fromRaw(entry)),
+      costs: toArray(raw.costs?.cost).map((entry) => RosterCost.fromRaw(entry)),
       costLimits: toArray(raw.costLimits?.costLimit).map((entry) =>
-        CostLimit.fromRaw(entry),
+        RosterCostLimit.fromRaw(entry),
       ),
-      forces: toArray(raw.forces?.force).map((entry) => Force.fromRaw(entry)),
+      forces: toArray(raw.forces?.force).map((entry) => RosterForce.fromRaw(entry)),
     });
   }
 }

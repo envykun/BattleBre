@@ -1,6 +1,6 @@
 import JSZip from "jszip";
 import { XMLParser } from "fast-xml-parser";
-import { Roster, type RawRosterData } from "../../models/roster";
+import { Roster, type RosterRawRosterData } from "../../models/roster";
 
 type ParseRosterOptions = {
   isZip?: boolean;
@@ -37,8 +37,8 @@ export async function extractRosterXml(
   return rosterFile.async("string");
 }
 
-export function parseRosterXml(xml: string): RawRosterData {
-  return xmlParser.parse(xml) as RawRosterData;
+export function parseRosterXml(xml: string): RosterRawRosterData {
+  return xmlParser.parse(xml) as RosterRawRosterData;
 }
 
 export async function parseRoster(

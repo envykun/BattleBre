@@ -1,7 +1,7 @@
-import type { PublicationInit, RawPublication } from "./types";
+import type { RosterPublicationInit, RosterRawPublication } from "./types";
 import { readBoolean } from "./utils";
 
-export class Publication {
+export class RosterPublication {
   id: string;
   name?: string;
   shortName?: string;
@@ -10,7 +10,7 @@ export class Publication {
   publisherUrl?: string;
   isHidden: boolean;
 
-  constructor(init: PublicationInit) {
+  constructor(init: RosterPublicationInit) {
     this.id = init.id;
     this.name = init.name;
     this.shortName = init.shortName;
@@ -20,8 +20,8 @@ export class Publication {
     this.isHidden = init.isHidden ?? false;
   }
 
-  static fromRaw(raw: RawPublication): Publication {
-    return new Publication({
+  static fromRaw(raw: RosterRawPublication): RosterPublication {
+    return new RosterPublication({
       id: raw["@_id"],
       name: raw["@_name"],
       shortName: raw["@_shortName"],

@@ -1,8 +1,8 @@
-import type { RawRule } from "./types";
+import type { BSDataRawRule } from "./types";
 import { readBoolean, readText, toArray } from "./utils";
-import { Modifier } from "./modifiers";
+import { BSDataModifier } from "./modifiers";
 
-export class Rule {
+export class BSDataRule {
   readonly id: string;
   readonly name?: string;
   readonly isHidden: boolean;
@@ -10,9 +10,9 @@ export class Rule {
   readonly publicationId?: string;
   readonly alias?: string;
   readonly description?: string;
-  readonly modifiers: Modifier[];
+  readonly modifiers: BSDataModifier[];
 
-  constructor(raw: RawRule) {
+  constructor(raw: BSDataRawRule) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
     this.isHidden = readBoolean(raw["@_hidden"]);
@@ -21,7 +21,7 @@ export class Rule {
     this.alias = readText(raw.alias);
     this.description = readText(raw.description);
     this.modifiers = toArray(raw.modifiers?.modifier).map(
-      (entry) => new Modifier(entry),
+      (entry) => new BSDataModifier(entry),
     );
   }
 }

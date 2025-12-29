@@ -1,4 +1,4 @@
-import type { Roster, Selection } from "@/src/data/models/roster";
+import type { Roster, RosterSelection } from "@/src/data/models/roster";
 import { useMemo } from "react";
 
 export type UnitItem = {
@@ -6,7 +6,7 @@ export type UnitItem = {
   name: string;
   role: string;
   points: number | null;
-  selection: Selection;
+  selection: RosterSelection;
 };
 
 export type UnitSection = {
@@ -21,21 +21,26 @@ const ROLE_ORDER = [
   "Vehicle",
 ];
 
-const flattenSelections = (selections: Selection[]): Selection[] =>
-  selections.flatMap((selection) => [
-    selection,
-    ...flattenSelections(selection.selections),
-  ]);
-
-const isUnitSelection = (selection: Selection) => {
-  const type = selection.type?.toLowerCase();
-  if (type === "unit") {
-    return true;
+const collectUnitSelections = (
+  selections: RosterSelection[],
+  hasUnitAncestor: boolean
+): RosterSelection[] => {
+  const units: RosterSelection[] = [];
+  for (const selection of selections) {
+    const type = selection.type?.toLowerCase();
+    const isUnit = type === "unit";
+    const isModel = type === "model";
+    if (isUnit || (isModel && !hasUnitAncestor)) {
+      units.push(selection);
+    }
+    units.push(
+      ...collectUnitSelections(selection.selections, hasUnitAncestor || isUnit)
+    );
   }
-  return type === "model" && selection.from !== "group";
+  return units;
 };
 
-const unitRole = (selection: Selection) => {
+const unitRole = (selection: RosterSelection) => {
   const primary = selection.categories.find((category) => category.isPrimary);
   if (primary?.name) {
     return primary.name;
@@ -46,7 +51,7 @@ const unitRole = (selection: Selection) => {
   return fallback?.name ?? "Other";
 };
 
-const unitPoints = (selection: Selection): number | null => {
+const unitPoints = (selection: RosterSelection): number | null => {
   const cost = selection.costs.find(
     (entry) => entry.name.trim().toLowerCase() === "pts"
   );
@@ -73,8 +78,7 @@ export function useRosterUnits(roster: Roster | null): UnitSection[] {
 
     return roster.forces
       .map((force, index) => {
-        const units = flattenSelections(force.selections)
-          .filter(isUnitSelection)
+        const units = collectUnitSelections(force.selections, false)
           .map((selection) => ({
             id: selection.id,
             name: selection.name ?? "Unknown unit",

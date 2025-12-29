@@ -1,7 +1,7 @@
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import { useCallback, useEffect, useState } from "react";
-import { Roster, type Selection } from "../data/models/roster";
+import { Roster, type RosterSelection } from "../data/models/roster";
 import {
   extractRosterXml,
   parseRosterXml,
@@ -76,7 +76,7 @@ const rosterPoints = (roster: Roster) => {
   return Number.isNaN(parsed) ? 0 : parsed;
 };
 
-const countUnits = (selections: Selection[]): number =>
+const countUnits = (selections: RosterSelection[]): number =>
   selections.reduce((count, selection) => {
     const type = selection.type?.toLowerCase();
     const isUnitLike = type === "unit" || type === "model";

@@ -1,7 +1,7 @@
-import type { RawPublication } from "./types";
+import type { BSDataRawPublication } from "./types";
 import { readBoolean } from "./utils";
 
-export class Publication {
+export class BSDataPublication {
   readonly id: string;
   readonly name?: string;
   readonly shortName?: string;
@@ -10,7 +10,7 @@ export class Publication {
   readonly publisherUrl?: string;
   readonly isHidden: boolean;
 
-  constructor(raw: RawPublication) {
+  constructor(raw: BSDataRawPublication) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
     this.shortName = raw["@_shortName"];

@@ -1,69 +1,69 @@
-import type { RawGameSystem } from "./types";
+import type { BSDataRawGameSystem } from "./types";
 import { toArray } from "./utils";
 import {
-  CategoryEntry,
-  EntryLink,
-  ForceEntry,
-  SelectionEntry,
-  SelectionEntryGroup,
+  BSDataCategoryEntry,
+  BSDataEntryLink,
+  BSDataForceEntry,
+  BSDataSelectionEntry,
+  BSDataSelectionEntryGroup,
 } from "./entries";
-import { CostType } from "./costs";
-import { Profile, ProfileType } from "./profiles";
-import { Publication } from "./publications";
-import { Rule } from "./rules";
+import { BSDataCostType } from "./costs";
+import { BSDataProfile, BSDataProfileType } from "./profiles";
+import { BSDataPublication } from "./publications";
+import { BSDataRule } from "./rules";
 
-export class GameSystem {
+export class BSDataGameSystem {
   readonly id: string;
   readonly name: string;
   readonly revision?: string;
   readonly battleScribeVersion?: string;
   readonly type?: string;
-  readonly publications: Publication[];
-  readonly costTypes: CostType[];
-  readonly profileTypes: ProfileType[];
-  readonly categoryEntries: CategoryEntry[];
-  readonly forceEntries: ForceEntry[];
-  readonly entryLinks: EntryLink[];
-  readonly sharedSelectionEntries: SelectionEntry[];
-  readonly sharedSelectionEntryGroups: SelectionEntryGroup[];
-  readonly sharedRules: Rule[];
-  readonly sharedProfiles: Profile[];
+  readonly publications: BSDataPublication[];
+  readonly costTypes: BSDataCostType[];
+  readonly profileTypes: BSDataProfileType[];
+  readonly categoryEntries: BSDataCategoryEntry[];
+  readonly forceEntries: BSDataForceEntry[];
+  readonly entryLinks: BSDataEntryLink[];
+  readonly sharedSelectionEntries: BSDataSelectionEntry[];
+  readonly sharedSelectionEntryGroups: BSDataSelectionEntryGroup[];
+  readonly sharedRules: BSDataRule[];
+  readonly sharedProfiles: BSDataProfile[];
 
-  constructor(raw: RawGameSystem) {
+  constructor(raw: BSDataRawGameSystem) {
     this.id = raw["@_id"];
     this.name = raw["@_name"];
     this.revision = raw["@_revision"];
     this.battleScribeVersion = raw["@_battleScribeVersion"];
     this.type = raw["@_type"];
     this.publications = toArray(raw.publications?.publication).map(
-      (entry) => new Publication(entry),
+      (entry) => new BSDataPublication(entry),
     );
     this.costTypes = toArray(raw.costTypes?.costType).map(
-      (entry) => new CostType(entry),
+      (entry) => new BSDataCostType(entry),
     );
     this.profileTypes = toArray(raw.profileTypes?.profileType).map(
-      (entry) => new ProfileType(entry),
+      (entry) => new BSDataProfileType(entry),
     );
     this.categoryEntries = toArray(raw.categoryEntries?.categoryEntry).map(
-      (entry) => new CategoryEntry(entry),
+      (entry) => new BSDataCategoryEntry(entry),
     );
     this.forceEntries = toArray(raw.forceEntries?.forceEntry).map(
-      (entry) => new ForceEntry(entry),
+      (entry) => new BSDataForceEntry(entry),
     );
     this.entryLinks = toArray(raw.entryLinks?.entryLink).map(
-      (entry) => new EntryLink(entry),
+      (entry) => new BSDataEntryLink(entry),
     );
     this.sharedSelectionEntries = toArray(
       raw.sharedSelectionEntries?.selectionEntry,
-    ).map((entry) => new SelectionEntry(entry));
+    ).map((entry) => new BSDataSelectionEntry(entry));
     this.sharedSelectionEntryGroups = toArray(
       raw.sharedSelectionEntryGroups?.selectionEntryGroup,
-    ).map((entry) => new SelectionEntryGroup(entry));
+    ).map((entry) => new BSDataSelectionEntryGroup(entry));
     this.sharedRules = toArray(raw.sharedRules?.rule).map(
-      (entry) => new Rule(entry),
+      (entry) => new BSDataRule(entry),
     );
     this.sharedProfiles = toArray(raw.sharedProfiles?.profile).map(
-      (entry) => new Profile(entry),
+      (entry) => new BSDataProfile(entry),
     );
   }
 }

@@ -1,16 +1,16 @@
-export type MaybeArray<T> = T | T[];
+export type BSDataMaybeArray<T> = T | T[];
 
-export type RawText = string | { "#text"?: string } | undefined;
+export type BSDataRawText = string | { "#text"?: string } | undefined;
 
-export type RawCatalogueData = {
-  catalogue: RawCatalogue;
+export type BSDataRawCatalogueData = {
+  catalogue: BSDataRawCatalogue;
 };
 
-export type RawGameSystemData = {
-  gameSystem: RawGameSystem;
+export type BSDataRawGameSystemData = {
+  gameSystem: BSDataRawGameSystem;
 };
 
-export type RawCatalogue = {
+export type BSDataRawCatalogue = {
   "@_id": string;
   "@_name": string;
   "@_revision"?: string;
@@ -20,63 +20,63 @@ export type RawCatalogue = {
   "@_library"?: string;
   "@_type"?: string;
   "@_authorName"?: string;
-  categoryEntries?: RawCategoryEntries;
-  entryLinks?: RawEntryLinks;
-  sharedSelectionEntries?: RawSelectionEntries;
-  sharedSelectionEntryGroups?: RawSelectionEntryGroups;
-  sharedProfiles?: RawProfiles;
-  publications?: RawPublications;
-  profileTypes?: RawProfileTypes;
-  sharedRules?: RawRules;
-  infoLinks?: RawInfoLinks;
-  costTypes?: RawCostTypes;
-  catalogueLinks?: RawCatalogueLinks;
+  categoryEntries?: BSDataRawCategoryEntries;
+  entryLinks?: BSDataRawEntryLinks;
+  sharedSelectionEntries?: BSDataRawSelectionEntries;
+  sharedSelectionEntryGroups?: BSDataRawSelectionEntryGroups;
+  sharedProfiles?: BSDataRawProfiles;
+  publications?: BSDataRawPublications;
+  profileTypes?: BSDataRawProfileTypes;
+  sharedRules?: BSDataRawRules;
+  infoLinks?: BSDataRawInfoLinks;
+  costTypes?: BSDataRawCostTypes;
+  catalogueLinks?: BSDataRawCatalogueLinks;
 };
 
-export type RawGameSystem = {
+export type BSDataRawGameSystem = {
   "@_id": string;
   "@_name": string;
   "@_revision"?: string;
   "@_battleScribeVersion"?: string;
   "@_type"?: string;
-  publications?: RawPublications;
-  costTypes?: RawCostTypes;
-  profileTypes?: RawProfileTypes;
-  categoryEntries?: RawCategoryEntries;
-  forceEntries?: RawForceEntries;
-  entryLinks?: RawEntryLinks;
-  sharedSelectionEntries?: RawSelectionEntries;
-  sharedSelectionEntryGroups?: RawSelectionEntryGroups;
-  sharedRules?: RawRules;
-  sharedProfiles?: RawProfiles;
+  publications?: BSDataRawPublications;
+  costTypes?: BSDataRawCostTypes;
+  profileTypes?: BSDataRawProfileTypes;
+  categoryEntries?: BSDataRawCategoryEntries;
+  forceEntries?: BSDataRawForceEntries;
+  entryLinks?: BSDataRawEntryLinks;
+  sharedSelectionEntries?: BSDataRawSelectionEntries;
+  sharedSelectionEntryGroups?: BSDataRawSelectionEntryGroups;
+  sharedRules?: BSDataRawRules;
+  sharedProfiles?: BSDataRawProfiles;
 };
 
-export type RawCategoryEntries = { categoryEntry?: MaybeArray<RawCategoryEntry> };
+export type BSDataRawCategoryEntries = { categoryEntry?: BSDataMaybeArray<BSDataRawCategoryEntry> };
 
-export type RawCategoryEntry = {
+export type BSDataRawCategoryEntry = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
-  comment?: RawText;
-  constraints?: RawConstraints;
-  modifiers?: RawModifiers;
+  comment?: BSDataRawText;
+  constraints?: BSDataRawConstraints;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawForceEntries = { forceEntry?: MaybeArray<RawForceEntry> };
+export type BSDataRawForceEntries = { forceEntry?: BSDataMaybeArray<BSDataRawForceEntry> };
 
-export type RawForceEntry = {
+export type BSDataRawForceEntry = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
-  categoryLinks?: RawCategoryLinks;
-  constraints?: RawConstraints;
-  forceEntries?: RawForceEntries;
-  modifiers?: RawModifiers;
+  categoryLinks?: BSDataRawCategoryLinks;
+  constraints?: BSDataRawConstraints;
+  forceEntries?: BSDataRawForceEntries;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawEntryLinks = { entryLink?: MaybeArray<RawEntryLink> };
+export type BSDataRawEntryLinks = { entryLink?: BSDataMaybeArray<BSDataRawEntryLink> };
 
-export type RawEntryLink = {
+export type BSDataRawEntryLink = {
   "@_id": string;
   "@_name"?: string;
   "@_targetId"?: string;
@@ -88,19 +88,19 @@ export type RawEntryLink = {
   "@_defaultAmount"?: string;
   "@_import"?: string;
   "@_sortIndex"?: string;
-  categoryLinks?: RawCategoryLinks;
-  constraints?: RawConstraints;
-  costs?: RawCosts;
-  entryLinks?: RawEntryLinks;
-  infoLinks?: RawInfoLinks;
-  modifierGroups?: RawModifierGroups;
-  modifiers?: RawModifiers;
-  profiles?: RawProfiles;
+  categoryLinks?: BSDataRawCategoryLinks;
+  constraints?: BSDataRawConstraints;
+  costs?: BSDataRawCosts;
+  entryLinks?: BSDataRawEntryLinks;
+  infoLinks?: BSDataRawInfoLinks;
+  modifierGroups?: BSDataRawModifierGroups;
+  modifiers?: BSDataRawModifiers;
+  profiles?: BSDataRawProfiles;
 };
 
-export type RawSelectionEntries = { selectionEntry?: MaybeArray<RawSelectionEntry> };
+export type BSDataRawSelectionEntries = { selectionEntry?: BSDataMaybeArray<BSDataRawSelectionEntry> };
 
-export type RawSelectionEntry = {
+export type BSDataRawSelectionEntry = {
   "@_id": string;
   "@_name"?: string;
   "@_type"?: string;
@@ -111,26 +111,26 @@ export type RawSelectionEntry = {
   "@_sortIndex"?: string;
   "@_page"?: string;
   "@_publicationId"?: string;
-  associations?: RawAssociations;
-  categoryLinks?: RawCategoryLinks;
-  comment?: RawText;
-  constraints?: RawConstraints;
-  costs?: RawCosts;
-  entryLinks?: RawEntryLinks;
-  infoLinks?: RawInfoLinks;
-  modifierGroups?: RawModifierGroups;
-  modifiers?: RawModifiers;
-  profiles?: RawProfiles;
-  rules?: RawRules;
-  selectionEntries?: RawSelectionEntries;
-  selectionEntryGroups?: RawSelectionEntryGroups;
+  associations?: BSDataRawAssociations;
+  categoryLinks?: BSDataRawCategoryLinks;
+  comment?: BSDataRawText;
+  constraints?: BSDataRawConstraints;
+  costs?: BSDataRawCosts;
+  entryLinks?: BSDataRawEntryLinks;
+  infoLinks?: BSDataRawInfoLinks;
+  modifierGroups?: BSDataRawModifierGroups;
+  modifiers?: BSDataRawModifiers;
+  profiles?: BSDataRawProfiles;
+  rules?: BSDataRawRules;
+  selectionEntries?: BSDataRawSelectionEntries;
+  selectionEntryGroups?: BSDataRawSelectionEntryGroups;
 };
 
-export type RawSelectionEntryGroups = {
-  selectionEntryGroup?: MaybeArray<RawSelectionEntryGroup>;
+export type BSDataRawSelectionEntryGroups = {
+  selectionEntryGroup?: BSDataMaybeArray<BSDataRawSelectionEntryGroup>;
 };
 
-export type RawSelectionEntryGroup = {
+export type BSDataRawSelectionEntryGroup = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
@@ -142,35 +142,35 @@ export type RawSelectionEntryGroup = {
   "@_sortIndex"?: string;
   "@_page"?: string;
   "@_publicationId"?: string;
-  categoryLinks?: RawCategoryLinks;
-  comment?: RawText;
-  constraints?: RawConstraints;
-  entryLinks?: RawEntryLinks;
-  infoLinks?: RawInfoLinks;
-  modifiers?: RawModifiers;
-  profiles?: RawProfiles;
-  selectionEntries?: RawSelectionEntries;
-  selectionEntryGroups?: RawSelectionEntryGroups;
+  categoryLinks?: BSDataRawCategoryLinks;
+  comment?: BSDataRawText;
+  constraints?: BSDataRawConstraints;
+  entryLinks?: BSDataRawEntryLinks;
+  infoLinks?: BSDataRawInfoLinks;
+  modifiers?: BSDataRawModifiers;
+  profiles?: BSDataRawProfiles;
+  selectionEntries?: BSDataRawSelectionEntries;
+  selectionEntryGroups?: BSDataRawSelectionEntryGroups;
 };
 
-export type RawProfiles = { profile?: MaybeArray<RawProfile> };
+export type BSDataRawProfiles = { profile?: BSDataMaybeArray<BSDataRawProfile> };
 
-export type RawProfile = {
+export type BSDataRawProfile = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
   "@_typeId"?: string;
   "@_typeName"?: string;
   "@_page"?: string;
-  characteristics?: RawCharacteristics;
-  comment?: RawText;
-  modifierGroups?: RawModifierGroups;
-  modifiers?: RawModifiers;
+  characteristics?: BSDataRawCharacteristics;
+  comment?: BSDataRawText;
+  modifierGroups?: BSDataRawModifierGroups;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawCharacteristics = { characteristic?: MaybeArray<RawCharacteristic> };
+export type BSDataRawCharacteristics = { characteristic?: BSDataMaybeArray<BSDataRawCharacteristic> };
 
-export type RawCharacteristic = {
+export type BSDataRawCharacteristic = {
   "@_id"?: string;
   "@_name"?: string;
   "@_typeId"?: string;
@@ -178,27 +178,27 @@ export type RawCharacteristic = {
   "#text"?: string;
 };
 
-export type RawProfileTypes = { profileType?: MaybeArray<RawProfileType> };
+export type BSDataRawProfileTypes = { profileType?: BSDataMaybeArray<BSDataRawProfileType> };
 
-export type RawProfileType = {
+export type BSDataRawProfileType = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
-  characteristicTypes?: RawCharacteristicTypes;
+  characteristicTypes?: BSDataRawCharacteristicTypes;
 };
 
-export type RawCharacteristicTypes = {
-  characteristicType?: MaybeArray<RawCharacteristicType>;
+export type BSDataRawCharacteristicTypes = {
+  characteristicType?: BSDataMaybeArray<BSDataRawCharacteristicType>;
 };
 
-export type RawCharacteristicType = {
+export type BSDataRawCharacteristicType = {
   "@_id": string;
   "@_name"?: string;
 };
 
-export type RawPublications = { publication?: MaybeArray<RawPublication> };
+export type BSDataRawPublications = { publication?: BSDataMaybeArray<BSDataRawPublication> };
 
-export type RawPublication = {
+export type BSDataRawPublication = {
   "@_id": string;
   "@_name"?: string;
   "@_shortName"?: string;
@@ -208,41 +208,41 @@ export type RawPublication = {
   "@_hidden"?: string;
 };
 
-export type RawCostTypes = { costType?: MaybeArray<RawCostType> };
+export type BSDataRawCostTypes = { costType?: BSDataMaybeArray<BSDataRawCostType> };
 
-export type RawCostType = {
+export type BSDataRawCostType = {
   "@_id": string;
   "@_name"?: string;
   "@_defaultCostLimit"?: string;
   "@_hidden"?: string;
-  comment?: RawText;
-  modifiers?: RawModifiers;
+  comment?: BSDataRawText;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawCosts = { cost?: MaybeArray<RawCost> };
+export type BSDataRawCosts = { cost?: BSDataMaybeArray<BSDataRawCost> };
 
-export type RawCost = {
+export type BSDataRawCost = {
   "@_name": string;
   "@_typeId"?: string;
   "@_value"?: string;
 };
 
-export type RawRules = { rule?: MaybeArray<RawRule> };
+export type BSDataRawRules = { rule?: BSDataMaybeArray<BSDataRawRule> };
 
-export type RawRule = {
+export type BSDataRawRule = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
   "@_page"?: string;
   "@_publicationId"?: string;
-  alias?: RawText;
-  description?: RawText;
-  modifiers?: RawModifiers;
+  alias?: BSDataRawText;
+  description?: BSDataRawText;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawModifiers = { modifier?: MaybeArray<RawModifier> };
+export type BSDataRawModifiers = { modifier?: BSDataMaybeArray<BSDataRawModifier> };
 
-export type RawModifier = {
+export type BSDataRawModifier = {
   "@_id"?: string;
   "@_type"?: string;
   "@_field"?: string;
@@ -252,23 +252,23 @@ export type RawModifier = {
   "@_position"?: string;
   "@_join"?: string;
   "@_affects"?: string;
-  conditionGroups?: RawConditionGroups;
-  conditions?: RawConditions;
-  repeats?: RawRepeats;
+  conditionGroups?: BSDataRawConditionGroups;
+  conditions?: BSDataRawConditions;
+  repeats?: BSDataRawRepeats;
 };
 
-export type RawModifierGroups = { modifierGroup?: MaybeArray<RawModifierGroup> };
+export type BSDataRawModifierGroups = { modifierGroup?: BSDataMaybeArray<BSDataRawModifierGroup> };
 
-export type RawModifierGroup = {
+export type BSDataRawModifierGroup = {
   "@_type"?: string;
-  comment?: RawText;
-  conditions?: RawConditions;
-  modifiers?: RawModifiers;
+  comment?: BSDataRawText;
+  conditions?: BSDataRawConditions;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawConditions = { condition?: MaybeArray<RawCondition> };
+export type BSDataRawConditions = { condition?: BSDataMaybeArray<BSDataRawCondition> };
 
-export type RawCondition = {
+export type BSDataRawCondition = {
   "@_id"?: string;
   "@_type"?: string;
   "@_field"?: string;
@@ -281,19 +281,19 @@ export type RawCondition = {
   "@_percentValue"?: string;
 };
 
-export type RawConditionGroups = {
-  conditionGroup?: MaybeArray<RawConditionGroup>;
+export type BSDataRawConditionGroups = {
+  conditionGroup?: BSDataMaybeArray<BSDataRawConditionGroup>;
 };
 
-export type RawConditionGroup = {
+export type BSDataRawConditionGroup = {
   "@_type"?: string;
-  conditionGroups?: RawConditionGroups;
-  conditions?: RawConditions;
+  conditionGroups?: BSDataRawConditionGroups;
+  conditions?: BSDataRawConditions;
 };
 
-export type RawConstraints = { constraint?: MaybeArray<RawConstraint> };
+export type BSDataRawConstraints = { constraint?: BSDataMaybeArray<BSDataRawConstraint> };
 
-export type RawConstraint = {
+export type BSDataRawConstraint = {
   "@_id"?: string;
   "@_type"?: string;
   "@_field"?: string;
@@ -306,20 +306,20 @@ export type RawConstraint = {
   "@_negative"?: string;
 };
 
-export type RawInfoLinks = { infoLink?: MaybeArray<RawInfoLink> };
+export type BSDataRawInfoLinks = { infoLink?: BSDataMaybeArray<BSDataRawInfoLink> };
 
-export type RawInfoLink = {
+export type BSDataRawInfoLink = {
   "@_id": string;
   "@_name"?: string;
   "@_targetId"?: string;
   "@_type"?: string;
   "@_hidden"?: string;
-  modifiers?: RawModifiers;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawCatalogueLinks = { catalogueLink?: MaybeArray<RawCatalogueLink> };
+export type BSDataRawCatalogueLinks = { catalogueLink?: BSDataMaybeArray<BSDataRawCatalogueLink> };
 
-export type RawCatalogueLink = {
+export type BSDataRawCatalogueLink = {
   "@_id": string;
   "@_name"?: string;
   "@_targetId"?: string;
@@ -327,21 +327,21 @@ export type RawCatalogueLink = {
   "@_importRootEntries"?: string;
 };
 
-export type RawCategoryLinks = { categoryLink?: MaybeArray<RawCategoryLink> };
+export type BSDataRawCategoryLinks = { categoryLink?: BSDataMaybeArray<BSDataRawCategoryLink> };
 
-export type RawCategoryLink = {
+export type BSDataRawCategoryLink = {
   "@_id": string;
   "@_name"?: string;
   "@_targetId"?: string;
   "@_hidden"?: string;
   "@_primary"?: string;
-  constraints?: RawConstraints;
-  modifiers?: RawModifiers;
+  constraints?: BSDataRawConstraints;
+  modifiers?: BSDataRawModifiers;
 };
 
-export type RawAssociations = { association?: MaybeArray<RawAssociation> };
+export type BSDataRawAssociations = { association?: BSDataMaybeArray<BSDataRawAssociation> };
 
-export type RawAssociation = {
+export type BSDataRawAssociation = {
   "@_id": string;
   "@_name"?: string;
   "@_scope"?: string;
@@ -350,9 +350,9 @@ export type RawAssociation = {
   "@_max"?: string;
 };
 
-export type RawRepeats = { repeat?: MaybeArray<RawRepeat> };
+export type BSDataRawRepeats = { repeat?: BSDataMaybeArray<BSDataRawRepeat> };
 
-export type RawRepeat = {
+export type BSDataRawRepeat = {
   "@_childId"?: string;
   "@_field"?: string;
   "@_includeChildSelections"?: string;

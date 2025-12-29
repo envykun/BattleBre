@@ -1,12 +1,12 @@
-export type MaybeArray<T> = T | T[];
+export type RosterMaybeArray<T> = T | T[];
 
-export type RawText = string | { "#text"?: string } | undefined;
+export type RosterRawText = string | { "#text"?: string } | undefined;
 
-export type RawRosterData = {
-  roster: RawRoster;
+export type RosterRawRosterData = {
+  roster: RosterRawRoster;
 };
 
-export type RawRoster = {
+export type RosterRawRoster = {
   "@_id": string;
   "@_name": string;
   "@_battleScribeVersion"?: string;
@@ -15,45 +15,45 @@ export type RawRoster = {
   "@_gameSystemName"?: string;
   "@_gameSystemRevision"?: string;
   "@_xmlns"?: string;
-  costs?: RawCosts;
-  costLimits?: RawCostLimits;
-  forces?: RawForces;
+  costs?: RosterRawCosts;
+  costLimits?: RosterRawCostLimits;
+  forces?: RosterRawForces;
 };
 
-export type RawCosts = { cost?: MaybeArray<RawCost> };
+export type RosterRawCosts = { cost?: RosterMaybeArray<RosterRawCost> };
 
-export type RawCost = {
+export type RosterRawCost = {
   "@_name": string;
   "@_typeId"?: string;
   "@_value"?: string;
 };
 
-export type RawCostLimits = { costLimit?: MaybeArray<RawCostLimit> };
+export type RosterRawCostLimits = { costLimit?: RosterMaybeArray<RosterRawCostLimit> };
 
-export type RawCostLimit = {
+export type RosterRawCostLimit = {
   "@_name": string;
   "@_typeId"?: string;
   "@_value"?: string;
 };
 
-export type RawForces = { force?: MaybeArray<RawForce> };
+export type RosterRawForces = { force?: RosterMaybeArray<RosterRawForce> };
 
-export type RawForce = {
+export type RosterRawForce = {
   "@_id": string;
   "@_name"?: string;
   "@_entryId"?: string;
   "@_catalogueId"?: string;
   "@_catalogueName"?: string;
   "@_catalogueRevision"?: string;
-  selections?: RawSelections;
-  categories?: RawCategories;
-  publications?: RawPublications;
-  rules?: RawRules;
+  selections?: RosterRawSelections;
+  categories?: RosterRawCategories;
+  publications?: RosterRawPublications;
+  rules?: RosterRawRules;
 };
 
-export type RawSelections = { selection?: MaybeArray<RawSelection> };
+export type RosterRawSelections = { selection?: RosterMaybeArray<RosterRawSelection> };
 
-export type RawSelection = {
+export type RosterRawSelection = {
   "@_id": string;
   "@_name"?: string;
   "@_entryGroupId"?: string;
@@ -64,25 +64,25 @@ export type RawSelection = {
   "@_publicationId"?: string;
   "@_from"?: string;
   "@_group"?: string;
-  selections?: RawSelections;
-  profiles?: RawProfiles;
-  categories?: RawCategories;
-  rules?: RawRules;
-  costs?: RawCosts;
+  selections?: RosterRawSelections;
+  profiles?: RosterRawProfiles;
+  categories?: RosterRawCategories;
+  rules?: RosterRawRules;
+  costs?: RosterRawCosts;
 };
 
-export type RawCategories = { category?: MaybeArray<RawCategory> };
+export type RosterRawCategories = { category?: RosterMaybeArray<RosterRawCategory> };
 
-export type RawCategory = {
+export type RosterRawCategory = {
   "@_id"?: string;
   "@_name"?: string;
   "@_entryId"?: string;
   "@_primary"?: string;
 };
 
-export type RawProfiles = { profile?: MaybeArray<RawProfile> };
+export type RosterRawProfiles = { profile?: RosterMaybeArray<RosterRawProfile> };
 
-export type RawProfile = {
+export type RosterRawProfile = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
@@ -91,31 +91,31 @@ export type RawProfile = {
   "@_typeId"?: string;
   "@_typeName"?: string;
   "@_from"?: string;
-  characteristics?: RawCharacteristics;
+  characteristics?: RosterRawCharacteristics;
 };
 
-export type RawCharacteristics = { characteristic?: MaybeArray<RawCharacteristic> };
+export type RosterRawCharacteristics = { characteristic?: RosterMaybeArray<RosterRawCharacteristic> };
 
-export type RawCharacteristic = {
+export type RosterRawCharacteristic = {
   "@_name"?: string;
   "@_typeId"?: string;
   "#text"?: string;
 };
 
-export type RawRules = { rule?: MaybeArray<RawRule> };
+export type RosterRawRules = { rule?: RosterMaybeArray<RosterRawRule> };
 
-export type RawRule = {
+export type RosterRawRule = {
   "@_id": string;
   "@_name"?: string;
   "@_hidden"?: string;
   "@_page"?: string;
   "@_publicationId"?: string;
-  description?: RawText;
+  description?: RosterRawText;
 };
 
-export type RawPublications = { publication?: MaybeArray<RawPublication> };
+export type RosterRawPublications = { publication?: RosterMaybeArray<RosterRawPublication> };
 
-export type RawPublication = {
+export type RosterRawPublication = {
   "@_id": string;
   "@_name"?: string;
   "@_shortName"?: string;
@@ -125,28 +125,28 @@ export type RawPublication = {
   "@_hidden"?: string;
 };
 
-export type CostInit = {
+export type RosterCostInit = {
   name: string;
   typeId?: string;
   value?: number;
   valueText?: string;
 };
 
-export type CostLimitInit = {
+export type RosterCostLimitInit = {
   name: string;
   typeId?: string;
   value?: number;
   valueText?: string;
 };
 
-export type CategoryInit = {
+export type RosterCategoryInit = {
   id?: string;
   name?: string;
   entryId?: string;
   isPrimary?: boolean;
 };
 
-export type PublicationInit = {
+export type RosterPublicationInit = {
   id: string;
   name?: string;
   shortName?: string;
@@ -156,7 +156,7 @@ export type PublicationInit = {
   isHidden?: boolean;
 };
 
-export type RuleInit = {
+export type RosterRuleInit = {
   id: string;
   name?: string;
   isHidden?: boolean;
@@ -165,13 +165,13 @@ export type RuleInit = {
   description?: string;
 };
 
-export type CharacteristicInit = {
+export type RosterCharacteristicInit = {
   name?: string;
   typeId?: string;
   value?: string;
 };
 
-export type ProfileInit = {
+export type RosterProfileInit = {
   id: string;
   name?: string;
   typeId?: string;
@@ -180,10 +180,10 @@ export type ProfileInit = {
   page?: string;
   publicationId?: string;
   from?: string;
-  characteristics?: Characteristic[];
+  characteristics?: RosterCharacteristic[];
 };
 
-export type SelectionInit = {
+export type RosterSelectionInit = {
   id: string;
   name?: string;
   entryGroupId?: string;
@@ -195,24 +195,24 @@ export type SelectionInit = {
   publicationId?: string;
   from?: string;
   group?: string;
-  selections?: Selection[];
-  profiles?: Profile[];
-  categories?: Category[];
-  rules?: Rule[];
-  costs?: Cost[];
+  selections?: RosterSelection[];
+  profiles?: RosterProfile[];
+  categories?: RosterCategory[];
+  rules?: RosterRule[];
+  costs?: RosterCost[];
 };
 
-export type ForceInit = {
+export type RosterForceInit = {
   id: string;
   name?: string;
   entryId?: string;
   catalogueId?: string;
   catalogueName?: string;
   catalogueRevision?: string;
-  selections?: Selection[];
-  categories?: Category[];
-  publications?: Publication[];
-  rules?: Rule[];
+  selections?: RosterSelection[];
+  categories?: RosterCategory[];
+  publications?: RosterPublication[];
+  rules?: RosterRule[];
 };
 
 export type RosterInit = {
@@ -224,9 +224,9 @@ export type RosterInit = {
   gameSystemName?: string;
   gameSystemRevision?: string;
   xmlns?: string;
-  costs?: Cost[];
-  costLimits?: CostLimit[];
-  forces?: Force[];
+  costs?: RosterCost[];
+  costLimits?: RosterCostLimit[];
+  forces?: RosterForce[];
 };
 
 export type RosterDocument = {
@@ -234,12 +234,12 @@ export type RosterDocument = {
 };
 
 export type Roster = import("./roster").Roster;
-export type Force = import("./entries").Force;
-export type Selection = import("./entries").Selection;
-export type Category = import("./entries").Category;
-export type Profile = import("./profiles").Profile;
-export type Characteristic = import("./profiles").Characteristic;
-export type Rule = import("./rules").Rule;
-export type Publication = import("./publications").Publication;
-export type Cost = import("./costs").Cost;
-export type CostLimit = import("./costs").CostLimit;
+export type RosterForce = import("./entries").RosterForce;
+export type RosterSelection = import("./entries").RosterSelection;
+export type RosterCategory = import("./entries").RosterCategory;
+export type RosterProfile = import("./profiles").RosterProfile;
+export type RosterCharacteristic = import("./profiles").RosterCharacteristic;
+export type RosterRule = import("./rules").RosterRule;
+export type RosterPublication = import("./publications").RosterPublication;
+export type RosterCost = import("./costs").RosterCost;
+export type RosterCostLimit = import("./costs").RosterCostLimit;
