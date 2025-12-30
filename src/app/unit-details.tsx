@@ -1,7 +1,14 @@
 import { useRosterContext } from "@/src/context/RosterContext";
 import { useRosterUnitDetails } from "@/src/hooks/useRosterUnitDetails";
-import { router, useLocalSearchParams } from "expo-router";
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { ScrollView, StyleSheet, View } from "react-native";
+import PointsOverview from "../components/PointsOverview/PointsOverview";
+import Abilities from "../components/Sections/Abilities";
+import BlockAbility from "../components/Sections/BlockAbility";
+import Characteristics from "../components/Sections/Characteristics";
+import Keywords from "../components/Sections/Keywords";
+import Weapons from "../components/Sections/Weapons";
+import Layout from "../styles/theme/constants/Layout";
 
 export default function UnitDetailsScreen() {
   const params = useLocalSearchParams<{
@@ -21,9 +28,8 @@ export default function UnitDetailsScreen() {
   );
 
   const resolvedName = unitDetails?.name ?? "Unit Details";
-  const resolvedRole = unitDetails?.role ?? null;
-  const resolvedPoints =
-    unitDetails?.points != null ? `${unitDetails.points} pts` : null;
+  const resolvedRole = unitDetails?.role ?? "-";
+  const resolvedPoints = unitDetails?.points?.toString() ?? "-";
   const unitCount = unitDetails?.count ?? 1;
   const displayName =
     unitCount > 1 ? `${resolvedName} x${unitCount}` : resolvedName;
@@ -45,9 +51,17 @@ export default function UnitDetailsScreen() {
       unitDetails?.forceRules.length
   );
 
+  const hasInvulerableSave =
+    unitDetails?.abilities.find(
+      (ability) => ability.name === "Invulnerable Save"
+    ) ?? null;
+  const hasFeelNoPain =
+    unitDetails?.abilities.find((ability) => ability.name === "Feel No Pain") ??
+    null;
+
   return (
     <View style={styles.container}>
-      <ScrollView
+      {/* <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
@@ -92,7 +106,7 @@ export default function UnitDetailsScreen() {
             ))}
           </View>
         ) : null}
-        {unitDetails?.characteristics.length ? (
+        {/* {unitDetails?.characteristics.length ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Characteristics</Text>
             {unitDetails.characteristics.map((block) => (
@@ -107,7 +121,7 @@ export default function UnitDetailsScreen() {
               </View>
             ))}
           </View>
-        ) : null}
+        ) : null} 
         {unitDetails?.weapons.length ? (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Weapons</Text>
@@ -292,11 +306,45 @@ export default function UnitDetailsScreen() {
             ))}
           </View>
         ) : null}
-        <View style={styles.button}>
-          <Button title="Close" onPress={() => router.back()} />
+      </ScrollView> */}
+
+      <ScrollView>
+        <View>
+          <PointsOverview
+            rosterName={resolvedName}
+            force={resolvedRole}
+            points={resolvedPoints}
+          />
         </View>
-        <View style={styles.button}>
-          <Button title="Back to Home" onPress={() => router.dismissTo("/")} />
+        <View style={styles.table}>
+          {unitDetails?.characteristics.map((characteristic, index) => (
+            <Characteristics
+              key={index}
+              data={{ ...characteristic, weapons: [] }}
+            />
+          ))}
+        </View>
+        <View style={styles.table}>
+          {hasInvulerableSave != null && (
+            <BlockAbility type="invul" ability={hasInvulerableSave} />
+          )}
+          {hasFeelNoPain != null && (
+            <BlockAbility type="fnp" ability={hasFeelNoPain} />
+          )}
+        </View>
+        <View style={styles.table}>
+          <Weapons data={unitDetails?.weapons ?? []} />
+        </View>
+        <View style={styles.table}>
+          <Abilities
+            abilities={unitDetails?.abilities
+              .filter((ability) => ability.name !== "Invulnerable Save")
+              .filter((ability) => ability.name !== "Feel No Pain")}
+            unitRules={unitDetails?.unitRules}
+          />
+        </View>
+        <View style={styles.table}>
+          <Keywords data={unitDetails?.keywords ?? []} />
         </View>
       </ScrollView>
     </View>
@@ -307,6 +355,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "stretch",
+    backgroundColor: "white",
+  },
+  table: {
+    padding: Layout.spacing(4),
+    gap: Layout.spacing(4),
   },
   content: {
     paddingVertical: 24,

@@ -1,6 +1,7 @@
+import OverviewRuleItem from "@/src/components/List/OverviewRuleItem";
 import PointsOverview from "@/src/components/PointsOverview/PointsOverview";
-import { router } from "expo-router";
-import { Button, StyleSheet, Text, View } from "react-native";
+import Layout from "@/src/styles/theme/constants/Layout";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRosterContext } from "../../context/RosterContext";
 
 export default function RosterOverviewScreen() {
@@ -33,32 +34,56 @@ export default function RosterOverviewScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <PointsOverview
-        rosterName={rosterName}
-        force={force}
-        points={armyPoints}
-      />
-      <Text style={styles.title}>Army Configuration</Text>
-      {/* {configuration.map((item) => (
+    <ScrollView>
+      <View style={styles.container}>
+        <PointsOverview
+          rosterName={rosterName}
+          force={force}
+          points={armyPoints}
+        />
+        <View style={styles.scrollView}>
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+          <OverviewRuleItem title={"Test"} description={"Test"} />
+        </View>
+        {/* {configuration.map((item) => (
         <View key={item.id} style={styles.configBlock}>
-          <Text style={styles.configTitle}>{item.name}</Text>
-          {item.rules.map((rule) => (
-            <Text key={rule.id} style={styles.configItem}>
-              {rule.name ?? "Rule"}
-            </Text>
+        <Text style={styles.configTitle}>{item.name}</Text>
+        {item.rules.map((rule) => (
+          <Text key={rule.id} style={styles.configItem}>
+          {rule.name ?? "Rule"}
+          </Text>
           ))}
           {item.profiles.map((profile) => (
             <Text key={profile.id} style={styles.configItem}>
-              {profile.name ?? profile.typeName ?? "Profile"}
+            {profile.name ?? profile.typeName ?? "Profile"}
             </Text>
-          ))}
-        </View>
-      ))} */}
-      <View style={styles.button}>
-        <Button title="Back to Home" onPress={() => router.dismissTo("/")} />
+            ))}
+            </View>
+            ))} */}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -66,30 +91,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  title: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 24,
-  },
-  configBlock: {
-    marginBottom: 16,
-  },
-  configTitle: {
-    fontSize: 15,
-    fontWeight: "600",
-    marginBottom: 6,
-  },
-  configItem: {
-    fontSize: 13,
-    marginBottom: 4,
-  },
-  rosterName: {
-    fontSize: 26,
-    fontWeight: "700",
-    marginBottom: 8,
-  },
-  button: {
-    width: "100%",
-    marginBottom: 12,
+  title: {},
+  scrollView: {
+    padding: Layout.spacing(3),
+    gap: Layout.spacing(3),
   },
 });
