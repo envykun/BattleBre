@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/src/styles/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router, Stack, useGlobalSearchParams } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function RootLayout() {
@@ -13,13 +14,15 @@ export default function RootLayout() {
     : params.rosterId;
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <RosterProvider initialRosterId={rosterId}>
-          <RootStack />
-        </RosterProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <RosterProvider initialRosterId={rosterId}>
+            <RootStack />
+          </RosterProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -95,6 +98,9 @@ function RootStack() {
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   safeArea: {
     flex: 1,
   },

@@ -1,7 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import { Button, FlatList, StyleSheet, Text, View } from "react-native";
-import Divider from "../components/Divider/Divider";
 import ListItemRoster from "../components/List/ListItemRoster";
 import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 
@@ -29,11 +28,7 @@ export default function Index() {
         {!loading && !error && (
           <Text>{`Rosters loaded: ${rosters?.length ?? 0}`}</Text>
         )}
-        <FlatList
-          data={rosters ?? []}
-          renderItem={renderItem}
-          ItemSeparatorComponent={() => <Divider />}
-        />
+        <FlatList data={rosters ?? []} renderItem={renderItem} />
         <Button title="Add roster" onPress={addRoster} />
       </View>
     </View>
