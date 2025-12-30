@@ -29,6 +29,7 @@ export type UnitWeapon = {
   ap: string;
   d: string;
   abilities: string;
+  abilityRefs?: Array<{ label: string; lookupId: string }>;
   count?: number;
 };
 
@@ -63,6 +64,7 @@ export type UnitDetails = {
   characteristics: UnitCharacteristics[];
   weapons: UnitWeapon[];
   abilities: UnitAbility[];
+  abilityLookup: Record<string, { name: string; description: string }>;
   profileSections: UnitProfileSection[];
   keywords: string[];
   unitRules: RosterRule[];
@@ -118,6 +120,14 @@ const readCharacteristic = (profile: RosterProfile, key: string | string[]) => {
 };
 
 const normalize = (value?: string) => value?.trim().toLowerCase() ?? "";
+
+const parseAbilityTokens = (abilities: string) =>
+  normalize(abilities) === "-" || !abilities
+    ? []
+    : abilities
+        .split(",")
+        .map((entry) => entry.trim())
+        .filter(Boolean);
 
 const PROFILE_KIND_BY_TYPE: Record<string, ProfileKind> = {
   unit: "unit",
@@ -437,59 +447,6 @@ export function useRosterUnitDetails(
       })
     );
 
-    const weaponProfiles = entriesByKind("weapon");
-    const weaponMap = new Map<string, UnitWeapon>();
-    for (const { profile, selection: source } of weaponProfiles) {
-      const name = profile.name ?? "Weapon";
-      const range = readCharacteristic(profile, "Range");
-      const type = readCharacteristic(profile, ["Type", "Weapon Type"]);
-      const a = readCharacteristic(profile, ["A", "Attacks"]);
-      const bs = readCharacteristic(profile, ["BS/WS", "BS", "WS"]);
-      const s = readCharacteristic(profile, ["S", "Strength"]);
-      const ap = readCharacteristic(profile, ["AP"]);
-      const d = readCharacteristic(profile, ["D", "Damage"]);
-      const abilities = readCharacteristic(profile, [
-        "Abilities",
-        "Ability",
-        "Keywords",
-      ]);
-      const mode = weaponMode(profile, range);
-      const key = [mode, name, range, type, a, bs, s, ap, d, abilities]
-        .map((entry) => normalize(entry))
-        .join("|");
-      const next: UnitWeapon = {
-        id: profile.id,
-        name,
-        mode,
-        range,
-        type,
-        a,
-        bs,
-        s,
-        ap,
-        d,
-        abilities,
-        count: source.number ?? undefined,
-      };
-      const existing = weaponMap.get(key);
-      if (!existing) {
-        weaponMap.set(key, next);
-        continue;
-      }
-      const counts = [existing.count, next.count].filter(
-        (value): value is number => typeof value === "number"
-      );
-      weaponMap.set(key, {
-        ...existing,
-        count: counts.length
-          ? counts.reduce((sum, value) => sum + value, 0)
-          : existing.count,
-      });
-    }
-    const weapons = Array.from(weaponMap.values()).sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-
     const abilityProfiles = profileEntries
       .filter((entry) => entry.kind === "ability")
       .map(({ profile }) => ({
@@ -521,6 +478,118 @@ export function useRosterUnitDetails(
       (rule) => rule.id
     );
 
+    const lookupEntries = [
+      ...abilities.map((ability) => ({
+        id: ability.id,
+        name: ability.name,
+        description: ability.description,
+        normalized: normalize(ability.name),
+      })),
+      ...[...unitRules, ...forceRules].map((rule) => ({
+        id: rule.id,
+        name: rule.name ?? "Rule",
+        description: rule.description ?? "No description available.",
+        normalized: normalize(rule.name),
+      })),
+    ]
+      .filter((entry) => entry.normalized)
+      .sort((a, b) => b.normalized.length - a.normalized.length);
+
+    const abilityLookup = new Map<string, { name: string; description: string }>(
+      lookupEntries.map((entry) => [
+        entry.id,
+        {
+          name: entry.name,
+          description: entry.description || "No description available.",
+        },
+      ])
+    );
+
+    const resolveLookupId = (label: string) => {
+      const normalized = normalize(label);
+      if (!normalized) {
+        return "";
+      }
+      const exact = lookupEntries.find(
+        (entry) => entry.normalized === normalized
+      );
+      if (exact) {
+        return exact.id;
+      }
+      const prefix = lookupEntries.find((entry) =>
+        normalized.startsWith(entry.normalized)
+      );
+      if (prefix) {
+        return prefix.id;
+      }
+      const fallbackId = `weapon-ability:${normalized}`;
+      if (!abilityLookup.has(fallbackId)) {
+        abilityLookup.set(fallbackId, {
+          name: label,
+          description: "No description available.",
+        });
+      }
+      return fallbackId;
+    };
+
+    const weaponProfiles = entriesByKind("weapon");
+    const weaponMap = new Map<string, UnitWeapon>();
+    for (const { profile, selection: source } of weaponProfiles) {
+      const name = profile.name ?? "Weapon";
+      const range = readCharacteristic(profile, "Range");
+      const type = readCharacteristic(profile, ["Type", "Weapon Type"]);
+      const a = readCharacteristic(profile, ["A", "Attacks"]);
+      const bs = readCharacteristic(profile, ["BS/WS", "BS", "WS"]);
+      const s = readCharacteristic(profile, ["S", "Strength"]);
+      const ap = readCharacteristic(profile, ["AP"]);
+      const d = readCharacteristic(profile, ["D", "Damage"]);
+      const abilities = readCharacteristic(profile, [
+        "Abilities",
+        "Ability",
+        "Keywords",
+      ]);
+      const abilityRefs = parseAbilityTokens(abilities).map((label) => ({
+        label,
+        lookupId: resolveLookupId(label),
+      }));
+      const mode = weaponMode(profile, range);
+      const key = [mode, name, range, type, a, bs, s, ap, d, abilities]
+        .map((entry) => normalize(entry))
+        .join("|");
+      const next: UnitWeapon = {
+        id: profile.id,
+        name,
+        mode,
+        range,
+        type,
+        a,
+        bs,
+        s,
+        ap,
+        d,
+        abilities,
+        abilityRefs,
+        count: source.number ?? undefined,
+      };
+      const existing = weaponMap.get(key);
+      if (!existing) {
+        weaponMap.set(key, next);
+        continue;
+      }
+      const counts = [existing.count, next.count].filter(
+        (value): value is number => typeof value === "number"
+      );
+      weaponMap.set(key, {
+        ...existing,
+        count: counts.length
+          ? counts.reduce((sum, value) => sum + value, 0)
+          : existing.count,
+      });
+    }
+    const weapons = Array.from(weaponMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
     return {
       selection,
       name: selection.name ?? "Unknown unit",
@@ -531,6 +600,7 @@ export function useRosterUnitDetails(
       characteristics,
       weapons,
       abilities,
+      abilityLookup: Object.fromEntries(abilityLookup),
       profileSections: extraProfileSections,
       keywords,
       unitRules,

@@ -1,19 +1,51 @@
+import type { UnitDetails } from "@/src/hooks/useRosterUnitDetails";
 import { UnitWeapon } from "@/src/hooks/useRosterUnitDetails";
 import Colors from "@/src/styles/theme/constants/Colors";
 import Layout from "@/src/styles/theme/constants/Layout";
-import React, { ReactElement } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { ReactElement, useState } from "react";
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 interface Props {
   data: UnitWeapon[];
+  abilityLookup: UnitDetails["abilityLookup"];
 }
 
-export default function Weapons({ data }: Props) {
+export default function Weapons({ data, abilityLookup }: Props) {
   const colorScheme = "light";
+  const [activeAbilityId, setActiveAbilityId] = useState<string | null>(null);
 
   const meleeWeapons = data.filter((weapon) => weapon.mode === "melee") ?? [];
   const rangedWeapons = data.filter((weapon) => weapon.mode === "ranged") ?? [];
   const otherWeapons = data.filter((weapon) => weapon.mode === "other") ?? [];
+
+  const renderAbilityLinks = (weapon: UnitWeapon) => {
+    const refs = weapon.abilityRefs ?? [];
+    if (!refs.length) {
+      return <Text>{weapon.abilities}</Text>;
+    }
+    return (
+      <Text>
+        {refs.map((ref, refIndex) => (
+          <Text key={`${ref.lookupId}-${refIndex}`}>
+            {refIndex ? ", " : ""}
+            <Text
+              style={styles.abilityLink}
+              onPress={() => setActiveAbilityId(ref.lookupId)}
+            >
+              {ref.label}
+            </Text>
+          </Text>
+        ))}
+      </Text>
+    );
+  };
 
   const renderWeapons = (weapon: UnitWeapon, index: number): ReactElement => (
     <View
@@ -86,9 +118,7 @@ export default function Weapons({ data }: Props) {
       <View
         style={[styles.tableRow3, { borderColor: Colors[colorScheme].primary }]}
       >
-        <View style={styles.abilities}>
-          <Text>{weapon.abilities}</Text>
-        </View>
+        <View style={styles.abilities}>{renderAbilityLinks(weapon)}</View>
       </View>
       <View style={styles.tableRow2}>
         <View style={styles.abilities}>
@@ -145,6 +175,30 @@ export default function Weapons({ data }: Props) {
           </View>
         </>
       )}
+      <Modal
+        visible={activeAbilityId != null}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setActiveAbilityId(null)}
+      >
+        <Pressable
+          style={styles.sheetOverlay}
+          onPress={() => setActiveAbilityId(null)}
+        >
+          <Pressable style={styles.sheetContainer} onPress={() => {}}>
+            <View style={styles.sheetHandle} />
+            <Text style={styles.sheetTitle}>
+              {abilityLookup[activeAbilityId ?? ""]?.name ?? "Ability"}
+            </Text>
+            <ScrollView style={styles.sheetBody}>
+              <Text style={styles.sheetDescription}>
+                {abilityLookup[activeAbilityId ?? ""]?.description ??
+                  "No description available."}
+              </Text>
+            </ScrollView>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
@@ -189,6 +243,45 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     marginRight: 12,
     paddingVertical: 4,
+  },
+  abilityLink: {
+    color: "#1f5aa6",
+    textDecorationLine: "underline",
+  },
+  sheetOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  sheetContainer: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingHorizontal: Layout.spacing(4),
+    paddingTop: Layout.spacing(2),
+    paddingBottom: Layout.spacing(4),
+    maxHeight: "70%",
+  },
+  sheetHandle: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#c8c8c8",
+    marginBottom: Layout.spacing(4),
+  },
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: Layout.spacing(2),
+  },
+  sheetBody: {
+    flexGrow: 0,
+    paddingBottom: 24,
+  },
+  sheetDescription: {
+    fontSize: 14,
+    color: "#333",
   },
   title: {
     height: Layout.spacing(6),

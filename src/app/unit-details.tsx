@@ -333,7 +333,10 @@ export default function UnitDetailsScreen() {
           )}
         </View>
         <View style={styles.table}>
-          <Weapons data={unitDetails?.weapons ?? []} />
+          <Weapons
+            data={unitDetails?.weapons ?? []}
+            abilityLookup={unitDetails?.abilityLookup ?? {}}
+          />
         </View>
         <View style={styles.table}>
           <Abilities
