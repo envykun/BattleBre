@@ -1,6 +1,5 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { router } from "expo-router";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, StyleSheet, View } from "react-native";
+import Header from "../components/Header/Header";
 import ListItemRoster from "../components/List/ListItemRoster";
 import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 
@@ -13,42 +12,13 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>BattleBre</Text>
-        <Ionicons
-          name="settings-sharp"
-          size={24}
-          color="black"
-          onPress={() => router.push("/settings")}
-        />
-      </View>
-      <View style={styles.status}>
-        {loading && <Text>Loading rosters...</Text>}
-        {!loading && error && <Text>{error}</Text>}
-        {!loading && !error && (
-          <Text>{`Rosters loaded: ${rosters?.length ?? 0}`}</Text>
-        )}
-        <FlatList data={rosters ?? []} renderItem={renderItem} />
-        <Button title="Add roster" onPress={addRoster} />
-      </View>
+      <Header />
+      <FlatList data={rosters ?? []} renderItem={renderItem} />
+      <Button title="Add roster" onPress={addRoster} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "600",
-    marginBottom: 24,
-  },
-  button: {
-    width: "100%",
-    marginBottom: 12,
-  },
-  status: {
-    marginTop: 16,
-  },
+  container: { flex: 1 },
 });
