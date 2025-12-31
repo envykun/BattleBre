@@ -4,7 +4,7 @@ import ListItemRoster from "../components/List/ListItemRoster";
 import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 
 export default function Index() {
-  const { rosters, loading, error, addRoster } = useFetchRosters();
+  const { rosters, loading, error, addRoster, loadRosters } = useFetchRosters();
 
   const renderItem = ({ item }: { item: RosterMeta }) => (
     <ListItemRoster {...item} />
@@ -12,8 +12,16 @@ export default function Index() {
 
   return (
     <View style={styles.container}>
-      <Header />
-      <FlatList data={rosters ?? []} renderItem={renderItem} />
+      <FlatList
+        data={rosters ?? []}
+        renderItem={renderItem}
+        ListHeaderComponent={<Header />}
+        stickyHeaderIndices={[0]}
+        refreshing={loading}
+        onRefresh={loadRosters}
+        contentInsetAdjustmentBehavior="automatic"
+        showsVerticalScrollIndicator={false}
+      />
       <Button title="Add roster" onPress={addRoster} />
     </View>
   );

@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { router, Stack, useGlobalSearchParams } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function RootLayout() {
   const params = useGlobalSearchParams();
@@ -29,7 +29,9 @@ export default function RootLayout() {
 function RootStack() {
   const { selectedRoster } = useRosterContext();
   const params = useGlobalSearchParams();
-  const unitId = Array.isArray(params.unitId) ? params.unitId[0] : params.unitId;
+  const unitId = Array.isArray(params.unitId)
+    ? params.unitId[0]
+    : params.unitId;
   const unitDetails = useRosterUnitDetails(
     selectedRoster?.roster ?? null,
     unitId ?? null
@@ -39,61 +41,59 @@ function RootStack() {
   const unitTitle = unitDetails?.name ?? "Unit Details";
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <Stack>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            title: rosterTitle,
-            headerLeft: () => (
-              <Pressable
-                onPress={() => router.dismissAll()}
-                hitSlop={8}
-                style={styles.headerHomeButton}
-              >
-                <Ionicons name="home-outline" size={24} color="black" />
-              </Pressable>
-            ),
-            headerRight: () => (
-              <Pressable
-                onPress={() => router.push("/under-construction")}
-                hitSlop={8}
-                style={styles.headerHomeButton}
-              >
-                <Ionicons name="construct-outline" size={24} color="black" />
-              </Pressable>
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="settings"
-          options={{
-            title: "Settings",
-            headerShown: true,
-            headerBackButtonDisplayMode: "generic",
-          }}
-        />
-        <Stack.Screen
-          name="unit-details"
-          options={{
-            title: unitTitle,
-            headerShown: true,
-            headerBackButtonDisplayMode: "generic",
-          }}
-        />
-        <Stack.Screen
-          name="under-construction"
-          options={{ title: "Construction Site" }}
-        />
-        <Stack.Screen name="+not-found" options={{ title: "Oops!" }} />
-      </Stack>
-    </SafeAreaView>
+    <Stack screenOptions={{ headerTitleAlign: "center" }}>
+      <Stack.Screen
+        name="index"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          title: rosterTitle,
+          headerLeft: () => (
+            <Pressable
+              onPress={() => router.dismissAll()}
+              hitSlop={8}
+              style={styles.headerHomeButton}
+            >
+              <Ionicons name="home-outline" size={24} color="black" />
+            </Pressable>
+          ),
+          headerRight: () => (
+            <Pressable
+              onPress={() => router.push("/under-construction")}
+              hitSlop={8}
+              style={styles.headerHomeButton}
+            >
+              <Ionicons name="construct-outline" size={24} color="black" />
+            </Pressable>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          headerShown: true,
+          headerBackButtonDisplayMode: "generic",
+        }}
+      />
+      <Stack.Screen
+        name="unit-details"
+        options={{
+          title: unitTitle,
+          headerShown: true,
+          headerBackButtonDisplayMode: "generic",
+        }}
+      />
+      <Stack.Screen
+        name="under-construction"
+        options={{ title: "Construction Site" }}
+      />
+      <Stack.Screen name="+not-found" options={{ title: "Oops!" }} />
+    </Stack>
   );
 }
 

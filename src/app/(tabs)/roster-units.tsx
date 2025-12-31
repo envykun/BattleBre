@@ -24,7 +24,7 @@ export default function RosterUnitsScreen() {
       title={item.name}
       subTitle={item.role}
       costs={item.points?.toString()}
-      firstItem={index === 0}
+      unit={item}
       onPress={() => {
         router.push({ pathname: "/unit-details", params: { unitId: item.id } });
       }}
@@ -55,6 +55,7 @@ export default function RosterUnitsScreen() {
             </Text>
           }
           stickySectionHeadersEnabled={false}
+          showsVerticalScrollIndicator={false}
         />
       </ImageBackground>
     </View>

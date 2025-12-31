@@ -60,6 +60,7 @@ type UseFetchRostersResult = {
   loading: boolean;
   error: string | null;
   addRoster: () => Promise<void>;
+  loadRosters: () => Promise<void>;
 };
 
 const rosterPoints = (roster: Roster) => {
@@ -100,64 +101,50 @@ export function useFetchRosters(): UseFetchRostersResult {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const loadRosters = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const rosterFile = new FileSystem.File(
-          FileSystem.Paths.document,
-          "rosters.json"
-        );
-        // rosterFile.delete(); // test-only: remove local file to re-seed
-
-        if (!rosterFile.exists) {
-          const emptyPayload = { rosters: DEFAULT_ROSTERS };
-          rosterFile.create({ intermediates: true });
-          rosterFile.write(JSON.stringify(emptyPayload));
-
-          if (isMounted) {
-            setRosters(DEFAULT_ROSTERS);
-          }
-
-          return;
-        }
-
-        const fileContent = await rosterFile.text();
-        const json = JSON.parse(fileContent) as {
-          rosters?: RosterMeta[];
-        };
-        const payload = Array.isArray(json?.rosters) ? json.rosters : json;
-
-        if (!Array.isArray(payload)) {
-          throw new Error("Invalid roster metadata format.");
-        }
-
-        if (isMounted) {
-          setRosters(payload);
-        }
-      } catch (err) {
-        if (isMounted) {
-          const message =
-            err instanceof Error ? err.message : "Failed to load rosters.";
-          setError(message);
-          setRosters(null);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
     loadRosters();
-
-    return () => {
-      isMounted = false;
-    };
   }, []);
+
+  const loadRosters = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const rosterFile = new FileSystem.File(
+        FileSystem.Paths.document,
+        "rosters.json"
+      );
+      // rosterFile.delete(); // test-only: remove local file to re-seed
+
+      if (!rosterFile.exists) {
+        const emptyPayload = { rosters: DEFAULT_ROSTERS };
+        rosterFile.create({ intermediates: true });
+        rosterFile.write(JSON.stringify(emptyPayload));
+
+        setRosters(DEFAULT_ROSTERS);
+
+        return;
+      }
+
+      const fileContent = await rosterFile.text();
+      const json = JSON.parse(fileContent) as {
+        rosters?: RosterMeta[];
+      };
+      const payload = Array.isArray(json?.rosters) ? json.rosters : json;
+
+      if (!Array.isArray(payload)) {
+        throw new Error("Invalid roster metadata format.");
+      }
+
+      setRosters(payload);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to load rosters.";
+      setError(message);
+      setRosters(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addRoster = useCallback(async () => {
     try {
@@ -250,5 +237,5 @@ export function useFetchRosters(): UseFetchRostersResult {
     }
   }, [rosters]);
 
-  return { rosters, loading, error, addRoster };
+  return { rosters, loading, error, addRoster, loadRosters };
 }
