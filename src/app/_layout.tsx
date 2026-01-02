@@ -104,5 +104,10 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  headerHomeButton: {},
+  headerHomeButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 32,
+    height: 32,
+  },
 });
