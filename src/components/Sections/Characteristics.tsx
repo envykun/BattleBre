@@ -5,182 +5,106 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 interface Props {
-  data: UnitCharacteristics & any;
+  data: UnitCharacteristics[];
 }
 
 export default function Characteristics({ data }: Props) {
-  const colorScheme = "light";
   return (
-    <View
-      style={[styles.container, { borderColor: Colors[colorScheme].primary }]}
-    >
-      <View
-        style={[
-          styles.unitTitle,
-          { backgroundColor: Colors[colorScheme].primary },
-        ]}
-      >
-        <Text style={styles.unitTitleText}>{data.name}</Text>
-        <Text style={styles.unitTitleText}>{data.count}x</Text>
+    <>
+      <View style={styles.root}>
+        <View style={styles.characteristicHeader}>
+          <View style={styles.headerCell}>
+            <Text style={styles.headerCellText}>M</Text>
+          </View>
+          <View style={styles.headerCell}>
+            <Text style={styles.headerCellText}>T</Text>
+          </View>
+          <View style={styles.headerCell}>
+            <Text style={styles.headerCellText}>SV</Text>
+          </View>
+          <View style={styles.headerCell}>
+            <Text style={styles.headerCellText}>W</Text>
+          </View>
+          <View style={styles.headerCell}>
+            <Text style={styles.headerCellText}>LD</Text>
+          </View>
+          <View style={styles.headerCell}>
+            <Text style={styles.headerCellText}>OC</Text>
+          </View>
+        </View>
+        {data.map((charData) => (
+          <View key={charData.name}>
+            <View style={styles.name}>
+              <Text style={{ fontWeight: "bold" }}>
+                {charData.name} ({charData.count}x)
+              </Text>
+            </View>
+            <View style={styles.characteristicRow}>
+              <View style={styles.tableCell}>
+                <Text>{charData.m}</Text>
+              </View>
+              <View style={styles.tableCell}>
+                <Text>{charData.t}</Text>
+              </View>
+              <View style={styles.tableCell}>
+                <Text>{charData.sv}</Text>
+              </View>
+              <View style={styles.tableCell}>
+                <Text>{charData.w}</Text>
+              </View>
+              <View style={styles.tableCell}>
+                <Text>{charData.ld}</Text>
+              </View>
+              <View style={styles.tableCell}>
+                <Text>{charData.oc}</Text>
+              </View>
+            </View>
+          </View>
+        ))}
       </View>
-      <View
-        style={[
-          styles.tableHead,
-          { backgroundColor: Colors[colorScheme].secondary },
-        ]}
-      >
-        <View style={styles.tableCell}>
-          <Text style={styles.headText}>M</Text>
-        </View>
-        {/* <View style={styles.tableCell}>
-          <Text style={styles.headText}>WS</Text>
-        </View> */}
-        {/* <View style={styles.tableCell}>
-          <Text style={styles.headText}>BS</Text>
-        </View> */}
-        {/* <View style={styles.tableCell}>
-          <Text style={styles.headText}>S</Text>
-        </View> */}
-        <View style={styles.tableCell}>
-          <Text style={styles.headText}>T</Text>
-        </View>
-        {/* <View style={styles.tableCell}>
-          <Text style={styles.headText}>A</Text>
-        </View> */}
-        <View style={styles.tableCell}>
-          <Text style={styles.headText}>Sv</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text style={styles.headText}>W</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text style={styles.headText}>Ld</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text style={styles.headText}>OC</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow}>
-        <View style={styles.tableCell}>
-          <Text>{data.m ?? "—"}</Text>
-        </View>
-        {/* <View style={styles.tableCell}>
-          <Text>{data.ws ?? "—"}</Text>
-        </View> */}
-        {/* <View style={styles.tableCell}>
-          <Text>{data.bs ?? "—"}</Text>
-        </View> */}
-        {/* <View style={styles.tableCell}>
-          <Text>{data.s ?? "—"}</Text>
-        </View> */}
-        <View style={styles.tableCell}>
-          <Text>{data.t ?? "—"}</Text>
-        </View>
-        {/* <View style={styles.tableCell}>
-          <Text>{data.a ?? "—"}</Text>
-        </View> */}
-        <View style={styles.tableCell}>
-          <Text>{data.sv ?? "—"}</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>{data.w ?? "—"}</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>{data.ld ?? "—"}</Text>
-        </View>
-        <View style={styles.tableCell}>
-          <Text>{data.oc ?? "—"}</Text>
-        </View>
-      </View>
-      <View style={styles.tableRow2}>
-        <View style={styles.abilities}>
-          <Text style={{ fontStyle: "italic", color: "grey", fontSize: 12 }}>
-            {data.weapons != null && data.weapons.length > 0
-              ? data.weapons.join(", ")
-              : "—"}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.triangle} />
-      <View
-        style={[
-          styles.borderCorner,
-          { borderRightColor: Colors[colorScheme].primary },
-        ]}
-      />
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    minHeight: Layout.spacing(5) * 3,
+  root: {
+    flex: 1,
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: Layout.spacing(4),
+    borderColor: Colors.light.tabIconDefault,
+    backgroundColor: Colors.light.background,
+    overflow: "hidden",
   },
-  tableHead: {
+  characteristicHeader: {
+    flexDirection: "row",
+    gap: Layout.spacing(1),
+    justifyContent: "space-evenly",
+    backgroundColor: Colors.light.primary,
+    padding: Layout.spacing(4),
+  },
+  characteristicRow: {
+    flexDirection: "row",
+    gap: Layout.spacing(1),
+    padding: Layout.spacing(4),
+  },
+  headerCell: {
     flex: 1,
-    flexDirection: "row",
-    height: Layout.spacing(5),
-  },
-  tableRow: {
-    flex: 1,
-    flexDirection: "row",
-    height: Layout.spacing(5),
-    borderBottomWidth: 1,
-  },
-  tableRow2: {
-    flexDirection: "row",
-    minHeight: Layout.spacing(5),
-  },
-  abilities: {
     justifyContent: "center",
-    paddingLeft: 8,
-    marginRight: 12,
-    paddingVertical: 4,
+    alignItems: "center",
+  },
+  headerCellText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: Colors.dark.text,
   },
   tableCell: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  headText: {
-    fontWeight: "bold",
-  },
-  unitTitle: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: Layout.spacing(2),
-    height: Layout.spacing(5),
-    flexDirection: "row",
-  },
-  unitTitleText: {
-    color: Colors.dark.text,
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  triangle: {
-    position: "absolute",
-    bottom: -1.5,
-    right: -1.5,
-    width: 0,
-    height: 0,
-    backgroundColor: "white",
-    borderStyle: "solid",
-    borderRightWidth: 12,
-    borderTopWidth: 12,
-    borderRightColor: "transparent",
-    borderTopColor: "white",
-    transform: [{ rotate: "180deg" }],
-  },
-  borderCorner: {
-    position: "absolute",
-    bottom: -1.5,
-    right: 4,
-    width: 5,
-    height: 16,
-    borderRightWidth: 1,
-    transform: [{ rotate: "45deg" }],
+  name: {
+    backgroundColor: Colors.light.secondary,
+    padding: Layout.spacing(2),
+    paddingHorizontal: Layout.spacing(4),
   },
 });

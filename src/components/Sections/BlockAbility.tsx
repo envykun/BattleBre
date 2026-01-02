@@ -1,5 +1,6 @@
 import { UnitAbility } from "@/src/hooks/useRosterUnitDetails";
 import Colors from "@/src/styles/theme/constants/Colors";
+import Layout from "@/src/styles/theme/constants/Layout";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
@@ -52,10 +53,11 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    paddingHorizontal: 12,
+    paddingHorizontal: Layout.spacing(4),
     height: 56,
     alignItems: "center",
     justifyContent: "space-between",
+    borderRadius: Layout.spacing(4),
   },
   text: {
     color: Colors.dark.text,

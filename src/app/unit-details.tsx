@@ -317,12 +317,7 @@ export default function UnitDetailsScreen() {
           />
         </View>
         <View style={styles.table}>
-          {unitDetails?.characteristics.map((characteristic, index) => (
-            <Characteristics
-              key={index}
-              data={{ ...characteristic, weapons: [] }}
-            />
-          ))}
+          <Characteristics data={unitDetails?.characteristics ?? []} />
         </View>
         <View style={styles.table}>
           {hasInvulerableSave != null && (
@@ -358,7 +353,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "stretch",
-    backgroundColor: "white",
   },
   table: {
     padding: Layout.spacing(4),
