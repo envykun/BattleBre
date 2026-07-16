@@ -1,1 +1,1 @@
-export * from "./bsdata";
+export * from "./bsdata/index";

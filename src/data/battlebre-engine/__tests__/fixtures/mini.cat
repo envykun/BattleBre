@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<catalogue id="cat-marines" name="Mini Marines" revision="1" battleScribeVersion="2.03" gameSystemId="gs-mini" gameSystemRevision="1" xmlns="http://www.battlescribe.net/schema/catalogueSchema">
+  <selectionEntries>
+    <selectionEntry id="se-captain" name="Captain" type="unit">
+      <categoryLinks>
+        <categoryLink id="cl-cap-hq" name="HQ" targetId="cat-hq" primary="true"/>
+      </categoryLinks>
+      <costs>
+        <cost name="pts" typeId="pts" value="80"/>
+      </costs>
+      <profiles>
+        <profile id="p-captain" name="Captain" typeId="pt-unit" typeName="Unit">
+          <characteristics>
+            <characteristic name="M" typeId="c-m">6"</characteristic>
+            <characteristic name="WS" typeId="c-ws">2+</characteristic>
+            <characteristic name="BS" typeId="c-bs">2+</characteristic>
+            <characteristic name="S" typeId="c-s">4</characteristic>
+            <characteristic name="T" typeId="c-t">4</characteristic>
+            <characteristic name="W" typeId="c-w">6</characteristic>
+            <characteristic name="A" typeId="c-a">5</characteristic>
+            <characteristic name="Ld" typeId="c-ld">9</characteristic>
+            <characteristic name="Save" typeId="c-sv">3+</characteristic>
+          </characteristics>
+        </profile>
+      </profiles>
+      <selectionEntryGroups>
+        <selectionEntryGroup id="seg-cap-weapon" name="Melee Weapon" defaultSelectionEntryId="se-power-sword">
+          <constraints>
+            <constraint id="con-cap-weapon-min" type="min" value="1" field="selections" scope="parent" shared="false"/>
+            <constraint id="con-cap-weapon-max" type="max" value="1" field="selections" scope="parent" shared="false"/>
+          </constraints>
+          <selectionEntries>
+            <selectionEntry id="se-relic-blade" name="Relic Blade" type="upgrade">
+              <costs>
+                <cost name="pts" typeId="pts" value="10"/>
+              </costs>
+              <profiles>
+                <profile id="p-relic-blade" name="Relic Blade" typeId="pt-weapon" typeName="Weapon">
+                  <characteristics>
+                    <characteristic name="Range" typeId="w-range">Melee</characteristic>
+                    <characteristic name="Type" typeId="w-type">Melee</characteristic>
+                    <characteristic name="S" typeId="w-s">+2</characteristic>
+                    <characteristic name="AP" typeId="w-ap">-2</characteristic>
+                    <characteristic name="D" typeId="w-d">3</characteristic>
+                    <characteristic name="Abilities" typeId="w-abil">-</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+            </selectionEntry>
+            <selectionEntry id="se-power-sword" name="Power Sword" type="upgrade">
+              <costs>
+                <cost name="pts" typeId="pts" value="5"/>
+              </costs>
+            </selectionEntry>
+          </selectionEntries>
+        </selectionEntryGroup>
+      </selectionEntryGroups>
+    </selectionEntry>
+
+    <selectionEntry id="se-tactical" name="Tactical Squad" type="unit">
+      <categoryLinks>
+        <categoryLink id="cl-tac-troops" name="Troops" targetId="cat-troops" primary="true"/>
+      </categoryLinks>
+      <selectionEntryGroups>
+        <selectionEntryGroup id="seg-tac-models" name="Marines">
+          <constraints>
+            <constraint id="con-tac-min" type="min" value="5" field="selections" scope="parent" shared="false"/>
+            <constraint id="con-tac-max" type="max" value="10" field="selections" scope="parent" shared="false"/>
+          </constraints>
+          <selectionEntries>
+            <selectionEntry id="se-marine" name="Space Marine" type="model">
+              <costs>
+                <cost name="pts" typeId="pts" value="18"/>
+              </costs>
+              <profiles>
+                <profile id="p-marine" name="Space Marine" typeId="pt-unit" typeName="Unit">
+                  <characteristics>
+                    <characteristic name="M" typeId="c-m">6"</characteristic>
+                    <characteristic name="WS" typeId="c-ws">3+</characteristic>
+                    <characteristic name="BS" typeId="c-bs">3+</characteristic>
+                    <characteristic name="S" typeId="c-s">4</characteristic>
+                    <characteristic name="T" typeId="c-t">4</characteristic>
+                    <characteristic name="W" typeId="c-w">2</characteristic>
+                    <characteristic name="A" typeId="c-a">2</characteristic>
+                    <characteristic name="Ld" typeId="c-ld">7</characteristic>
+                    <characteristic name="Save" typeId="c-sv">3+</characteristic>
+                  </characteristics>
+                </profile>
+              </profiles>
+            </selectionEntry>
+          </selectionEntries>
+        </selectionEntryGroup>
+      </selectionEntryGroups>
+    </selectionEntry>
+  </selectionEntries>
+</catalogue>
