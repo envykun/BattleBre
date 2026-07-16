@@ -32,7 +32,8 @@ export function ThemeProvider({
   initialMode = "system",
   initialFaction = null,
 }: ThemeProviderProps) {
-  const systemScheme = useColorScheme() ?? "light";
+  const systemScheme: ThemeScheme =
+    useColorScheme() === "dark" ? "dark" : "light";
   const [mode, setMode] = useState<ThemeMode>(initialMode);
   const [faction, setFaction] = useState<string | null>(initialFaction);
   const scheme: ThemeScheme = mode === "system" ? systemScheme : mode;
