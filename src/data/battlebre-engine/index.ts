@@ -43,3 +43,19 @@ export type { UpdateEvent, UpdateListener, UpdateNotifier } from "./adapters/eve
 
 // Roh-Typen (für fortgeschrittene Nutzung)
 export type { RawCatalogue, RawGameSystem } from "./types/catalogue";
+
+// Datenbeschaffung / Updates (Phase 4)
+export { DataRepository, DEFAULT_GALLERY_URL } from "./acquisition/DataRepository";
+export type { DownloadedFile } from "./acquisition/DataRepository";
+export { LocalStore } from "./acquisition/LocalStore";
+export { UpdateManager } from "./acquisition/UpdateManager";
+export type {
+  AvailableSource,
+  GalleryEntry,
+  GalleryIndex,
+  InstalledSource,
+  RepoFile,
+  RepoFileType,
+  RepoIndex,
+  UpdateInfo,
+} from "./acquisition/types";

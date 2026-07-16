@@ -19,9 +19,14 @@ export class CatalogueLoader {
     return parseDataObject(xml);
   }
 
+  /** Entpackt ein Archiv (base64: .catz/.gstz) zu rohem XML-Text. */
+  async unzipToXml(base64: string): Promise<string> {
+    return this.zip.unzipFirst(base64);
+  }
+
   /** Lädt aus einem gezippten Archiv (base64: .catz/.gstz). */
   async fromZipBase64(base64: string): Promise<LoadedData> {
-    const xml = await this.zip.unzipFirst(base64);
+    const xml = await this.unzipToXml(base64);
     return parseDataObject(xml);
   }
 

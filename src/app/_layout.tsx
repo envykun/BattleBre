@@ -81,6 +81,14 @@ function RootStack() {
         }}
       />
       <Stack.Screen
+        name="data-manager"
+        options={{
+          title: "Daten verwalten",
+          headerShown: true,
+          headerBackButtonDisplayMode: "generic",
+        }}
+      />
+      <Stack.Screen
         name="unit-details"
         options={{
           title: unitTitle,

@@ -1,5 +1,6 @@
 import { useTheme, useThemedStyles, type ThemeMode } from "@/src/styles/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { router } from "expo-router";
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 
@@ -69,6 +70,15 @@ export default function SettingsScreen() {
       opacity: 0.65,
       fontSize: currentTheme.typography.sizes.sm,
     },
+    navRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: currentTheme.spacing(2),
+      paddingHorizontal: currentTheme.spacing(2),
+      borderRadius: currentTheme.radii.md,
+      backgroundColor: currentTheme.colors.background,
+    },
   }));
 
   return (
@@ -111,6 +121,27 @@ export default function SettingsScreen() {
       <Text style={styles.footerNote}>
         Theme changes apply instantly and follow your device when set to system.
       </Text>
+
+      <Text style={styles.sectionTitle}>Data</Text>
+      <View style={styles.card}>
+        <Pressable
+          style={styles.navRow}
+          onPress={() => router.push("/data-manager")}
+          accessibilityRole="button"
+        >
+          <View style={styles.optionText}>
+            <Text style={styles.optionLabel}>Manage data</Text>
+            <Text style={styles.optionDescription}>
+              Download and update game systems and catalogues.
+            </Text>
+          </View>
+          <Ionicons
+            name="chevron-forward"
+            size={22}
+            color={theme.colors.tabIconDefault}
+          />
+        </Pressable>
+      </View>
     </View>
   );
 }

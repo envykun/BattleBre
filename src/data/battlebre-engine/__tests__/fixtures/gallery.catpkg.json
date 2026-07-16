@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BSData/schemas/master/src/catpkg.schema.json",
+  "name": "BSData",
+  "description": "Community created catpkg packages for roster editors (BattleScribe)",
+  "battleScribeVersion": "2.03",
+  "repositorySourceUrl": "https://github.com/BSData/gallery/releases/latest/download/bsdata.catpkg-gallery.json",
+  "repositories": [
+    {
+      "name": "mini-system",
+      "description": "Mini Test System",
+      "battleScribeVersion": "2.03",
+      "version": "v1.0.0",
+      "lastUpdated": "2026-04-07T06:03:00Z",
+      "lastUpdateDescription": "Test fixture",
+      "indexUrl": "https://example.test/mini-system/index.bsi",
+      "repositoryUrl": "https://example.test/mini-system/mini-system.catpkg.json",
+      "repositoryGzipUrl": "https://example.test/mini-system/mini-system.catpkg.json.gz",
+      "repositoryBsrUrl": "https://example.test/mini-system/mini-system.v1.0.0.bsr",
+      "githubUrl": "https://example.test/mini-system"
+    }
+  ]
+}
