@@ -20,6 +20,9 @@ import {
   UpdateManager,
 } from "../data/battlebre-engine";
 
+/** Fortschritt eines laufenden Repo-Downloads. */
+export type InstallProgress = { done: number; total: number } | null;
+
 export type UseCatalogueDataResult = {
   installed: InstalledSource[];
   gallery: GalleryEntry[];
@@ -27,11 +30,21 @@ export type UseCatalogueDataResult = {
   loading: boolean;
   busy: boolean;
   error: string | null;
+  /** Fortschritt eines laufenden "ganzes Repo installieren"-Vorgangs. */
+  progress: InstallProgress;
   refreshGallery: () => Promise<void>;
   checkForUpdates: (entry: GalleryEntry) => Promise<void>;
   install: (source: AvailableSource) => Promise<void>;
   applyUpdates: (updates: UpdateInfo[]) => Promise<void>;
+  /** Lädt ein komplettes Repo (GameSystem + alle Kataloge). */
+  installRepo: (entry: GalleryEntry) => Promise<void>;
+  /** Lädt ein GitHub-Repo im BSData-JSON-Format (z. B. "BSData/wh40k-11e"). */
+  installGithubRepo: (owner: string, repo: string) => Promise<void>;
+  /** Entfernt eine installierte Quelle (Datei + Manifest-Eintrag). */
+  uninstall: (id: string) => Promise<void>;
   reloadInstalled: () => Promise<void>;
+  /** Liest die rohe XML-Datei einer installierten Quelle (per Id). */
+  readInstalledXml: (id: string) => Promise<string>;
 };
 
 export function useCatalogueData(): UseCatalogueDataResult {
@@ -51,10 +64,29 @@ export function useCatalogueData(): UseCatalogueDataResult {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState<InstallProgress>(null);
 
   const reloadInstalled = useCallback(async () => {
     setInstalled(await store.listInstalled());
   }, [store]);
+
+  const readInstalledXml = useCallback(
+    (id: string) => store.readXml(id),
+    [store]
+  );
+
+  const uninstall = useCallback(
+    async (id: string) => {
+      setError(null);
+      try {
+        await store.remove(id);
+        await reloadInstalled();
+      } catch (err) {
+        setError(messageOf(err));
+      }
+    },
+    [store, reloadInstalled]
+  );
 
   useEffect(() => {
     (async () => {
@@ -112,6 +144,46 @@ export function useCatalogueData(): UseCatalogueDataResult {
     [manager, reloadInstalled]
   );
 
+  const installRepo = useCallback(
+    async (entry: GalleryEntry) => {
+      setBusy(true);
+      setError(null);
+      setProgress({ done: 0, total: 0 });
+      try {
+        await manager.installRepo(entry, (done, total) =>
+          setProgress({ done, total })
+        );
+        await reloadInstalled();
+      } catch (err) {
+        setError(messageOf(err));
+      } finally {
+        setBusy(false);
+        setProgress(null);
+      }
+    },
+    [manager, reloadInstalled]
+  );
+
+  const installGithubRepo = useCallback(
+    async (owner: string, repo: string) => {
+      setBusy(true);
+      setError(null);
+      setProgress({ done: 0, total: 0 });
+      try {
+        await manager.installGithubRepo(owner, repo, (done, total) =>
+          setProgress({ done, total })
+        );
+        await reloadInstalled();
+      } catch (err) {
+        setError(messageOf(err));
+      } finally {
+        setBusy(false);
+        setProgress(null);
+      }
+    },
+    [manager, reloadInstalled]
+  );
+
   const applyUpdates = useCallback(
     async (toApply: UpdateInfo[]) => {
       setBusy(true);
@@ -136,11 +208,16 @@ export function useCatalogueData(): UseCatalogueDataResult {
     loading,
     busy,
     error,
+    progress,
     refreshGallery,
     checkForUpdates,
     install,
     applyUpdates,
+    installRepo,
+    installGithubRepo,
+    uninstall,
     reloadInstalled,
+    readInstalledXml,
   };
 }
 

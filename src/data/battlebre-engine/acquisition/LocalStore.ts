@@ -89,6 +89,20 @@ export class LocalStore {
     await this.writeManifest({ sources: next });
     return entry;
   }
+
+  /**
+   * Entfernt eine installierte Quelle: löscht die Datendatei und den
+   * Manifest-Eintrag. No-op, wenn die Id nicht existiert.
+   */
+  async remove(id: string): Promise<void> {
+    const manifest = await this.readManifest();
+    const source = manifest.sources.find((s) => s.id === id);
+    if (!source) return;
+    await this.fs.delete(this.dataPath(source.fileName));
+    await this.writeManifest({
+      sources: manifest.sources.filter((s) => s.id !== id),
+    });
+  }
 }
 
 /** Stabiler, dateisystemsicherer Dateiname für eine Quelle. */

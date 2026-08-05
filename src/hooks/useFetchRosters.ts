@@ -1,7 +1,11 @@
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import { useCallback, useEffect, useState } from "react";
-import { Roster, type RosterSelection } from "../data/models/roster";
+import {
+  Roster,
+  serializeRosterToXml,
+  type RosterSelection,
+} from "../data/models/roster";
 import {
   extractRosterXml,
   parseRosterXml,
@@ -60,6 +64,7 @@ type UseFetchRostersResult = {
   loading: boolean;
   error: string | null;
   addRoster: () => Promise<void>;
+  saveCreatedRoster: (roster: Roster) => Promise<RosterMeta>;
   loadRosters: () => Promise<void>;
 };
 
@@ -146,43 +151,13 @@ export function useFetchRosters(): UseFetchRostersResult {
     }
   };
 
-  const addRoster = useCallback(async () => {
-    try {
-      setError(null);
-      const result = await DocumentPicker.getDocumentAsync({
-        multiple: false,
-        type: "*/*",
-      });
-
-      if (result.canceled || !result.assets?.length) {
-        return;
-      }
-
-      const [asset] = result.assets;
-      if (!asset?.uri) {
-        throw new Error("No roster file selected.");
-      }
-
-      const displayName = asset.name ?? "roster";
-      const normalizedName = displayName.toLowerCase();
-      const isZip = normalizedName.endsWith(".rosz");
-      const isRoster = normalizedName.endsWith(".ros");
-
-      if (!isZip && !isRoster) {
-        throw new Error("Unsupported roster file. Use .ros or .rosz.");
-      }
-
-      const pickedFile = new FileSystem.File(asset.uri);
-      const raw = isZip ? await pickedFile.base64() : await pickedFile.text();
-
-      const xml = await extractRosterXml(raw, { isZip });
-      const parsed = parseRosterXml(xml);
-
-      if (!parsed?.roster) {
-        throw new Error("Invalid roster file.");
-      }
-
-      const roster = Roster.fromRaw(parsed.roster);
+  /**
+   * Persistiert ein Roster: schreibt das XML nach rosters/<slug>-<id>.ros,
+   * baut die Metadaten und hängt sie an rosters.json an. Von Import (addRoster)
+   * und Builder (saveCreatedRoster) gemeinsam genutzt.
+   */
+  const persistRoster = useCallback(
+    (roster: Roster, xml: string, displayName: string): RosterMeta => {
       const rosterId = `roster-${Date.now().toString(36)}-${Math.random()
         .toString(36)
         .slice(2, 6)}`;
@@ -230,12 +205,70 @@ export function useFetchRosters(): UseFetchRostersResult {
       rosterFile.write(JSON.stringify({ rosters: nextRosters }));
 
       setRosters(nextRosters);
+      return newRoster;
+    },
+    [rosters]
+  );
+
+  const addRoster = useCallback(async () => {
+    try {
+      setError(null);
+      const result = await DocumentPicker.getDocumentAsync({
+        multiple: false,
+        type: "*/*",
+      });
+
+      if (result.canceled || !result.assets?.length) {
+        return;
+      }
+
+      const [asset] = result.assets;
+      if (!asset?.uri) {
+        throw new Error("No roster file selected.");
+      }
+
+      const displayName = asset.name ?? "roster";
+      const normalizedName = displayName.toLowerCase();
+      const isZip = normalizedName.endsWith(".rosz");
+      const isRoster = normalizedName.endsWith(".ros");
+
+      if (!isZip && !isRoster) {
+        throw new Error("Unsupported roster file. Use .ros or .rosz.");
+      }
+
+      const pickedFile = new FileSystem.File(asset.uri);
+      const raw = isZip ? await pickedFile.base64() : await pickedFile.text();
+
+      const xml = await extractRosterXml(raw, { isZip });
+      const parsed = parseRosterXml(xml);
+
+      if (!parsed?.roster) {
+        throw new Error("Invalid roster file.");
+      }
+
+      const roster = Roster.fromRaw(parsed.roster);
+      persistRoster(roster, xml, displayName);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to add roster.";
       setError(message);
     }
-  }, [rosters]);
+  }, [persistRoster]);
 
-  return { rosters, loading, error, addRoster, loadRosters };
+  const saveCreatedRoster = useCallback(
+    async (roster: Roster): Promise<RosterMeta> => {
+      const xml = serializeRosterToXml(roster);
+      return persistRoster(roster, xml, roster.name);
+    },
+    [persistRoster]
+  );
+
+  return {
+    rosters,
+    loading,
+    error,
+    addRoster,
+    saveCreatedRoster,
+    loadRosters,
+  };
 }

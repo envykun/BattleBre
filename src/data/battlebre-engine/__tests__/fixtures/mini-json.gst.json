@@ -1,0 +1,29 @@
+{
+  "gameSystem": {
+    "id": "gs-mini-json",
+    "name": "Mini JSON System",
+    "revision": 3,
+    "battleScribeVersion": 2.03,
+    "type": "gameSystem",
+    "xmlns": "http://www.battlescribe.net/schema/gameSystemSchema",
+    "costTypes": [
+      { "id": "pts", "name": "pts", "defaultCostLimit": -1 }
+    ],
+    "profileTypes": [
+      {
+        "id": "pt-unit",
+        "name": "Unit",
+        "characteristicTypes": [
+          { "id": "c-m", "name": "M" },
+          { "id": "c-w", "name": "W" }
+        ]
+      }
+    ],
+    "categoryEntries": [
+      { "id": "cat-hq", "name": "HQ", "hidden": false }
+    ],
+    "forceEntries": [
+      { "id": "fe-patrol", "name": "Patrol Detachment", "hidden": false }
+    ]
+  }
+}

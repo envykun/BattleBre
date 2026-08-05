@@ -7,11 +7,13 @@
  */
 import { HttpAdapter } from "../adapters/Http";
 import { CatalogueLoader, LoadedData } from "../data/CatalogueLoader";
+import { isJsonData, jsonToXml, parseJsonDataObject } from "../data/jsonToRaw";
+import { attrNum, attrStr } from "../data/xml";
 import {
   AvailableSource,
   GalleryEntry,
   GalleryIndex,
-  RepoFile,
+  RepoFileType,
   RepoIndex,
 } from "./types";
 
@@ -22,7 +24,10 @@ export const DEFAULT_GALLERY_URL =
 /** Ergebnis eines Downloads: geparstes Objekt + roher XML-Text zum Persistieren. */
 export interface DownloadedFile {
   loaded: LoadedData;
+  /** Kanonischer XML-Text (auch für JSON-Quellen – nach Transformation). */
   xml: string;
+  /** Aus der Datei gelesene Metadaten (nützlich, wenn der Index sie nicht kennt). */
+  meta?: { type: RepoFileType; name: string; revision: number };
 }
 
 export class DataRepository {
@@ -65,8 +70,11 @@ export class DataRepository {
   }
 
   /**
-   * Lädt eine Daten-Datei herunter und parst sie. Zip-Archive (.gstz/.catz)
-   * werden entpackt; rohe .gst/.cat werden direkt als Text geladen.
+   * Lädt eine Daten-Datei herunter und parst sie. Erkennt drei Fälle:
+   *  - Zip-Archive (.gstz/.catz) → entpacken → XML.
+   *  - JSON (neues BSData-Format, z. B. wh40k-11e) → nach XML transformieren.
+   *  - rohes .gst/.cat XML → direkt.
+   * Persistiert wird immer kanonisches XML (`xml`).
    */
   async downloadFile(fileUrl: string): Promise<DownloadedFile> {
     if (isZipUrl(fileUrl)) {
@@ -74,12 +82,79 @@ export class DataRepository {
       const xml = await this.loader.unzipToXml(base64);
       return { loaded: this.loader.fromXml(xml), xml };
     }
-    const xml = await this.http.getText(fileUrl);
-    return { loaded: this.loader.fromXml(xml), xml };
+
+    const text = await this.http.getText(fileUrl);
+
+    if (isJsonUrl(fileUrl) || isJsonData(text)) {
+      const parsed = parseJsonDataObject(text);
+      const xml = jsonToXml(text);
+      const data = parsed.data as unknown as Record<string, unknown>;
+      return {
+        loaded: parsed,
+        xml,
+        meta: {
+          type: parsed.kind === "gameSystem" ? "gamesystem" : "catalogue",
+          name: attrStr(data["@_name"], "Unbenannt"),
+          revision: attrNum(data["@_revision"], 0),
+        },
+      };
+    }
+
+    return { loaded: this.loader.fromXml(text), xml: text };
+  }
+
+  /**
+   * Listet die Daten-Dateien eines GitHub-Repos im neuen BSData-**JSON**-Format
+   * (z. B. `BSData/wh40k-11e`) über die GitHub-Contents-API auf. Solche Repos
+   * sind NICHT in der catpkg-Gallery und haben keine Release-Assets – die
+   * `.json`-Dateien liegen im Branch (`raw.githubusercontent.com`).
+   *
+   * Die Revision steht nicht in der API, sondern in jeder Datei; sie wird beim
+   * Download nachgezogen (`downloadFile(...).meta.revision`).
+   */
+  async fetchGithubRepoSources(
+    owner: string,
+    repo: string,
+    branch = "main"
+  ): Promise<AvailableSource[]> {
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/?ref=${branch}`;
+    const text = await this.http.getText(apiUrl);
+    const entries = JSON.parse(text) as Array<{
+      name: string;
+      type: string;
+      download_url: string | null;
+    }>;
+    if (!Array.isArray(entries)) {
+      throw new Error(`Unerwartete Antwort der GitHub-API für ${owner}/${repo}.`);
+    }
+    return entries
+      .filter(
+        (e) =>
+          e.type === "file" &&
+          /\.json$/i.test(e.name) &&
+          !/\.catpkg|index|package/i.test(e.name) &&
+          e.download_url
+      )
+      .map((e) => ({
+        id: `${owner}/${repo}:${e.name}`,
+        repoId: `${owner}/${repo}`,
+        name: e.name.replace(/\.json$/i, ""),
+        // Vorläufig; echter Typ/Name/Revision kommen aus downloadFile().meta.
+        type: /game.?system|\bgst\b/i.test(e.name)
+          ? ("gamesystem" as RepoFileType)
+          : ("catalogue" as RepoFileType),
+        revision: 0,
+        fileUrl: e.download_url as string,
+      }));
   }
 }
 
 /** true für gezippte Daten-Dateien (.gstz/.catz/.zip). */
 function isZipUrl(url: string): boolean {
   return /\.(gstz|catz|zip|bsr)(\?|#|$)/i.test(url);
+}
+
+/** true für JSON-Daten-URLs. */
+function isJsonUrl(url: string): boolean {
+  return /\.json(\?|#|$)/i.test(url);
 }

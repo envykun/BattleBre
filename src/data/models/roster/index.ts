@@ -5,4 +5,5 @@ export { RosterCategory, RosterForce, RosterSelection } from "./entries";
 export { RosterCharacteristic, RosterProfile } from "./profiles";
 export { RosterPublication } from "./publications";
 export { RosterRule } from "./rules";
+export { rosterToRawObject, serializeRosterToXml } from "./serialize";
 export * as rosterUtils from "./utils";

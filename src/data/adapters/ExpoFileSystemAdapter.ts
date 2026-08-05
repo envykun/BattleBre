@@ -42,6 +42,11 @@ export class ExpoFileSystemAdapter implements FileSystemAdapter {
     return this.file(path).exists;
   }
 
+  async delete(path: string): Promise<void> {
+    const f = this.file(path);
+    if (f.exists) f.delete();
+  }
+
   async list(dir: string): Promise<string[]> {
     const directory = new FileSystem.Directory(FileSystem.Paths.document, dir);
     if (!directory.exists) return [];

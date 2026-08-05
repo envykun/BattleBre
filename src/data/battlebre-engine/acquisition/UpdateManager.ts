@@ -61,6 +61,75 @@ export class UpdateManager {
     }
   }
 
+  /**
+   * Installiert ein komplettes Repository: lädt dessen Index und installiert
+   * ALLE enthaltenen Quellen (GameSystem + alle Kataloge). Meldet Fortschritt
+   * über `onProgress(done, total)`; emittiert am Ende ein `updates-applied`.
+   */
+  async installRepo(
+    entry: GalleryEntry,
+    onProgress?: (done: number, total: number) => void
+  ): Promise<InstalledSource[]> {
+    try {
+      const index = await this.repo.fetchRepoIndex(entry);
+      const sources = this.repo.toAvailableSources(entry, index);
+      const results: InstalledSource[] = [];
+      onProgress?.(0, sources.length);
+      for (const source of sources) {
+        const { xml } = await this.repo.downloadFile(source.fileUrl);
+        results.push(await this.store.save(source, xml));
+        onProgress?.(results.length, sources.length);
+      }
+      this.notifier.emit({
+        type: "updates-applied",
+        repoId: entry.name,
+        count: results.length,
+      });
+      return results;
+    } catch (err) {
+      this.notifier.emit({ type: "update-error", message: messageOf(err) });
+      throw err;
+    }
+  }
+
+  /**
+   * Installiert ein GitHub-Repo im neuen BSData-JSON-Format (z. B. wh40k-11e).
+   * Listet die JSON-Dateien via Contents-API, lädt/transformiert jede und
+   * persistiert sie als kanonisches XML. Typ/Name/Revision werden aus der
+   * jeweiligen Datei (`downloadFile().meta`) korrigiert, da der API-Listing das
+   * nicht liefert.
+   */
+  async installGithubRepo(
+    owner: string,
+    repo: string,
+    onProgress?: (done: number, total: number) => void,
+    branch = "main"
+  ): Promise<InstalledSource[]> {
+    const repoId = `${owner}/${repo}`;
+    try {
+      const sources = await this.repo.fetchGithubRepoSources(owner, repo, branch);
+      const results: InstalledSource[] = [];
+      onProgress?.(0, sources.length);
+      for (const source of sources) {
+        const { xml, meta } = await this.repo.downloadFile(source.fileUrl);
+        const corrected: AvailableSource = meta
+          ? { ...source, type: meta.type, name: meta.name, revision: meta.revision }
+          : source;
+        results.push(await this.store.save(corrected, xml));
+        onProgress?.(results.length, sources.length);
+      }
+      this.notifier.emit({
+        type: "updates-applied",
+        repoId,
+        count: results.length,
+      });
+      return results;
+    } catch (err) {
+      this.notifier.emit({ type: "update-error", message: messageOf(err) });
+      throw err;
+    }
+  }
+
   /** Lädt eine einzelne Quelle herunter und installiert sie. */
   async install(source: AvailableSource): Promise<InstalledSource> {
     try {

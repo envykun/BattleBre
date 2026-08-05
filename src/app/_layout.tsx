@@ -89,6 +89,14 @@ function RootStack() {
         }}
       />
       <Stack.Screen
+        name="create-roster"
+        options={{
+          title: "Create Roster",
+          headerShown: true,
+          headerBackButtonDisplayMode: "generic",
+        }}
+      />
+      <Stack.Screen
         name="unit-details"
         options={{
           title: unitTitle,

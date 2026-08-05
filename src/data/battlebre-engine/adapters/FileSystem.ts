@@ -11,6 +11,8 @@ export interface FileSystemAdapter {
   writeText(path: string, content: string): Promise<void>;
   /** Prüft, ob ein Pfad existiert. */
   exists(path: string): Promise<boolean>;
+  /** Löscht eine Datei. Kein Fehler, wenn sie nicht existiert. */
+  delete(path: string): Promise<void>;
   /** Listet die Einträge (Dateinamen) eines Verzeichnisses. */
   list(dir: string): Promise<string[]>;
   /** Basisverzeichnis für persistente Daten (z. B. documentDirectory). */

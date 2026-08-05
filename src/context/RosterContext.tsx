@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import type { Roster } from "../data/models/roster";
 import { RosterMeta, useFetchRosters } from "../hooks/useFetchRosters";
 import { RosterFileData, useRosterFile } from "../hooks/useRosterFile";
 
@@ -10,6 +11,7 @@ type RosterContextValue = {
   rosterDataLoading: boolean;
   rosterDataError: string | null;
   setSelectedRosterId: (rosterId: string | null) => void;
+  saveCreatedRoster: (roster: Roster) => Promise<RosterMeta>;
 };
 
 const RosterContext = createContext<RosterContextValue | undefined>(undefined);
@@ -20,7 +22,7 @@ type RosterProviderProps = {
 };
 
 export function RosterProvider({ children, initialRosterId }: RosterProviderProps) {
-  const { rosters, loading, error } = useFetchRosters();
+  const { rosters, loading, error, saveCreatedRoster } = useFetchRosters();
   const [selectedRosterId, setSelectedRosterId] = useState<string | null>(
     initialRosterId ?? null,
   );
@@ -53,8 +55,9 @@ export function RosterProvider({ children, initialRosterId }: RosterProviderProp
       rosterDataLoading,
       rosterDataError,
       setSelectedRosterId,
+      saveCreatedRoster,
     }),
-    [rosters, loading, error, selectedRoster, rosterDataLoading, rosterDataError],
+    [rosters, loading, error, selectedRoster, rosterDataLoading, rosterDataError, saveCreatedRoster],
   );
 
   return <RosterContext.Provider value={value}>{children}</RosterContext.Provider>;

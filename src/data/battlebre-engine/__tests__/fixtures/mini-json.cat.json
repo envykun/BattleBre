@@ -1,0 +1,51 @@
+{
+  "catalogue": {
+    "id": "cat-mini-json",
+    "name": "Mini JSON Catalogue",
+    "gameSystemId": "gs-mini-json",
+    "gameSystemRevision": 3,
+    "revision": 2,
+    "battleScribeVersion": 2.03,
+    "library": false,
+    "type": "catalogue",
+    "xmlns": "http://www.battlescribe.net/schema/catalogueSchema",
+    "sharedSelectionEntries": [
+      {
+        "id": "se-warlord",
+        "name": "Warlord",
+        "type": "unit",
+        "hidden": false,
+        "collective": false,
+        "categoryLinks": [
+          { "id": "cl-hq", "targetId": "cat-hq", "primary": true, "name": "HQ" }
+        ],
+        "costs": [
+          { "name": "pts", "typeId": "pts", "value": 90 }
+        ],
+        "profiles": [
+          {
+            "id": "prof-warlord",
+            "name": "Warlord",
+            "typeId": "pt-unit",
+            "typeName": "Unit",
+            "hidden": false,
+            "characteristics": [
+              { "name": "M", "typeId": "c-m", "$text": "12\"" },
+              { "name": "W", "typeId": "c-w", "$text": "18" }
+            ]
+          }
+        ]
+      }
+    ],
+    "entryLinks": [
+      {
+        "id": "el-warlord",
+        "name": "Warlord",
+        "type": "selectionEntry",
+        "targetId": "se-warlord",
+        "hidden": false,
+        "import": true
+      }
+    ]
+  }
+}

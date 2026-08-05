@@ -53,6 +53,9 @@ class MemoryFs implements FileSystemAdapter {
   async exists(p: string): Promise<boolean> {
     return this.files.has(p);
   }
+  async delete(p: string): Promise<void> {
+    this.files.delete(p);
+  }
   async list(dir: string): Promise<string[]> {
     const prefix = dir.endsWith("/") ? dir : dir + "/";
     return [...this.files.keys()]
@@ -184,6 +187,38 @@ describe("UpdateManager + LocalStore", () => {
       repoId: "mini-system",
       count: 2,
     });
+  });
+
+  test("installRepo installiert alle Dateien des Repos + Fortschritt", async () => {
+    const progress: Array<[number, number]> = [];
+    const installed = await h.manager.installRepo(ENTRY, (done, total) =>
+      progress.push([done, total])
+    );
+    // Fixture-Repo hat 1 gamesystem + 1 catalogue = 2 Dateien.
+    expect(installed).toHaveLength(2);
+    const list = await h.store.listInstalled();
+    expect(list.map((s) => s.type).sort()).toEqual(["catalogue", "gamesystem"]);
+    // Fortschritt lief von 0/2 bis 2/2.
+    expect(progress[0]).toEqual([0, 2]);
+    expect(progress[progress.length - 1]).toEqual([2, 2]);
+    expect(h.events).toContainEqual({
+      type: "updates-applied",
+      repoId: "mini-system",
+      count: 2,
+    });
+  });
+
+  test("remove löscht Datei + Manifest-Eintrag", async () => {
+    const [update] = await h.manager.checkForUpdates(ENTRY);
+    const installed = await h.manager.install(update.available);
+    expect(await h.store.listInstalled()).toHaveLength(1);
+
+    await h.store.remove(installed.id);
+    expect(await h.store.listInstalled()).toHaveLength(0);
+    // Datei ist weg → readXml wirft.
+    await expect(h.store.readXml(installed.id)).rejects.toThrow();
+    // remove auf unbekannte Id ist ein No-op (kein Fehler).
+    await expect(h.store.remove("gibt-es-nicht")).resolves.toBeUndefined();
   });
 
   test("Fehler beim Download → update-error Event", async () => {
