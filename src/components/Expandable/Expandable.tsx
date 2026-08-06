@@ -1,4 +1,4 @@
-import { RosterRule } from "@/src/data/models/roster/types";
+import type { Rule } from "@/src/data/battlebre-engine/models/common";
 import Colors from "@/src/styles/theme/constants/Colors";
 import Layout from "@/src/styles/theme/constants/Layout";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -8,7 +8,7 @@ import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 interface ExpandableProps {
   title: string;
   customRuleAllowed?: boolean;
-  rules?: RosterRule[];
+  rules?: Rule[];
 }
 
 export default function Expandable({
@@ -18,7 +18,7 @@ export default function Expandable({
 }: ExpandableProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const renderRules = (rules: RosterRule[]) => {
+  const renderRules = (rules: Rule[]) => {
     if (rules.length === 0) {
       return (
         <View>

@@ -3,9 +3,24 @@
  * Die App importiert ausschließlich über diese Datei – nie direkt aus engine/**.
  */
 
-// Engine-Fassade (primärer Einstiegspunkt)
-export { BattleBreEngine } from "./battlebre-engine";
-export type { BattleBreEngineOptions } from "./battlebre-engine";
+// Builder-Fassade: baut Listen aus Katalogen (primärer Bau-Einstiegspunkt)
+export { BattleBreBuilderEngine } from "./builder-engine";
+export type { BattleBreBuilderEngineOptions } from "./builder-engine";
+
+// Roster-Fassade: liest/darstellt ein fertiges Roster für die UI
+export { BattleBreRosterEngine } from "./roster-engine";
+export type {
+  ArmyConfiguration,
+  ConfigurationDetails,
+  UnitAbility,
+  UnitCharacteristics,
+  UnitDetails,
+  UnitItem,
+  UnitModel,
+  UnitProfileSection,
+  UnitSection,
+  UnitWeapon,
+} from "./roster-engine";
 
 // Builder (fortgeschrittene/direkte Nutzung)
 export { ArmyBuilder } from "./builder/ArmyBuilder";

@@ -204,9 +204,7 @@ export default function Weapons({ data, abilityLookup }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-  },
+  container: {},
   tableHead: {
     height: Layout.spacing(5),
     flexDirection: "row",

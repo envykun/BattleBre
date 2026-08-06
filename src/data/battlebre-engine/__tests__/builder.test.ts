@@ -1,13 +1,13 @@
 import { describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 import * as path from "path";
-import { BattleBreEngine } from "../index";
+import { BattleBreBuilderEngine } from "../index";
 
 const gst = fs.readFileSync(path.join(__dirname, "fixtures", "mini.gst"), "utf8");
 const cat = fs.readFileSync(path.join(__dirname, "fixtures", "mini.cat"), "utf8");
 
 function build() {
-  const engine = BattleBreEngine.fromXml(gst, [cat]);
+  const engine = BattleBreBuilderEngine.fromXml(gst, [cat]);
   engine.createRoster({ name: "Test Army" });
   engine.setCostLimit("pts", 500);
   const forces = engine.listForceEntries();
@@ -15,7 +15,7 @@ function build() {
   return { engine, forceId };
 }
 
-describe("BattleBreEngine – Integration mit src-Modellen", () => {
+describe("BattleBreBuilderEngine – Integration mit src-Modellen", () => {
   test("Katalog laden und Force-Einträge auflisten", () => {
     const { engine, forceId } = build();
     expect(forceId).toBeTruthy();

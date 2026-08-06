@@ -1,4 +1,4 @@
-import { RosterRule } from "@/src/data/models/roster/types";
+import type { Rule } from "@/src/data/battlebre-engine/models/common";
 import { UnitAbility } from "@/src/hooks/useRosterUnitDetails";
 import Layout from "@/src/styles/theme/constants/Layout";
 import React from "react";
@@ -7,7 +7,7 @@ import OverviewRuleItem from "../List/OverviewRuleItem";
 
 interface Props {
   abilities?: UnitAbility[];
-  unitRules?: RosterRule[];
+  unitRules?: Rule[];
   // forceRules?: Rule[];
 }
 
@@ -19,7 +19,7 @@ const Abilities = ({ abilities = [], unitRules = [] }: Props) => {
       </View>
     );
   };
-  const renderUnitRules = (item: RosterRule, index: number) => {
+  const renderUnitRules = (item: Rule, index: number) => {
     return (
       <View key={index} style={{ marginBottom: 12 }}>
         <OverviewRuleItem
@@ -54,7 +54,7 @@ const Abilities = ({ abilities = [], unitRules = [] }: Props) => {
         <Text style={styles.titleText}>RULES</Text>
       </View>
       {unitRules.length > 0 ? (
-        unitRules.map((rule: RosterRule, index: number) =>
+        unitRules.map((rule: Rule, index: number) =>
           renderUnitRules(rule, index)
         )
       ) : (

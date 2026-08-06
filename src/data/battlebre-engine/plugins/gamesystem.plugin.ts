@@ -1,19 +1,19 @@
-import { Force, Profile, Roster, Rule } from "../models/common";
+import { Force, Profile, Roster, Rule, Selection } from "../models/common";
 
-type SelectionNode = {
+export type SelectionNode = {
   selection: Selection;
   parentId?: string;
   forceId: string;
   path: string[]; // IDs von Root bis Knoten
 };
 
-type ProfileRef = {
+export type ProfileRef = {
   profile: Profile;
   selectionId: string;
   forceId: string;
 };
 
-type RuleRef = {
+export type RuleRef = {
   rule: Rule;
   scope: "roster" | "force" | "selection";
   forceId?: string;
@@ -21,6 +21,7 @@ type RuleRef = {
 };
 
 export type RosterIndex = {
+  forcesById: Map<string, Force>;
   selectionsById: Map<string, SelectionNode>;
   selectionsByForce: Map<string, string[]>; // forceId -> selectionIds (flach)
   selectionsByType: Map<string, string[]>; // typeLower -> selectionIds
@@ -29,6 +30,9 @@ export type RosterIndex = {
 };
 
 export type GameSystemPlugin = {
+  id: string;
+  label?: string;
+
   // Kann anhand roster.gameSystem.id/name ausgewählt werden
   matchesRoster(roster: Roster): boolean;
 
@@ -56,6 +60,9 @@ function dedupeRulesByName(rules: Rule[]): Rule[] {
 }
 
 export const DefaultPlugin: GameSystemPlugin = {
+  id: "default",
+  label: "Default",
+
   matchesRoster: () => true,
 
   isUnit: (sel) => (sel.type ?? "").toLowerCase() === "unit",
@@ -64,14 +71,16 @@ export const DefaultPlugin: GameSystemPlugin = {
     const t = (p.typeName ?? "").toLowerCase();
     if (t.includes("weapon")) return true;
     // Heuristik: hat ein Charakteristikfeld namens "Range" / "Attacks" etc.
-    const names = new Set(p.characteristics.map((c) => c.name.toLowerCase()));
+    const names = new Set(
+      p.characteristics.map((c) => (c.name ?? "").toLowerCase()),
+    );
     return names.has("range") || names.has("attacks");
   },
 
   isRangedWeapon: (p) => {
     // Heuristik: hat "Range" und ist nicht "Melee"/"-"
     const range = p.characteristics
-      .find((c) => c.name.toLowerCase() === "range")
+      .find((c) => (c.name ?? "").toLowerCase() === "range")
       ?.value?.trim();
     if (!range) return false;
     const r = range.toLowerCase();

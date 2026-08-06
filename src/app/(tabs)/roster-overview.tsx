@@ -1,102 +1,30 @@
 import Expandable from "@/src/components/Expandable/Expandable";
 import Summary from "@/src/components/Sections/Summary";
-import type { RosterSelection } from "@/src/data/models/roster";
+import type { Selection } from "@/src/data/battlebre-engine/models/common";
 import { useArmyConfiguration } from "@/src/hooks/useArmyConfiguration";
 import Colors from "@/src/styles/theme/constants/Colors";
 import Layout from "@/src/styles/theme/constants/Layout";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRosterContext } from "../../context/RosterContext";
 
-const normalize = (value?: string) => value?.trim().toLowerCase() ?? "";
-
-const findBattleSize = (selections: RosterSelection[]): string | null => {
-  for (const selection of selections) {
-    if (normalize(selection.name) === "battle size") {
-      return selection.selections[0]?.name ?? selection.name ?? null;
-    }
-    const nested = findBattleSize(selection.selections);
-    if (nested) {
-      return nested;
-    }
-  }
-  return null;
-};
-
-const findDetachment = (selections: RosterSelection[]): string | null => {
-  for (const selection of selections) {
-    const normalizedName = normalize(selection.name);
-    if (normalizedName === "detachment" || normalizedName === "detachments") {
-      return selection.selections[0]?.name ?? selection.name ?? null;
-    }
-    const nested = findDetachment(selection.selections);
-    if (nested) {
-      return nested;
-    }
-  }
-  return null;
-};
-
-const formatConfiguration = (selection: RosterSelection): string =>
+const formatConfiguration = (selection: Selection): string =>
   selection.name ?? "Configuration";
-
-const collectConfigurationDetails = (selection: RosterSelection) => {
-  const selectionNames = new Set<string>();
-  const ruleNames = new Set<string>();
-  const profileNames = new Set<string>();
-  const stack: RosterSelection[] = [selection];
-
-  while (stack.length) {
-    const current = stack.pop();
-    if (!current) {
-      continue;
-    }
-    for (const entry of current.selections) {
-      if (entry.name) {
-        selectionNames.add(entry.name);
-      }
-      stack.push(entry);
-    }
-    for (const rule of current.rules) {
-      if (rule.name) {
-        ruleNames.add(rule.name);
-      }
-    }
-    for (const profile of current.profiles) {
-      if (profile.name) {
-        profileNames.add(profile.name);
-      }
-    }
-  }
-
-  return {
-    selectionNames: Array.from(selectionNames),
-    ruleNames: Array.from(ruleNames),
-    profileNames: Array.from(profileNames),
-  };
-};
 
 export default function RosterOverviewScreen() {
   const { selectedRoster, loading, error, rosterDataLoading, rosterDataError } =
     useRosterContext();
+  const engine = selectedRoster?.engine ?? null;
   const isLoading = loading || rosterDataLoading;
   const hasError = error != null || rosterDataError != null;
 
   const rosterName = selectedRoster?.meta.name ?? "Roster";
   const armyPoints = selectedRoster?.meta.points.toString() ?? "0";
   const force = selectedRoster?.meta.faction ?? "Unknown";
-  const battleSize = selectedRoster?.roster
-    ? findBattleSize(
-        selectedRoster.roster.forces.flatMap((entry) => entry.selections)
-      )
-    : null;
-  const detachment = selectedRoster?.roster
-    ? findDetachment(
-        selectedRoster.roster.forces.flatMap((entry) => entry.selections)
-      )
-    : null;
+  const battleSize = engine?.getBattleSize() ?? null;
+  const detachment = engine?.getDetachment() ?? null;
 
   // TODO: Zeige Army Rules und Detachment Rules
-  const configuration = useArmyConfiguration(selectedRoster?.roster ?? null);
+  const configuration = useArmyConfiguration(engine);
 
   if (isLoading) {
     return (
@@ -138,7 +66,13 @@ export default function RosterOverviewScreen() {
             <View style={styles.rules}>
               {configuration.configurations.length ? (
                 configuration.configurations.map((selection) => {
-                  const details = collectConfigurationDetails(selection);
+                  const details = engine?.getConfigurationDetails(
+                    selection
+                  ) ?? {
+                    selectionNames: [],
+                    ruleNames: [],
+                    profileNames: [],
+                  };
                   const hasDetails =
                     details.selectionNames.length ||
                     details.ruleNames.length ||

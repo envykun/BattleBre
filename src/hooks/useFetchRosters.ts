@@ -6,6 +6,7 @@ import {
   serializeRosterToXml,
   type RosterSelection,
 } from "../data/models/roster";
+import { DefaultPlugin } from "../data/battlebre-engine/plugins/gamesystem.plugin";
 import {
   extractRosterXml,
   parseRosterXml,
@@ -21,6 +22,10 @@ export type RosterMeta = {
   unitCount: number;
   lastUpdated: string;
   tags?: string[];
+  pluginId?: string;
+  gameSystemId?: string;
+  gameSystemName?: string;
+  gameSystemRevision?: string;
 };
 
 const DEFAULT_ROSTERS: RosterMeta[] = [
@@ -192,6 +197,10 @@ export function useFetchRosters(): UseFetchRostersResult {
         points: rosterPoints(roster),
         unitCount,
         lastUpdated,
+        pluginId: roster.gameSystemId ?? DefaultPlugin.id,
+        gameSystemId: roster.gameSystemId,
+        gameSystemName: roster.gameSystemName,
+        gameSystemRevision: roster.gameSystemRevision,
       };
 
       const nextRosters = [...(rosters ?? []), newRoster];

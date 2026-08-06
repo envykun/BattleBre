@@ -16,7 +16,7 @@ export default function RosterUnitsScreen() {
   const { selectedRoster, loading, rosterDataLoading, rosterDataError } =
     useRosterContext();
   const isLoading = loading || rosterDataLoading;
-  const sections = useRosterUnits(selectedRoster?.roster ?? null);
+  const sections = useRosterUnits(selectedRoster?.engine ?? null);
 
   const renderItem: ListRenderItem<UnitItem> = ({ item, index }) => (
     <ListItemUnit

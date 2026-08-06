@@ -1,5 +1,5 @@
 /**
- * BattleBreEngine – die öffentliche Fassade des List-Builder-Service.
+ * BattleBreBuilderEngine – die öffentliche Fassade des List-Builder-Service.
  *
  * Bündelt Laden (GameSystem + Kataloge), den Bau-Workflow (Forces/Auswahlen
  * hinzufügen/entfernen), Validierung und den Export in das App-Rendermodell
@@ -21,15 +21,15 @@ import { ForceId, InstanceId } from "./types/ids";
 import { toRosterModel } from "./serialize/toRosterModel";
 import type { Roster } from "../models/roster";
 
-export interface BattleBreEngineOptions {
+export interface BattleBreBuilderEngineOptions {
   idGen?: IdGenerator;
 }
 
-export class BattleBreEngine {
+export class BattleBreBuilderEngine {
   private readonly ctx: GameContext;
   private readonly builder: ArmyBuilder;
 
-  constructor(context: GameContext, options: BattleBreEngineOptions = {}) {
+  constructor(context: GameContext, options: BattleBreBuilderEngineOptions = {}) {
     this.ctx = context;
     this.builder = new ArmyBuilder({ context, idGen: options.idGen });
   }
@@ -38,8 +38,8 @@ export class BattleBreEngine {
   static fromXml(
     gameSystemXml: string,
     catalogueXmls: string[],
-    options: BattleBreEngineOptions = {}
-  ): BattleBreEngine {
+    options: BattleBreBuilderEngineOptions = {}
+  ): BattleBreBuilderEngine {
     const gs = parseDataObject(gameSystemXml);
     if (gs.kind !== "gameSystem") {
       throw new Error("Erstes Argument muss ein GameSystem (.gst) sein.");
@@ -52,7 +52,7 @@ export class BattleBreEngine {
       return parsed.data as RawCatalogue;
     });
     const context = new GameContext(gs.data as RawGameSystem, cats);
-    return new BattleBreEngine(context, options);
+    return new BattleBreBuilderEngine(context, options);
   }
 
   // --- Bau-Workflow (delegiert an ArmyBuilder) ---

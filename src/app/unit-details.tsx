@@ -23,7 +23,7 @@ export default function UnitDetailsScreen() {
   const { selectedRoster, rosterDataLoading, rosterDataError } =
     useRosterContext();
   const unitDetails = useRosterUnitDetails(
-    selectedRoster?.roster ?? null,
+    selectedRoster?.engine ?? null,
     unitId ?? null
   );
 

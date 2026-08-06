@@ -92,11 +92,20 @@ export type RosterRawProfile = {
   "@_typeName"?: string;
   "@_from"?: string;
   characteristics?: RosterRawCharacteristics;
+  attributes?: RosterRawAttributes;
 };
 
 export type RosterRawCharacteristics = { characteristic?: RosterMaybeArray<RosterRawCharacteristic> };
 
 export type RosterRawCharacteristic = {
+  "@_name"?: string;
+  "@_typeId"?: string;
+  "#text"?: string;
+};
+
+export type RosterRawAttributes = { attribute?: RosterMaybeArray<RosterRawAttribute> };
+
+export type RosterRawAttribute = {
   "@_name"?: string;
   "@_typeId"?: string;
   "#text"?: string;
@@ -171,6 +180,12 @@ export type RosterCharacteristicInit = {
   value?: string;
 };
 
+export type RosterAttributeInit = {
+  name?: string;
+  typeId?: string;
+  value?: string;
+};
+
 export type RosterProfileInit = {
   id: string;
   name?: string;
@@ -181,6 +196,7 @@ export type RosterProfileInit = {
   publicationId?: string;
   from?: string;
   characteristics?: RosterCharacteristic[];
+  attributes?: RosterAttribute[];
 };
 
 export type RosterSelectionInit = {
@@ -239,6 +255,7 @@ export type RosterSelection = import("./entries").RosterSelection;
 export type RosterCategory = import("./entries").RosterCategory;
 export type RosterProfile = import("./profiles").RosterProfile;
 export type RosterCharacteristic = import("./profiles").RosterCharacteristic;
+export type RosterAttribute = import("./profiles").RosterAttribute;
 export type RosterRule = import("./rules").RosterRule;
 export type RosterPublication = import("./publications").RosterPublication;
 export type RosterCost = import("./costs").RosterCost;

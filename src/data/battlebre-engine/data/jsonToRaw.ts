@@ -128,7 +128,7 @@ export function parseJsonDataObject(jsonText: string): {
 /**
  * Wandelt einen JSON-Datentext in kanonisches XML um (für die Persistenz über
  * denselben Pfad wie XML-Repos). Das Ergebnis ist mit `parseDataObject` /
- * `BattleBreEngine.fromXml` wieder ladbar.
+ * `BattleBreBuilderEngine.fromXml` wieder ladbar.
  */
 export function jsonToXml(jsonText: string): string {
   const { kind, data } = parseJsonDataObject(jsonText);

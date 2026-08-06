@@ -1,6 +1,8 @@
 import type {
+  RosterAttributeInit,
   RosterCharacteristicInit,
   RosterProfileInit,
+  RosterRawAttribute,
   RosterRawCharacteristic,
   RosterRawProfile,
 } from "./types";
@@ -27,6 +29,26 @@ export class RosterCharacteristic {
   }
 }
 
+export class RosterAttribute {
+  name?: string;
+  typeId?: string;
+  value?: string;
+
+  constructor(init: RosterAttributeInit) {
+    this.name = init.name;
+    this.typeId = init.typeId;
+    this.value = init.value;
+  }
+
+  static fromRaw(raw: RosterRawAttribute): RosterAttribute {
+    return new RosterAttribute({
+      name: raw["@_name"],
+      typeId: raw["@_typeId"],
+      value: readText(raw),
+    });
+  }
+}
+
 export class RosterProfile {
   id: string;
   name?: string;
@@ -37,6 +59,7 @@ export class RosterProfile {
   publicationId?: string;
   from?: string;
   characteristics: RosterCharacteristic[];
+  attributes: RosterAttribute[];
 
   constructor(init: RosterProfileInit) {
     this.id = init.id;
@@ -48,6 +71,7 @@ export class RosterProfile {
     this.publicationId = init.publicationId;
     this.from = init.from;
     this.characteristics = init.characteristics ?? [];
+    this.attributes = init.attributes ?? [];
   }
 
   static fromRaw(raw: RosterRawProfile): RosterProfile {
@@ -62,6 +86,9 @@ export class RosterProfile {
       from: raw["@_from"],
       characteristics: toArray(raw.characteristics?.characteristic).map(
         (entry) => RosterCharacteristic.fromRaw(entry)
+      ),
+      attributes: toArray(raw.attributes?.attribute).map((entry) =>
+        RosterAttribute.fromRaw(entry)
       ),
     });
   }

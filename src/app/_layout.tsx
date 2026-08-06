@@ -33,7 +33,7 @@ function RootStack() {
     ? params.unitId[0]
     : params.unitId;
   const unitDetails = useRosterUnitDetails(
-    selectedRoster?.roster ?? null,
+    selectedRoster?.engine ?? null,
     unitId ?? null
   );
   const rosterTitle =

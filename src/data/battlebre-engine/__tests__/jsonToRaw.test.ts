@@ -1,7 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 import * as path from "path";
-import { BattleBreEngine } from "../index";
+import { BattleBreBuilderEngine } from "../index";
 import {
   jsonToRawObject,
   jsonToXml,
@@ -61,7 +61,7 @@ describe("jsonToRaw – End-to-End mit der Engine", () => {
     const gsXml = jsonToXml(gsJson);
     const catXml = jsonToXml(catJson);
 
-    const engine = BattleBreEngine.fromXml(gsXml, [catXml]);
+    const engine = BattleBreBuilderEngine.fromXml(gsXml, [catXml]);
     engine.createRoster({ name: "JSON Test" });
 
     const force = engine.listForceEntries()[0];

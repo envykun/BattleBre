@@ -1,7 +1,7 @@
 import {
   AddableEntry,
   AddableForce,
-  BattleBreEngine,
+  BattleBreBuilderEngine,
   RosterView,
   SelectionView,
   ValidationReport,
@@ -31,7 +31,7 @@ export default function CreateRosterScreen() {
   const { installed, loading, readInstalledXml } = useCatalogueData();
   const { saveCreatedRoster, setSelectedRosterId } = useRosterContext();
 
-  const engineRef = useRef<BattleBreEngine | null>(null);
+  const engineRef = useRef<BattleBreBuilderEngine | null>(null);
   const [phase, setPhase] = useState<Phase>("setup");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -182,7 +182,7 @@ export default function CreateRosterScreen() {
       const catXmls = await Promise.all(
         catalogueIds.map((id) => readInstalledXml(id))
       );
-      const engine = BattleBreEngine.fromXml(gstXml, catXmls);
+      const engine = BattleBreBuilderEngine.fromXml(gstXml, catXmls);
       engine.createRoster({ name: name.trim() });
       engineRef.current = engine;
       setForces(engine.listForceEntries());

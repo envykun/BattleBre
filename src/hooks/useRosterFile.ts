@@ -1,7 +1,10 @@
 import * as FileSystem from "expo-file-system";
 import { useEffect, useState } from "react";
+import { BattleBreRosterEngine } from "../data/battlebre-engine/roster-engine";
+import { toEngineRoster } from "../data/battlebre-engine/adapters/legacy-roster";
+import { DefaultPlugin } from "../data/battlebre-engine/plugins/gamesystem.plugin";
+import type { Roster } from "../data/battlebre-engine/models/common";
 import { parseRoster } from "../data/parser/warhammer/dataExtractor10e";
-import type { Roster } from "../data/models/roster";
 import { RosterMeta } from "./useFetchRosters";
 
 export type RosterFileData = {
@@ -9,6 +12,7 @@ export type RosterFileData = {
   raw: string;
   isZip: boolean;
   roster: Roster;
+  engine: BattleBreRosterEngine;
 };
 
 type UseRosterFileResult = {
@@ -49,10 +53,18 @@ export function useRosterFile(
 
         const isZip = selectedRosterMeta.filePath.endsWith(".rosz");
         const raw = isZip ? await rosterFile.base64() : await rosterFile.text();
-        const roster = await parseRoster(raw, { isZip });
+        const legacyRoster = await parseRoster(raw, { isZip });
+        const roster = toEngineRoster(legacyRoster);
+        const engine = new BattleBreRosterEngine(roster, {
+          pluginId:
+            selectedRosterMeta.pluginId ??
+            selectedRosterMeta.gameSystemId ??
+            roster.gameSystemId ??
+            DefaultPlugin.id,
+        });
 
         if (isMounted) {
-          setData({ meta: selectedRosterMeta, raw, isZip, roster });
+          setData({ meta: selectedRosterMeta, raw, isZip, roster, engine });
         }
       } catch (err) {
         if (isMounted) {

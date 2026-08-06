@@ -1,7 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import * as fs from "fs";
 import * as path from "path";
-import { BattleBreEngine } from "../index";
+import { BattleBreBuilderEngine } from "../index";
 import {
   serializeRosterToXml,
   rosterToRawObject,
@@ -13,7 +13,7 @@ const cat = fs.readFileSync(path.join(__dirname, "fixtures", "mini.cat"), "utf8"
 
 /** Baut ein kleines Roster wie im builder-Test und liefert die Engine. */
 function buildRoster() {
-  const engine = BattleBreEngine.fromXml(gst, [cat]);
+  const engine = BattleBreBuilderEngine.fromXml(gst, [cat]);
   engine.createRoster({ name: "Serialize Test" });
   engine.setCostLimit("pts", 500);
   const force = engine.listForceEntries()[0];
